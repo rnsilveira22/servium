@@ -1,2 +1,120 @@
+# ServiumAI
 
-teste# servium
+**ServiumAI** é uma plataforma B2B de **funcionários digitais especializados**: força de trabalho digital organizada, com funções definidas, permissões controladas e supervisão humana, criada para assumir atividades operacionais e rotineiras de empresas — começando por escritórios de contabilidade.
+
+> **Status: Fundação / Pré-MVP**
+>
+> Este projeto está em fase de fundação. Não há produto disponível, não há stack definida e não há funcionalidades implementadas. O repositório contém, neste momento, documentação de fundação e governança.
+
+---
+
+## Visão
+
+Empresas deverão poder manter uma **força de trabalho digital organizada** — não uma coleção solta de chatbots ou automações isoladas. Cada funcionário digital terá função, responsabilidades, ferramentas, limites e supervisão, executando tarefas operacionais enquanto profissionais humanos permanecem no controle das decisões, das exceções e do que realmente exige julgamento.
+
+## Problema
+
+Empresas acumulam grande volume de trabalho:
+
+- repetitivo e operacional;
+- previsível e baseado em regras;
+- dependente de múltiplos sistemas;
+- sujeito a atrasos, retrabalho e erros manuais.
+
+Esse trabalho consome tempo de equipes qualificadas, aumenta custo operacional e reduz a capacidade de foco em atividades de maior valor.
+
+## Solução
+
+Funcionários digitais especializados poderão assumir essas atividades:
+
+- executando rotinas e fluxos operacionais de ponta a ponta;
+- interagindo com sistemas e pessoas quando necessário;
+- **encaminhando exceções para humanos** em vez de improvisar;
+- operando sempre sob permissões mínimas, registro auditável e supervisão humana.
+
+Profissionais humanos permanecem responsáveis por decisões, exceções e atividades de maior valor.
+
+## Mercado inicial
+
+O primeiro mercado-alvo são os **escritórios de contabilidade brasileiros**, um segmento com forte carga de rotinas operacionais, prazos recorrentes e integração com sistemas externos.
+
+Isso representa o **vertical inicial**, não uma limitação da plataforma: a arquitetura não deve acoplar permanentemente o produto ao setor contábil.
+
+## Conceito de Funcionário Digital
+
+Um funcionário digital **não é apenas um chatbot**. É uma unidade de trabalho digital com identidade própria dentro da organização, podendo possuir:
+
+| Dimensão | Descrição preliminar |
+|---|---|
+| Função | Papel que exerce (ex.: atendimento, classificação, rotinas contábeis) |
+| Responsabilidades | O que lhe é atribuído |
+| Capacidades | O que sabe fazer |
+| Ferramentas | Sistemas e recursos que pode utilizar |
+| Permissões | O que tem autorização para acessar e executar |
+| Contexto | Informações necessárias para sua atuação |
+| Tarefas | Unidades de trabalho que executa |
+| Limites operacionais | Onde deve parar e escalar |
+| Supervisão | Como é monitorado e revisado |
+| Histórico de execução | Registro auditável do que fez |
+| Escalonamento | Mecanismos de encaminhamento a humanos |
+
+A definição formal evoluirá na fase de especificação do MVP (ver [roadmap](#roadmap)).
+
+## Princípios
+
+1. **Humano no controle** — humanos permanecem responsáveis por decisões críticas e exceções.
+2. **Segurança por padrão** — dados empresariais sensíveis exigem proteção desde o primeiro dia.
+3. **Isolamento entre clientes** — nenhum cliente acessa dados de outro.
+4. **Auditabilidade** — toda execução relevante pode ser reconstruída posteriormente.
+5. **Rastreabilidade** — ações têm origem, contexto e resultado registrados.
+6. **Menor privilégio** — cada funcionário digital possui somente as permissões necessárias.
+7. **Automação responsável** — automatizar o que é seguro e validado, não tudo o que é possível.
+8. **Tratamento explícito de exceções** — falhas e casos fora do padrão são escalados, nunca ignorados.
+9. **Arquitetura evolutiva** — decisões incrementais guiadas por ADRs, sem excesso prematuro.
+10. **Observabilidade** — execuções produzem logs, métricas e rastreamento adequados.
+11. **Idempotência quando aplicável** — repetições não devem gerar efeitos colaterais indevidos.
+
+Detalhes em [`docs/PRODUCT_PRINCIPLES.md`](docs/PRODUCT_PRINCIPLES.md).
+
+## Arquitetura
+
+**Nenhuma arquitetura definitiva foi definida nesta fase.** Nenhuma linguagem, framework, banco de dados, provedor de nuvem ou fornecedor de IA foi escolhido.
+
+A arquitetura será construída por meio de decisões documentadas em **ADRs** (Architecture Decision Records), no diretório [`docs/decisions/`](docs/decisions/README.md). Preocupações arquiteturais preliminares já estão registradas em [`docs/architecture/README.md`](docs/architecture/README.md) para orientar as próximas fases.
+
+## Documentação
+
+| Documento | Finalidade |
+|---|---|
+| [`docs/PROJECT_VISION.md`](docs/PROJECT_VISION.md) | Visão do produto, problema, proposta de valor e hipóteses |
+| [`docs/PRODUCT_PRINCIPLES.md`](docs/PRODUCT_PRINCIPLES.md) | Princípios de produto e engenharia |
+| [`docs/GLOSSARY.md`](docs/GLOSSARY.md) | Vocabulário oficial do domínio |
+| [`docs/PROJECT_INDEX.md`](docs/PROJECT_INDEX.md) | Mapa de toda a documentação |
+| [`docs/AI_CONTEXT.md`](docs/AI_CONTEXT.md) | Contexto e regras para agentes de IA |
+| [`docs/architecture/README.md`](docs/architecture/README.md) | Preocupações arquiteturais preliminares |
+| [`docs/decisions/README.md`](docs/decisions/README.md) | Processo de ADRs |
+| [`docs/product/README.md`](docs/product/README.md) | Documentação de produto |
+| [`docs/roadmap/README.md`](docs/roadmap/README.md) | Roadmap por fases |
+
+## Roadmap
+
+Fases e objetivos — sem datas arbitrárias:
+
+1. **Fundação** *(atual)* — documentação, governança e definição do produto.
+2. **Descoberta e especificação do MVP** — primeiro problema, primeiro cliente, primeiro funcionário digital.
+3. **Arquitetura** — definição de stack e arquitetura via ADRs.
+4. **Core da plataforma** — capacidades fundamentais.
+5. **Primeiro funcionário digital** — primeiro caso de uso real.
+6. **Piloto** — execução em ambiente controlado.
+7. **Validação** — medição de resultados.
+8. **Evolução comercial** — preparação para escala.
+
+Detalhes em [`docs/roadmap/README.md`](docs/roadmap/README.md).
+
+## Desenvolvimento
+
+Instruções técnicas detalhadas (como configurar ambiente, executar testes e contribuir) serão adicionadas conforme a stack for definida nas próximas fases. Até lá, este repositório é exclusivamente documental.
+
+## Licença
+
+Produto comercial proprietário. Direitos reservados — consulte o arquivo [`LICENSE`](LICENSE).
