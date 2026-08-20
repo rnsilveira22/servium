@@ -1,22 +1,26 @@
 # Produto — ServiumAI
 
-> Este diretório reunirá a documentação de produto: especificações, requisitos e descobertas.
+> Documentação de produto: discovery, especificação e requisitos do MVP.
 
-## Documentos de produto existentes
+## Documentos de produto
 
-| Documento | Local | Finalidade |
-|---|---|---|
-| Visão do projeto | [`../PROJECT_VISION.md`](../PROJECT_VISION.md) | Problema, proposta de valor, personas e hipóteses. |
-| Princípios de produto | [`../PRODUCT_PRINCIPLES.md`](../PRODUCT_PRINCIPLES.md) | Restrições e valores que orientam o produto. |
-| Glossário | [`../GLOSSARY.md`](../GLOSSARY.md) | Vocabulário oficial do domínio. |
-| Roadmap | [`../roadmap/README.md`](../roadmap/README.md) | Fases do produto. |
+| Documento | Finalidade |
+|---|---|
+| [`MVP_DISCOVERY.md`](MVP_DISCOVERY.md) | **Documento central**: problema do MVP, cliente-alvo, dores, hipótese de solução e critérios para avançar. |
+| [`MVP_SCOPE.md`](MVP_SCOPE.md) | Escopo rígido do MVP (In/Out of Scope, critérios de entrada e conclusão). |
+| [`PERSONAS.md`](PERSONAS.md) | Personas operacionais preliminares do MVP. |
+| [`CANDIDATE_ROUTINES.md`](CANDIDATE_ROUTINES.md) | Catálogo e ranking preliminar de rotinas candidatas à automação. |
+| [`FIRST_DIGITAL_EMPLOYEE.md`](FIRST_DIGITAL_EMPLOYEE.md) | Especificação do primeiro Funcionário Digital (hipótese). |
+| [`OPERATIONAL_FLOW.md`](OPERATIONAL_FLOW.md) | Fluxo operacional, estados e human-in-the-loop. |
+| [`FUNCTIONAL_REQUIREMENTS.md`](FUNCTIONAL_REQUIREMENTS.md) | Requisitos funcionais (FR-xxx, MoSCoW). |
+| [`NON_FUNCTIONAL_REQUIREMENTS.md`](NON_FUNCTIONAL_REQUIREMENTS.md) | Requisitos não funcionais (NFR-xxx). |
+| [`SUCCESS_METRICS.md`](SUCCESS_METRICS.md) | Métricas de sucesso do piloto. |
+| [`RISKS_AND_HYPOTHESES.md`](RISKS_AND_HYPOTHESES.md) | Hipóteses (HYP-xxx) e riscos (RSK-xxx). |
+| [`VALIDATION_PLAN.md`](VALIDATION_PLAN.md) | Plano de validação com escritórios contábeis. |
+| [`BACKLOG_OVERVIEW.md`](BACKLOG_OVERVIEW.md) | Backlog macro por épicos. |
 
-## Próximos conteúdos previstos
+Documentos de fundação relacionados: [visão](../PROJECT_VISION.md), [princípios](../PRODUCT_PRINCIPLES.md), [glossário](../GLOSSARY.md), [roadmap](../roadmap/README.md).
 
-Na Fase 1 (Discovery do MVP), este diretório deverá receber:
+## Estado
 
-- definição do primeiro problema a resolver;
-- perfil do primeiro cliente;
-- especificação do primeiro funcionário digital;
-- fluxo operacional do caso de uso inicial;
-- métricas de sucesso.
+Especificação preliminar do MVP concluída na Fase 002. **Próximo passo:** validação com 3–5 escritórios contábeis conforme o plano de validação — as especificações aqui devem ser revisadas com base nas evidências coletadas.
