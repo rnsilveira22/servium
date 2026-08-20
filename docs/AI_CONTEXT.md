@@ -16,7 +16,7 @@ Escritórios de contabilidade brasileiros. **Vertical inicial, não limitação 
 
 ## Estado atual
 
-**Fundação / Pré-MVP.** Não há stack definida, não há código de produto, não há funcionalidades implementadas. O repositório contém documentação de fundação e governança.
+**Discovery do MVP.** Não há stack definida, não há código de produto, não há funcionalidades implementadas. A hipótese de MVP (Assistente Digital de Pendências Documentais) está especificada em [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) e documentos associados, aguardando validação com escritórios reais ([`product/VALIDATION_PLAN.md`](product/VALIDATION_PLAN.md)).
 
 ## Fonte da verdade
 
@@ -40,6 +40,10 @@ Todo agente deve:
 12. informar testes executados;
 13. informar riscos ou pendências;
 14. nunca inserir credenciais no repositório.
+
+## Regra de implementação
+
+Futuras implementações **devem seguir a especificação validada do MVP** — em especial [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md), [`product/FUNCTIONAL_REQUIREMENTS.md`](product/FUNCTIONAL_REQUIREMENTS.md) e [`product/NON_FUNCTIONAL_REQUIREMENTS.md`](product/NON_FUNCTIONAL_REQUIREMENTS.md). Não implementar requisitos fora do escopo definido, nem funcionalidades marcadas como `Won't` ou *Out of Scope*, sem decisão documentada que revise o escopo.
 
 ## Anti-alucinação de projeto
 
@@ -69,3 +73,5 @@ Se um agente precisar de uma dessas premissas para propor algo, deve registrá-l
 | [`PRODUCT_PRINCIPLES.md`](PRODUCT_PRINCIPLES.md) | Princípios que restringem decisões |
 | [`GLOSSARY.md`](GLOSSARY.md) | Terminologia oficial |
 | [`PROJECT_INDEX.md`](PROJECT_INDEX.md) | Mapa da documentação |
+| [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) | Hipótese central do MVP |
+| [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md) | Escopo IN/OUT do MVP |

@@ -2,9 +2,9 @@
 
 **ServiumAI** é uma plataforma B2B de **funcionários digitais especializados**: força de trabalho digital organizada, com funções definidas, permissões controladas e supervisão humana, criada para assumir atividades operacionais e rotineiras de empresas — começando por escritórios de contabilidade.
 
-> **Status: Fundação / Pré-MVP**
+> **Status: Discovery do MVP**
 >
-> Este projeto está em fase de fundação. Não há produto disponível, não há stack definida e não há funcionalidades implementadas. O repositório contém, neste momento, documentação de fundação e governança.
+> Este projeto está em fase de discovery e especificação do MVP. Não há produto disponível, não há stack definida e não há funcionalidades implementadas. A hipótese de MVP está documentada em [`docs/product/MVP_DISCOVERY.md`](docs/product/MVP_DISCOVERY.md) e aguarda validação com escritórios contábeis reais.
 
 ---
 
@@ -93,15 +93,15 @@ A arquitetura será construída por meio de decisões documentadas em **ADRs** (
 | [`docs/AI_CONTEXT.md`](docs/AI_CONTEXT.md) | Contexto e regras para agentes de IA |
 | [`docs/architecture/README.md`](docs/architecture/README.md) | Preocupações arquiteturais preliminares |
 | [`docs/decisions/README.md`](docs/decisions/README.md) | Processo de ADRs |
-| [`docs/product/README.md`](docs/product/README.md) | Documentação de produto |
+| [`docs/product/README.md`](docs/product/README.md) | Documentação de produto (discovery e especificação do MVP) |
 | [`docs/roadmap/README.md`](docs/roadmap/README.md) | Roadmap por fases |
 
 ## Roadmap
 
 Fases e objetivos — sem datas arbitrárias:
 
-1. **Fundação** *(atual)* — documentação, governança e definição do produto.
-2. **Descoberta e especificação do MVP** — primeiro problema, primeiro cliente, primeiro funcionário digital.
+1. **Fundação** *(concluída)* — documentação, governança e definição do produto.
+2. **Descoberta e especificação do MVP** *(atual)* — primeiro problema, primeiro cliente, primeiro funcionário digital.
 3. **Arquitetura** — definição de stack e arquitetura via ADRs.
 4. **Core da plataforma** — capacidades fundamentais.
 5. **Primeiro funcionário digital** — primeiro caso de uso real.
