@@ -1,8 +1,28 @@
 # Arquitetura — ServiumAI
 
-> **Nenhuma arquitetura definitiva foi definida nesta fase.** Nenhuma linguagem, framework, banco de dados, fila, provedor de nuvem ou fornecedor de IA foi escolhido.
+> **Fase 003 concluída como proposta.** Existe uma arquitetura recomendada para o MVP (monólito modular + stack definida), documentada abaixo e registrada em ADRs com status `Proposed`. **Nenhuma decisão está `Accepted`** — a aprovação humana é pré-requisito para a implementação.
 >
-> A arquitetura será construída por meio de decisões documentadas em ADRs — ver [`../decisions/README.md`](../decisions/README.md).
+> Processo de decisões: [`../decisions/README.md`](../decisions/README.md).
+
+## Documentos de arquitetura
+
+| Documento | Conteúdo |
+|---|---|
+| [`FUNCTIONAL_ARCHITECTURE.md`](FUNCTIONAL_ARCHITECTURE.md) | Capacidades do MVP (C1–C12), dependências e portas de integração |
+| [`DOMAIN_BOUNDARIES.md`](DOMAIN_BOUNDARIES.md) | Módulos de domínio (B1–B7), ownership de dados e fronteiras |
+| [`ARCHITECTURE_DRIVERS.md`](ARCHITECTURE_DRIVERS.md) | Drivers arquiteturais (ADRV-001..014) derivados dos requisitos |
+| [`SYSTEM_CONTEXT.md`](SYSTEM_CONTEXT.md) | Visão C4 — contexto: atores e sistemas externos |
+| [`CONTAINER_ARCHITECTURE.md`](CONTAINER_ARCHITECTURE.md) | Visão C4 — containers lógicos do MVP |
+| [`STACK_EVALUATION.md`](STACK_EVALUATION.md) | Comparação fundamentada de stacks e alternativas |
+| [`AI_USAGE_BOUNDARIES.md`](AI_USAGE_BOUNDARIES.md) | Onde há IA no MVP — e onde não deve haver |
+| [`SECURITY_ARCHITECTURE.md`](SECURITY_ARCHITECTURE.md) | Ativos, fronteiras de confiança, ameaças e controles |
+| [`ARCHITECTURE_REVIEW.md`](ARCHITECTURE_REVIEW.md) | Red Team da própria proposta: trade-offs, dívidas, gatilhos |
+
+## Decisões propostas (ADRs)
+
+Todos com status `Proposed`, aguardando revisão humana — ver [`../decisions/`](../decisions/README.md):
+
+ADR-001 estilo arquitetural · ADR-002 backend · ADR-003 frontend · ADR-004 persistência · ADR-005 tenant · ADR-006 assíncrono · ADR-007 documentos · ADR-008 comunicação · ADR-009 autenticação · ADR-010 IA · ADR-011 deployment.
 
 ## Preocupações arquiteturais preliminares
 
@@ -32,6 +52,8 @@ A lista abaixo registra **preocupações futuras** que influenciarão as escolha
 - **Escalabilidade** — crescimento previsível com o volume de execução.
 
 ## Próximo passo — sequência recomendada para a Fase 003
+
+> **Status (Fase 003):** Etapas A–E executadas como proposta. A sequência abaixo é mantida como registro do método.
 
 A seleção de tecnologia deve vir **depois** da definição dos drivers arquiteturais: a stack serve ao produto, não o contrário. Ordem recomendada:
 

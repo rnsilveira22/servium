@@ -11,7 +11,27 @@ README.md
 ├── Contexto para IA .......... docs/AI_CONTEXT.md
 │
 ├── Arquitetura ............... docs/architecture/README.md
+│   ├── Arquitetura funcional .. docs/architecture/FUNCTIONAL_ARCHITECTURE.md
+│   ├── Boundaries de domínio .. docs/architecture/DOMAIN_BOUNDARIES.md
+│   ├── Drivers arquiteturais .. docs/architecture/ARCHITECTURE_DRIVERS.md
+│   ├── Contexto (C4) .......... docs/architecture/SYSTEM_CONTEXT.md
+│   ├── Containers (C4) ........ docs/architecture/CONTAINER_ARCHITECTURE.md
+│   ├── Avaliação de stack ..... docs/architecture/STACK_EVALUATION.md
+│   ├── Limites de IA .......... docs/architecture/AI_USAGE_BOUNDARIES.md
+│   ├── Segurança .............. docs/architecture/SECURITY_ARCHITECTURE.md
+│   └── Revisão arquitetural ... docs/architecture/ARCHITECTURE_REVIEW.md
 ├── Decisões (ADRs) ........... docs/decisions/README.md
+│   ├── ADR-001 Estilo arquitetural ... docs/decisions/ADR-001-architecture-style.md
+│   ├── ADR-002 Backend ............... docs/decisions/ADR-002-backend-stack.md
+│   ├── ADR-003 Frontend .............. docs/decisions/ADR-003-frontend-stack.md
+│   ├── ADR-004 Persistência .......... docs/decisions/ADR-004-persistence.md
+│   ├── ADR-005 Tenant ................ docs/decisions/ADR-005-tenant-strategy.md
+│   ├── ADR-006 Assíncrono ............ docs/decisions/ADR-006-async-processing.md
+│   ├── ADR-007 Documentos ............ docs/decisions/ADR-007-document-storage.md
+│   ├── ADR-008 Comunicação ........... docs/decisions/ADR-008-communication-abstraction.md
+│   ├── ADR-009 Autenticação .......... docs/decisions/ADR-009-authentication-strategy.md
+│   ├── ADR-010 IA .................... docs/decisions/ADR-010-ai-usage-strategy.md
+│   └── ADR-011 Deployment ............ docs/decisions/ADR-011-deployment-strategy.md
 │
 ├── Produto ................... docs/product/README.md
 │   ├── Discovery do MVP ...... docs/product/MVP_DISCOVERY.md
@@ -39,8 +59,28 @@ README.md
 | [`PRODUCT_PRINCIPLES.md`](PRODUCT_PRINCIPLES.md) | Princípios de produto e engenharia que restringem e orientam todas as decisões. |
 | [`GLOSSARY.md`](GLOSSARY.md) | Vocabulário oficial do domínio, com definições preliminares. |
 | [`AI_CONTEXT.md`](AI_CONTEXT.md) | Contexto, regras e restrições para agentes de IA que trabalhem no repositório. |
-| [`architecture/README.md`](architecture/README.md) | Preocupações arquiteturais preliminares; a arquitetura definitiva nascerá de ADRs. |
+| [`architecture/README.md`](architecture/README.md) | Hub da arquitetura: proposta do MVP (monólito modular), índice de documentos e método. |
+| [`architecture/FUNCTIONAL_ARCHITECTURE.md`](architecture/FUNCTIONAL_ARCHITECTURE.md) | Capacidades do MVP (C1–C12), dependências e portas de integração. |
+| [`architecture/DOMAIN_BOUNDARIES.md`](architecture/DOMAIN_BOUNDARIES.md) | Módulos de domínio (B1–B7), ownership de dados, eventos e fronteiras. |
+| [`architecture/ARCHITECTURE_DRIVERS.md`](architecture/ARCHITECTURE_DRIVERS.md) | Drivers arquiteturais (ADRV-001..014) com origem nos requisitos. |
+| [`architecture/SYSTEM_CONTEXT.md`](architecture/SYSTEM_CONTEXT.md) | Visão C4 de contexto: usuários e sistemas externos. |
+| [`architecture/CONTAINER_ARCHITECTURE.md`](architecture/CONTAINER_ARCHITECTURE.md) | Visão C4 de containers: SPA, backend monolítico modular, PostgreSQL, object storage. |
+| [`architecture/STACK_EVALUATION.md`](architecture/STACK_EVALUATION.md) | Comparação fundamentada de stacks (backend, frontend, banco, async, tenant, deploy). |
+| [`architecture/AI_USAGE_BOUNDARIES.md`](architecture/AI_USAGE_BOUNDARIES.md) | Classificação determinístico/IA/LLM/humano por função; regras para uso assistivo de LLM. |
+| [`architecture/SECURITY_ARCHITECTURE.md`](architecture/SECURITY_ARCHITECTURE.md) | Ativos, fronteiras de confiança, ameaças principais e controles. |
+| [`architecture/ARCHITECTURE_REVIEW.md`](architecture/ARCHITECTURE_REVIEW.md) | Red Team da proposta: pontos fortes, trade-offs, dívidas deliberadas, gatilhos de revisão. |
 | [`decisions/README.md`](decisions/README.md) | Processo de Architecture Decision Records (ADRs): estados, convenção e template. |
+| [`decisions/ADR-001-architecture-style.md`](decisions/ADR-001-architecture-style.md) | Estilo arquitetural: monólito modular (`Proposed`). |
+| [`decisions/ADR-002-backend-stack.md`](decisions/ADR-002-backend-stack.md) | Backend: TypeScript + Node.js/NestJS (`Proposed`). |
+| [`decisions/ADR-003-frontend-stack.md`](decisions/ADR-003-frontend-stack.md) | Frontend: React + TypeScript SPA (`Proposed`). |
+| [`decisions/ADR-004-persistence.md`](decisions/ADR-004-persistence.md) | Persistência: PostgreSQL (`Proposed`). |
+| [`decisions/ADR-005-tenant-strategy.md`](decisions/ADR-005-tenant-strategy.md) | Tenant: shared schema + `tenant_id` + RLS (`Proposed`). |
+| [`decisions/ADR-006-async-processing.md`](decisions/ADR-006-async-processing.md) | Assíncrono: jobs persistidos no PostgreSQL (`Proposed`). |
+| [`decisions/ADR-007-document-storage.md`](decisions/ADR-007-document-storage.md) | Documentos: object storage S3-compatível + metadados no banco (`Proposed`). |
+| [`decisions/ADR-008-communication-abstraction.md`](decisions/ADR-008-communication-abstraction.md) | Comunicação: porta `CommunicationChannel` + adaptadores (`Proposed`). |
+| [`decisions/ADR-009-authentication-strategy.md`](decisions/ADR-009-authentication-strategy.md) | Autenticação: first-party + RBAC mínimo, OIDC-ready (`Proposed`). |
+| [`decisions/ADR-010-ai-usage-strategy.md`](decisions/ADR-010-ai-usage-strategy.md) | IA: determinístico-first, LLM assistivo isolado (`Proposed`). |
+| [`decisions/ADR-011-deployment-strategy.md`](decisions/ADR-011-deployment-strategy.md) | Deployment: PaaS de entrada, sem Kubernetes (`Proposed`). |
 | [`product/README.md`](product/README.md) | Hub da documentação de produto. |
 | [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) | Documento central do discovery: problema do MVP, cliente, dores, hipótese de solução e critérios para avançar. |
 | [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md) | Definição rígida de escopo: In Scope, Out of Scope, critérios de entrada/conclusão. |

@@ -16,7 +16,9 @@ Escritórios de contabilidade brasileiros. **Vertical inicial, não limitação 
 
 ## Estado atual
 
-**Discovery do MVP.** Não há stack definida, não há código de produto, não há funcionalidades implementadas. A hipótese de MVP (Assistente Digital de Pendências Documentais) está especificada em [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) e documentos associados, aguardando validação com escritórios reais ([`product/VALIDATION_PLAN.md`](product/VALIDATION_PLAN.md)).
+**Arquitetura do MVP proposta (Fase 003), aguardando aprovação humana.** Não há código de produto nem decisões `Accepted`. A arquitetura recomendada — monólito modular, TypeScript/NestJS + React, PostgreSQL com RLS, jobs no banco, object storage para documentos, PaaS de entrada — está documentada em [`architecture/README.md`](architecture/README.md) e registrada em ADRs `Proposed` ([`decisions/`](decisions/README.md)). A hipótese de MVP (Assistente Digital de Pendências Documentais) permanece especificada em [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md), aguardando validação com escritórios reais ([`product/VALIDATION_PLAN.md`](product/VALIDATION_PLAN.md)).
+
+**Regra crítica:** enquanto os ADRs estiverem em `Proposed`, nenhuma implementação deve assumi-los como definitivos; alterá-los exige novo ciclo de decisão.
 
 ## Fonte da verdade
 
@@ -82,3 +84,6 @@ Se um agente precisar de uma dessas premissas para propor algo, deve registrá-l
 | [`PROJECT_INDEX.md`](PROJECT_INDEX.md) | Mapa da documentação |
 | [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) | Hipótese central do MVP |
 | [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md) | Escopo IN/OUT do MVP |
+| [`architecture/README.md`](architecture/README.md) | Proposta arquitetural do MVP e índice de documentos |
+| [`architecture/DOMAIN_BOUNDARIES.md`](architecture/DOMAIN_BOUNDARIES.md) | Módulos e fronteiras — referência para qualquer implementação |
+| [`decisions/README.md`](decisions/README.md) | ADRs: processo e decisões (verificar status antes de usar) |
