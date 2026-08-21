@@ -7,11 +7,11 @@
 
 ## Segurança e privacidade
 
-### NFR-001 — Isolamento entre tenants
+### NFR-001 — Isolamento e consciência de tenant (tenant awareness)
 
-**Descrição:** nenhum dado de um escritório pode ser acessado por outro em qualquer circunstância, incluindo documentos recebidos de clientes finais.
+**Descrição:** todos os dados e execuções pertencem a um tenant identificado — usuários, clientes, checklists, tarefas, execuções e documentos estão associados ao seu tenant, com autorização contextual e isolamento lógico desde o início. Nenhum dado de um escritório pode ser acessado por outro em qualquer circunstância, incluindo documentos recebidos de clientes finais. O MVP pode operar inicialmente com um único tenant ativo no piloto, mas a solução **não deve nascer estruturalmente acoplada a um único cliente**: nenhuma decisão que assuma single-tenant de forma hardcoded ou que torne excessivamente custosa a evolução para múltiplos tenants.
 
-**Métrica/verificação:** testes de isolamento; revisão arquitetural na Fase 003.
+**Métrica/verificação:** testes de isolamento; verificação de que toda entidade relevante carrega identidade de tenant; revisão arquitetural na Fase 003.
 
 **Prioridade:** Must
 

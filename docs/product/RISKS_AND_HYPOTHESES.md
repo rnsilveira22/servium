@@ -61,6 +61,14 @@
 - **Risco se estiver errada:** produto sem viabilidade econômica mesmo funcionando tecnicamente.
 - **Validação:** pós-piloto: disposição a pagar declarada e demonstrada (M-01, M-11 + conversa comercial).
 
+### HYP-008 — Política de tentativas: 3 é ponto de partida adequado
+
+- **Hipótese:** um máximo de 3 tentativas de cobrança por item/ciclo equilibra persistência e bom relacionamento antes do escalonamento humano.
+- **Evidência atual:** nenhuma; valor escolhido como hipótese conservadora de configuração inicial (`max_attempts = 3`), não como regra do domínio.
+- **Nível de confiança:** baixo/médio.
+- **Risco se estiver errada:** menos tentativas desperdiçam recebíveis fáceis; mais tentativas irritam clientes finais (ver RSK-002).
+- **Validação:** observar taxas de resposta por número de tentativa nos ciclos do piloto e ajustar a configuração; diferentes rotinas poderão ter políticas diferentes no futuro.
+
 ## Riscos
 
 | ID | Descrição | Prob. | Impacto | Mitigação | Responsável futuro | Status |
@@ -69,7 +77,7 @@
 | RSK-002 | Mensagens inadequadas/repetitivas irritam clientes finais | Média | Alto | Limites rígidos de frequência, janela comercial, monitoramento de reclamações (M-09), kill switch por cliente | Product Owner | Aberto |
 | RSK-003 | Documentos recebidos errados aceitos como válidos | Média | Médio | Validação básica obrigatória (FR-009), exceção em caso de dúvida, amostragem humana periódica | Engenharia | Aberto |
 | RSK-004 | Dados pessoais expostos ou tratados fora da LGPD | Baixa/Média | Alto | Mínimo necessário, isolamento por tenant (NFR-001), retenção definida (NFR-005), revisão jurídica pré-piloto | Jurídico/DPO | Aberto |
-| RSK-005 | Canal de comunicação (provedor de e-mail) impõe limites/bloqueios para envios automatizados | Média | Médio | Análise técnica na Fase 003, volume controlado, alternativa de canal estudada via ADR | Arquitetura | Aberto |
+| RSK-005 | Canal de comunicação (provedor de e-mail) impõe limites/bloqueios para envios automatizados | Média | Médio | Canal definitivo ainda a validar; decisão arquitetural documentada após evidência de produto; volume controlado | Arquitetura | Aberto |
 | RSK-006 | Checklists do piloto difíceis de formalizar (HYP-004 falha) | Média | Alto | Onboarding assistido, começar com 1–2 obrigações simples (ex.: folha), expandir depois | Product Owner | Aberto |
 | RSK-007 | ERP/software existente do escritório já resolve a dor (HYP-006 falha) | Média | Alto | Inventário de softwares nas entrevistas antes de construir | Product Owner | Aberto |
 | RSK-008 | Excesso de autonomia causa incidente de confiança irreversível | Baixa | Alto | Padrão conservador, aprovação humana em pontos formais, auditoria completa, kill switch global | Engenharia | Aberto |
