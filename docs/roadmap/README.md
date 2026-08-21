@@ -26,8 +26,8 @@ Especificação preliminar concluída (ver [`../product/MVP_DISCOVERY.md`](../pr
 
 ## Fase 2 — Arquitetura
 
-- Definir stack e arquitetura por meio de ADRs (`Proposed` → `Accepted`).
-- Endereçar as preocupações registradas em [`../architecture/README.md`](../architecture/README.md).
+- Começar por arquitetura funcional, fluxos/boundaries e drivers arquiteturais; só depois definir stack e demais decisões via ADRs (`Proposed` → `Accepted`).
+- Sequência detalhada em [`../architecture/README.md`](../architecture/README.md).
 
 ## Fase 3 — Core Platform
 

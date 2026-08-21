@@ -87,15 +87,17 @@ Princípio: menor privilégio. O Funcionário Digital:
 
 ## Limites de autonomia
 
-Configuráveis por escritório; padrão conservador proposto:
+Configuráveis por escritório; valores abaixo são **hipóteses iniciais do piloto**, não regras definitivas do domínio:
 
-| Limite | Padrão proposto |
+| Limite | Hipótese inicial (configuração) |
 |---|---|
-| Máximo de tentativas de cobrança por item/ciclo | 3 (após isso, escala) |
+| Máximo de tentativas de cobrança por item/ciclo (`max_attempts`) | **3** — valor preliminar, a validar com operação real |
 | Intervalo mínimo entre cobranças do mesmo item | Definido pelo escritório (ex.: dias) |
 | Janela de envio | Horário comercial do escritório |
 | Envio automático | Somente templates aprovados, primeiro envio após ativação do ciclo pelo responsável |
 | Volume anômalo | Se detectar volume/erro acima do esperado, pausa e escala |
+
+> O número máximo de tentativas é **configuração, não constante**: `max_attempts = configuração`, com `3` apenas como hipótese inicial do piloto. Diferentes rotinas poderão ter políticas diferentes no futuro. Ver HYP-008 em [`RISKS_AND_HYPOTHESES.md`](RISKS_AND_HYPOTHESES.md).
 
 ## Pontos de aprovação humana
 
@@ -144,7 +146,7 @@ Detalhados em [`SUCCESS_METRICS.md`](SUCCESS_METRICS.md). Principais ligados a e
 
 ## Dependências
 
-- Canal de comunicação definido na Fase 003 (ADR);
+- Canal de comunicação com cliente final: definitivo ainda a validar (hipótese inicial: e-mail; WhatsApp é alternativa a avaliar) — decisão posterior via validação de produto e decisão arquitetural documentada;
 - Mecanismo seguro de recebimento de documentos;
 - Checklists reais do escritório piloto;
 - Configuração inicial feita pelo escritório (templates, limites, clientes).

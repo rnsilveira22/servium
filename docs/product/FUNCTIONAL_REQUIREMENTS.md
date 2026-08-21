@@ -179,9 +179,9 @@
 
 **Descrição:** canal WhatsApp como meio automático de cobrança.
 
-**Motivação do adiamento:** custo/política da plataforma e complexidade de aprovação; decisão técnica na Fase 003.
+**Motivação do adiamento:** custo/política da plataforma e complexidade de aprovação. O canal de comunicação definitivo deverá ser decidido posteriormente através de validação de produto (entrevistas, operação real, comportamento dos clientes) e decisão arquitetural documentada — WhatsApp é alternativa relevante a avaliar, não escolha feita.
 
-**Prioridade:** Won't (MVP) — candidato imediato pós-piloto
+**Prioridade:** Won't (MVP) — candidato a avaliação pós-piloto
 
 ### FR-018 — Integração bidirecional com ERPs contábeis
 
@@ -191,10 +191,10 @@
 
 **Prioridade:** Won't (MVP)
 
-### FR-019 — Múltiplos tenants com self-service
+### FR-019 — Administração multi-tenant (self-service, billing, gestão comercial)
 
-**Descrição:** onboarding autônomo de novos escritórios.
+**Descrição:** onboarding autônomo de novos escritórios, administração completa de múltiplos tenants, billing por tenant e recursos avançados de configuração entre tenants.
 
-**Motivação do adiamento:** piloto opera com um tenant controlado.
+**Motivação do adiamento:** o piloto opera com um único tenant ativo. **Atenção:** este item adere apenas as *funções administrativas* multi-tenant. A **consciência de tenant** (identidade, isolamento lógico e associação de dados/execuções ao tenant) permanece requisito desde o início — ver NFR-001. Nenhuma decisão estrutural single-tenant deve ser tomada.
 
 **Prioridade:** Won't (MVP)

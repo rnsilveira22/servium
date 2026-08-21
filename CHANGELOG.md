@@ -25,3 +25,13 @@ Este projeto ainda não possui releases publicadas.
 
 - Status do projeto atualizado para "Discovery do MVP" no README, índice de
   documentação, contexto para agentes de IA e roadmap.
+- Revisão da especificação (Fase 002.1): estratégia de tenant refinada —
+  funções administrativas multi-tenant permanecem fora do MVP, mas consciência
+  de tenant (identidade e isolamento lógico) é requisito desde o início
+  (NFR-001 refinado; FR-019 reformulado); canal de comunicação mantido como
+  hipótese (e-mail = hipótese inicial; WhatsApp = alternativa a avaliar;
+  canal definitivo a decidir por validação de produto + decisão arquitetural);
+  política de tentativas de cobrança tornada configurável (`max_attempts`,
+  hipótese inicial 3 — HYP-008); recomendação para a Fase 003 refinada:
+  começar por arquitetura funcional → fluxos/boundaries → drivers → ADRs →
+  integrações específicas.

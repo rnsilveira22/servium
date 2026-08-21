@@ -45,6 +45,13 @@ Todo agente deve:
 
 Futuras implementações **devem seguir a especificação validada do MVP** — em especial [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md), [`product/FUNCTIONAL_REQUIREMENTS.md`](product/FUNCTIONAL_REQUIREMENTS.md) e [`product/NON_FUNCTIONAL_REQUIREMENTS.md`](product/NON_FUNCTIONAL_REQUIREMENTS.md). Não implementar requisitos fora do escopo definido, nem funcionalidades marcadas como `Won't` ou *Out of Scope*, sem decisão documentada que revise o escopo.
 
+## Diretrizes de precisão arquitetural (revisão Fase 002.1)
+
+- Operar inicialmente com um único tenant (piloto) **não autoriza arquitetura hardcoded single-tenant**: identidade e isolamento lógico por tenant são requisito desde o início (NFR-001);
+- Parâmetros operacionais relevantes (ex.: política de tentativas de cobrança) devem ser tratados como **configuração**, não como constantes; valores iniciais são hipóteses do piloto;
+- Hipóteses de produto **não são fatos** — mesmo documentadas, seguem sujeitas a refutação pela validação;
+- Tecnologias devem ser escolhidas **depois** da definição dos drivers arquiteturais (ver sequência em [`architecture/README.md`](architecture/README.md)): a stack serve ao produto.
+
 ## Anti-alucinação de projeto
 
 Um agente **não deve assumir como existentes** — nem em documentação, código ou discussão:
