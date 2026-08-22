@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  pull_request:
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.base.json'
+      - 'eslint.config.mjs'
+      - '.github/workflows/ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.base.json'
+      - 'eslint.config.mjs'
+      - '.github/workflows/ci.yml'
+
+jobs:
+  quality:
+    name: Lint + Typecheck + Build + Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck (web — build via esbuild não verifica tipos)
+        run: npx tsc --noEmit -p apps/web
+
+      - name: Build
+        run: npm run build
+
+      - name: Testes
+        run: npm run test
