@@ -45,7 +45,7 @@ Commits adicionais desta execução: normalização de formatação markdown leg
 |---|---|
 | Nome | **ServiumAI Development** |
 | Número / ID | #2 / `PVT_kwHOAiychM4BhKaU` |
-| URL | https://github.com/users/rnsilveira22/projects/2 |
+| URL | <https://github.com/users/rnsilveira22/projects/2> |
 | Repositório vinculado | `rnsilveira22/servium` ✅ |
 | Itens | 0 (teste controlado removido) |
 
