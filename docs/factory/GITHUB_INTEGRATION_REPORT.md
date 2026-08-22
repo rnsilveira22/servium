@@ -32,7 +32,7 @@ Integração remota finalizada: PR #2 da Software Factory aberto e com CI verde;
 |---|---|
 | Número | **#2** |
 | Título | `chore: establish ServiumAI Software Factory V1` |
-| URL | https://github.com/rnsilveira22/servium/pull/2 |
+| URL | <https://github.com/rnsilveira22/servium/pull/2> |
 | Base ← head | `main` ← `chore/software-factory-v1` |
 | Estado | OPEN — **não mergeado** (fora do escopo) |
 | Checks | `Lint (arquivos alterados)` ✅ pass · `Relatório de dívida de lint` ✅ pass |
