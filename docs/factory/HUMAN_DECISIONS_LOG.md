@@ -42,10 +42,37 @@
 
 ---
 
+## HG-003 — Proposta inicial de backlog
+
+```text
+[AUTONOMY] L3 | decisão requerida: aprovar/ajustar proposta de backlog | solicitada em: PROPOSED_INITIAL_BACKLOG.md / HUMAN_GATES.md §HG-003
+```
+
+- **Decisão**: **APROVADO COM AJUSTES — Opção B**
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-08-22
+- **Autorização registrada**:
+
+> HG-003: APROVADO — Opção B (aprovação com ajustes). A proposta inicial de backlog do ServiumAI está aprovada como direção de produto, com as seguintes determinações: […] Ondas 0–7 aprovadas como roadmap inicial, não como autorização irrestrita; PO autorizado a materializar somente as histórias das Ondas 0 e 1; Ondas 2–7 permanecem backlog planejado.
+
+- **Determinações vinculantes** (íntegra na Issue/comunicação da decisão):
+  1. Ondas 0–7 = roadmap inicial, **não** autorização irrestrita;
+  2. Materialização imediata restrita às Ondas **0 e 1**;
+  3. Ondas 2–7: refinamento/materialização progressiva;
+  4. **História 1.3**: transactional outbox só com necessidade concreta demonstrada pela análise técnica; jobs/SKIP LOCKED/retry/backoff/idempotency keys permanecem requisitos; conflito material com ADR-006 → `needs:adr` + `HUMAN_DECISION_REQUIRED`, nunca contradição silenciosa;
+  5. **PO + Senior avaliam** antecipação de vertical slice mínimo da C3.1 para validação realista de tenant_id/RLS/isolamento (sem antecipar toda a Onda 3);
+  6. História 1.4 permanece na Onda 1;
+  7. Ondas 5–7 condicionadas aos gates de `MVP_SCOPE.md`/`HUMAN_GATES.md`;
+  8. Aprovação NÃO autoriza: contratação de serviços, escolha de provedor pago, deploy em produção, mudança arquitetural, mudança de visibilidade PRIVATE, expansão de escopo, bypass de Human Gates;
+  9. Onda 5: canal concreto condicionado à validação (e-mail não é definitivo sem evidência);
+  10. História 6.3: LLM opcional, fora do caminho crítico, deterministic-first (ADR-010).
+- **Execução**: proposta transformada em backlog canônico (`docs/product/INITIAL_BACKLOG.md`) com ajustes incorporados; Issues reais criadas apenas para as Ondas 0–1 (**#3–#10**, 8 itens) no Project `ServiumAI Development`, com campos Epic/Priority/Item Type/Responsible Role/Status, labels, dependências, critérios de aceite, DoR e DoD; campo `Epic` adicionado ao Project.
+- **Resultado**: fila da factory populada; implementação só inicia após validação das Issues contra a governança e o DoR.
+
+---
+
 ## Pendências
 
 | ID | Assunto | Estado |
 |---|---|---|
-| HG-003 | Aprovação/ajuste da proposta inicial de backlog (`docs/product/PROPOSED_INITIAL_BACKLOG.md`) | **PENDING** |
-| HG-004 | PaaS/storage pagos (event-driven) | aguardando momento |
+| HG-004 | PaaS/storage pagos (event-driven) | aguardando momento (Ondas 5–6) |
 | HG-005 | Credenciais/permissões ausentes (event-driven) | aguardando momento |

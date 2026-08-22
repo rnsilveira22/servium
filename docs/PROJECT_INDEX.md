@@ -63,7 +63,7 @@ README.md
 │   ├── Riscos e hipóteses .... docs/product/RISKS_AND_HYPOTHESES.md
 │   ├── Plano de validação .... docs/product/VALIDATION_PLAN.md
 │   ├── Backlog macro ......... docs/product/BACKLOG_OVERVIEW.md
-│   └── Proposta backlog inicial docs/product/PROPOSED_INITIAL_BACKLOG.md
+│   └── Backlog inicial (canônico) docs/product/INITIAL_BACKLOG.md
 │
 └── Roadmap ................... docs/roadmap/README.md
 ```
@@ -129,7 +129,7 @@ README.md
 | [`product/RISKS_AND_HYPOTHESES.md`](product/RISKS_AND_HYPOTHESES.md) | Registro formal de hipóteses (HYP-xxx) e riscos (RSK-xxx). |
 | [`product/VALIDATION_PLAN.md`](product/VALIDATION_PLAN.md) | Plano de validação com escritórios contábeis: roteiro, evidências, critérios. |
 | [`product/BACKLOG_OVERVIEW.md`](product/BACKLOG_OVERVIEW.md) | Backlog macro por épicos conceituais. |
-| [`product/PROPOSED_INITIAL_BACKLOG.md`](product/PROPOSED_INITIAL_BACKLOG.md) | Proposta do PO para backlog inicial em ondas (nenhum Issue criado; aguarda HG-003). |
+| [`product/INITIAL_BACKLOG.md`](product/INITIAL_BACKLOG.md) | Backlog inicial canônico — aprovado com ajustes (HG-003); Ondas 0–1 materializadas (#3–#10), 2–7 planejadas. |
 | [`roadmap/README.md`](roadmap/README.md) | Roadmap por fases, sem datas arbitrárias. |
 
 ## Convenções

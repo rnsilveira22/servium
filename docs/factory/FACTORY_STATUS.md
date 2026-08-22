@@ -4,46 +4,59 @@
 
 ## Última atualização
 
-2026-08-22 · Pós-decisões humanas HG-001/HG-002 (registro formal em [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md))
+2026-08-22 · HG-003 resolvido (APROVADO COM AJUSTES) · Ondas 0–1 materializadas (#3–#10)
 
 ## Estado geral
 
 | Dimensão | Estado |
 |---|---|
-| Branch de trabalho | `main` (factory mergeada) |
-| Software Factory | **OPERACIONAL** — agentes, governança, gates e protocolo autônomo vigentes |
-| GitHub Integration | READY (Project #2, labels, templates; rulesets `BLOCKED_BY_GITHUB_PLAN`) |
-| ADRs 001..011 | **`Accepted`** (HG-002 · 2026-08-22), com condições obrigatórias |
-| Protocolo de autonomia | ATIVO (`START_FACTORY` + runbook + orquestração) |
-| Backlog oficial | NÃO CRIADO — proposta aguarda HG-003 |
+| Branch de trabalho | `main` + branch documental `docs/hg003-backlog-inicial` (PR aberta aguardando merge humano) |
+| Software Factory | **OPERACIONAL** |
+| ADRs 001..011 | `Accepted` (HG-002), condições obrigatórias ativas |
+| Backlog | **APROVADO COM AJUSTES** (HG-003) → canônico em [`../product/INITIAL_BACKLOG.md`](../product/INITIAL_BACKLOG.md) |
+| Fila da factory | 8 itens reais no Project (`ServiumAI Development`), todos com DoR completa |
 
 ## Decisões humanas
 
 | ID | Assunto | Estado |
 |---|---|---|
-| HG-001 | Merge PR #2 | ✅ RESOLVIDO — APROVADO (Opção A); merge executado com CI verde |
-| HG-002 | Pacote ADR-001..011 | ✅ RESOLVIDO — APROVADO (Opção A); condições preservadas |
-| **HG-003** | Proposta inicial de backlog | ⏳ **PENDING** |
-| HG-004 | Provedores pagos (event-driven) | aguardando momento (Ondas 5–6) |
+| HG-001 | Merge PR #2 | ✅ RESOLVIDO (Opção A) |
+| HG-002 | Pacote ADRs | ✅ RESOLVIDO (Opção A, condições preservadas) |
+| HG-003 | Backlog inicial | ✅ RESOLVIDO — **APPROVED WITH ADJUSTMENTS** (Ondas 0–1 materializadas; 2–7 planejadas) |
+| HG-004 | Provedores pagos | event-driven (não acionado) |
 
-Condições vinculantes ativas dos aceites:
+Registro formal: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).
 
-- ADR-005 → testes de isolamento multi-tenant obrigatórios na primeira história de persistência;
-- ADR-009 → OWASP ASVS + testes de segurança obrigatórios na primeira história de auth;
-- ADR-011 → nenhum serviço pago contratado sem HG-004.
+## Fila efetiva (Project `ServiumAI Development`)
+
+| Issue | Item | Onda | Prioridade | Tipo | Papel | Épico | Depende de | Status |
+|---|---|---|---|---|---|---|---|---|
+| [#3](https://github.com/rnsilveira22/servium/issues/3) | Skeleton monorepo TS | 0 | P0 | Story | Pleno | EPIC-004 | — | Ready |
+| [#4](https://github.com/rnsilveira22/servium/issues/4) | CI evoluído (lint+build+testes) | 0 | P0 | Task | Pleno | EPIC-004 | #3 | Ready |
+| [#5](https://github.com/rnsilveira22/servium/issues/5) | Ambiente local (Postgres container + fakes) | 0 | P0 | Task | Pleno | EPIC-004 | integra com #3 | Ready |
+| [#6](https://github.com/rnsilveira22/servium/issues/6) | Modelo de dados inicial + migrations | 1 | P1 | Story | Pleno | EPIC-006 | #3, #5 | Ready |
+| [#7](https://github.com/rnsilveira22/servium/issues/7) | Isolamento multi-tenant (RLS + suíte de vazamento) ⚠️ condição ADR-005 | 1 | P1 | Story | Pleno | EPIC-004 | #6, #4 | Ready |
+| [#8](https://github.com/rnsilveira22/servium/issues/8) | Jobs persistidos (+ outbox condicional — ajuste HG-003) | 1 | P1 | Story | Pleno | EPIC-006 | #6, #4 | Ready |
+| [#9](https://github.com/rnsilveira22/servium/issues/9) | Auditoria append-only | 1 | P1 | Story | Pleno | EPIC-009 | #6, #4 | Ready |
+| [#10](https://github.com/rnsilveira22/servium/issues/10) | Spike: vertical slice mínimo p/ validação multi-tenant (ajuste HG-003) | 1 | P1 | Spike | Senior | EPIC-006 | recomendado após #6 | Ready |
+
+### Ordem recomendada e paralelismo (respeitando WIP: Senior 2 / Pleno 2 / QA 3)
+
+1. **#3** (sem dependências — primeiro elegível);
+2. Em paralelo assim que #3 avançar: **#4** ∥ **#5**;
+3. Após Onda 0: **#6**; depois **#7** ∥ **#8** ∥ **#9** (limites de WIP do Pleno = 2 simultâneos governam);
+4. **#10** (Senior) pode rodar em qualquer janela após design de #6/#7 visível — sua saída pode gerar UMA história nova (slice mínimo).
+
+**Primeiro item elegível para `/start-factory`: #3.**
 
 ## Bloqueios ativos
 
-- Criação de Issues reais e desenvolvimento de produto: bloqueados até **HG-003**;
-- Rulesets/branch protection: seguem indisponíveis (`BLOCKED_BY_GITHUB_PLAN`) — merge de PRs permanece Level 3 (humano).
+- Nenhum bloqueio para iniciar a fila (ADRs aceitos; fila materializada);
+- Merge de PRs segue Level 3 (humano) — inclusive a PR documental desta fase;
+- Implementação só inicia quando a fila for considerada validada pelo humano (determinação nº 14/16 do HG-003).
 
-## Fila efetiva
+## Próximos passos
 
-Vazia por design: nenhuma Issue real existe; primeiro trabalho pós-HG-003 será a criação das Issues da Onda 0 pelo PO (Level 2).
-
-## Próximos passos (ordem)
-
-1. Rodrigo decide HG-003 (`docs/product/PROPOSED_INITIAL_BACKLOG.md`);
-2. Pós-aprovação: PO cria as Issues reais da Onda 0 (com DoR completa);
-3. Loop `/start-factory` assume o fluxo contínuo (análise → implementação → QA → aceite);
-4. Condições dos aceites entram nas histórias correspondentes como critérios verificáveis.
+1. Rodrigo valida o mapa de Issues acima e autoriza a execução autônoma;
+2. Sessão `/start-factory` consome a fila começando por #3;
+3. Condições vinculantes entram como critérios verificáveis: #7 materializa ADR-005; primeira história de auth (Onda 2 futura) carregará OWASP ASVS (ADR-009).
