@@ -39,11 +39,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Build (gera dist de shared-types p/ resolução de tipos)
+        run: npm run build
+
       - name: Typecheck (web — build via esbuild não verifica tipos)
         run: npx tsc --noEmit -p apps/web
-
-      - name: Build
-        run: npm run build
 
       - name: Testes
         run: npm run test
