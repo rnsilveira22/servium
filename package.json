@@ -1,0 +1,23 @@
+{
+  "name": "servium",
+  "private": true,
+  "version": "0.1.0",
+  "description": "ServiumAI — monorepo (API NestJS + SPA React + tipos compartilhados)",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "npm run build -w @servium/shared-types && npm run build -w @servium/api && npm run build -w @servium/web",
+    "test": "npm run test -w @servium/shared-types && npm run test -w @servium/api && npm run test -w @servium/web",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "eslint": "^9.20.0",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.0"
+  }
+}
