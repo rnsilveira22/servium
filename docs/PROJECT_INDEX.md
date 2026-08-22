@@ -44,6 +44,7 @@ README.md
 │   ├── Orquestração ............ docs/factory/AGENT_ORCHESTRATION.md
 │   ├── Política de autonomia ... docs/factory/AUTONOMY_POLICY.md
 │   ├── Decisões humanas ........ docs/factory/HUMAN_GATES.md
+│   ├── Log de decisões humanas . docs/factory/HUMAN_DECISIONS_LOG.md
 │   ├── Runbook operacional ..... docs/factory/FACTORY_RUNBOOK.md
 │   ├── Status vivo ............. docs/factory/FACTORY_STATUS.md
 │   ├── Templates de processo ... docs/factory/templates/
@@ -88,17 +89,17 @@ README.md
 | [`architecture/ARCHITECTURE_REVIEW.md`](architecture/ARCHITECTURE_REVIEW.md) | Red Team da proposta: pontos fortes, trade-offs, dívidas deliberadas, gatilhos de revisão. |
 | [`architecture/ADR_REVIEW_REPORT.md`](architecture/ADR_REVIEW_REPORT.md) | Revisão formal dos ADR-001..011: análise por decisão, matriz, recomendações e condições. |
 | [`decisions/README.md`](decisions/README.md) | Processo de Architecture Decision Records (ADRs): estados, convenção e template. |
-| [`decisions/ADR-001-architecture-style.md`](decisions/ADR-001-architecture-style.md) | Estilo arquitetural: monólito modular (`Proposed`). |
-| [`decisions/ADR-002-backend-stack.md`](decisions/ADR-002-backend-stack.md) | Backend: TypeScript + Node.js/NestJS (`Proposed`). |
-| [`decisions/ADR-003-frontend-stack.md`](decisions/ADR-003-frontend-stack.md) | Frontend: React + TypeScript SPA (`Proposed`). |
-| [`decisions/ADR-004-persistence.md`](decisions/ADR-004-persistence.md) | Persistência: PostgreSQL (`Proposed`). |
-| [`decisions/ADR-005-tenant-strategy.md`](decisions/ADR-005-tenant-strategy.md) | Tenant: shared schema + `tenant_id` + RLS (`Proposed`). |
-| [`decisions/ADR-006-async-processing.md`](decisions/ADR-006-async-processing.md) | Assíncrono: jobs persistidos no PostgreSQL (`Proposed`). |
-| [`decisions/ADR-007-document-storage.md`](decisions/ADR-007-document-storage.md) | Documentos: object storage S3-compatível + metadados no banco (`Proposed`). |
-| [`decisions/ADR-008-communication-abstraction.md`](decisions/ADR-008-communication-abstraction.md) | Comunicação: porta `CommunicationChannel` + adaptadores (`Proposed`). |
-| [`decisions/ADR-009-authentication-strategy.md`](decisions/ADR-009-authentication-strategy.md) | Autenticação: first-party + RBAC mínimo, OIDC-ready (`Proposed`). |
-| [`decisions/ADR-010-ai-usage-strategy.md`](decisions/ADR-010-ai-usage-strategy.md) | IA: determinístico-first, LLM assistivo isolado (`Proposed`). |
-| [`decisions/ADR-011-deployment-strategy.md`](decisions/ADR-011-deployment-strategy.md) | Deployment: PaaS de entrada, sem Kubernetes (`Proposed`). |
+| [`decisions/ADR-001-architecture-style.md`](decisions/ADR-001-architecture-style.md) | Estilo arquitetural: monólito modular (`Accepted`). |
+| [`decisions/ADR-002-backend-stack.md`](decisions/ADR-002-backend-stack.md) | Backend: TypeScript + Node.js/NestJS (`Accepted`). |
+| [`decisions/ADR-003-frontend-stack.md`](decisions/ADR-003-frontend-stack.md) | Frontend: React + TypeScript SPA (`Accepted`). |
+| [`decisions/ADR-004-persistence.md`](decisions/ADR-004-persistence.md) | Persistência: PostgreSQL (`Accepted`). |
+| [`decisions/ADR-005-tenant-strategy.md`](decisions/ADR-005-tenant-strategy.md) | Tenant: shared schema + `tenant_id` + RLS (`Accepted`). |
+| [`decisions/ADR-006-async-processing.md`](decisions/ADR-006-async-processing.md) | Assíncrono: jobs persistidos no PostgreSQL (`Accepted`). |
+| [`decisions/ADR-007-document-storage.md`](decisions/ADR-007-document-storage.md) | Documentos: object storage S3-compatível + metadados no banco (`Accepted`). |
+| [`decisions/ADR-008-communication-abstraction.md`](decisions/ADR-008-communication-abstraction.md) | Comunicação: porta `CommunicationChannel` + adaptadores (`Accepted`). |
+| [`decisions/ADR-009-authentication-strategy.md`](decisions/ADR-009-authentication-strategy.md) | Autenticação: first-party + RBAC mínimo, OIDC-ready (`Accepted`). |
+| [`decisions/ADR-010-ai-usage-strategy.md`](decisions/ADR-010-ai-usage-strategy.md) | IA: determinístico-first, LLM assistivo isolado (`Accepted`). |
+| [`decisions/ADR-011-deployment-strategy.md`](decisions/ADR-011-deployment-strategy.md) | Deployment: PaaS de entrada, sem Kubernetes (`Accepted`). |
 | [`factory/SOFTWARE_FACTORY_REPORT.md`](factory/SOFTWARE_FACTORY_REPORT.md) | Relatório de configuração da Software Factory V1 (agentes, workflow, gates, GitHub). |
 | [`factory/AGENT_TEAM.md`](factory/AGENT_TEAM.md) | Equipe de agentes (PO, Senior, Pleno, Reviewer/QA), permissões e independência do QA. |
 | [`factory/DEVELOPMENT_WORKFLOW.md`](factory/DEVELOPMENT_WORKFLOW.md) | Fluxo oficial e máquina de estados das histórias, regra de DONE e rastreabilidade. |
@@ -110,6 +111,7 @@ README.md
 | [`factory/AGENT_ORCHESTRATION.md`](factory/AGENT_ORCHESTRATION.md) | Orquestração da equipe: ordem, filas, WIP, retry, escalonamento, paradas, merge. |
 | [`factory/AUTONOMY_POLICY.md`](factory/AUTONOMY_POLICY.md) | Níveis de autonomia (1/2/3) e regras NEVER para operação autônoma. |
 | [`factory/HUMAN_GATES.md`](factory/HUMAN_GATES.md) | Catálogo de decisões humanas, formato canônico e política de default. |
+| [`factory/HUMAN_DECISIONS_LOG.md`](factory/HUMAN_DECISIONS_LOG.md) | Registro formal e imutável das decisões humanas (autorização, execução, condições). |
 | [`factory/FACTORY_RUNBOOK.md`](factory/FACTORY_RUNBOOK.md) | Manual de sessão autônoma: verificação, execução por papel, falhas, encerramento. |
 | [`factory/FACTORY_STATUS.md`](factory/FACTORY_STATUS.md) | Snapshot vivo do estado da factory, decisões pendentes e fila efetiva. |
 | [`factory/templates/`](factory/templates/) | Templates de processo: análise técnica, implementação, QA review, aceite PO, blocker, ADR. |

@@ -32,7 +32,9 @@ Nunca confundir "sem objeção" com "aprovação".
 
 ## Catálogo de gates ativos
 
-### HG-001 — Merge da PR #2 (Software Factory V1)
+### HG-001 — Merge da PR #2 (Software Factory V1) — ✅ RESOLVIDO
+
+> **RESOLVIDO (2026-08-22):** APROVADO — Opção A. PR #2 mergeada após revalidação de CI. Registro: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).
 
 - **Tipo**: operacional · **Nível**: 3
 - **Contexto**: factory completa na branch `chore/software-factory-v1`, CI verde; merge é humano enquanto não há branch protection.
@@ -41,7 +43,9 @@ Nunca confundir "sem objeção" com "aprovação".
 - **Risco**: LOW-MODERATE (reversível via revert). **Impacto sem decisão**: backlog oficial não inicia.
 - **Default se sem ação**: nenhum (`default-safe: none`).
 
-### HG-002 — Pacote de ADRs estruturais (001..011)
+### HG-002 — Pacote de ADRs estruturais (001..011) — ✅ RESOLVIDO
+
+> **RESOLVIDO (2026-08-22):** APROVADO — Opção A. ADR-001..011 → `Accepted`, condições obrigatórias preservadas (ADR-005 isolamento; ADR-009 OWASP ASVS; ADR-011 provedor/custo segue sujeito a HG-004). Registro: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).
 
 - **Tipo**: arquitetural · **Nível**: 3
 - **Contexto**: revisão formal concluída (`docs/architecture/ADR_REVIEW_REPORT.md`); recomendação `ACCEPT` para os 11, com condições registradas (ADR-005 testes de isolamento; ADR-009 OWASP ASVS; ADR-011 custo/provedor na hora do setup).
@@ -85,4 +89,4 @@ Humano decide (Issue/comentário)
 
 ## Contador vivo
 
-Decisões abertas hoje: **HG-001, HG-002, HG-003** (HG-004/HG-005 são event-driven). Fonte viva: `FACTORY_STATUS.md`.
+Decisões abertas hoje: **HG-003** (HG-001/HG-002 resolvidas em 2026-08-22; HG-004/HG-005 são event-driven). Fonte viva: `FACTORY_STATUS.md`. Registro histórico completo: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).

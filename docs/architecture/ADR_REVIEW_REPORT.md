@@ -1,6 +1,8 @@
 # ADR Review Report — Fase 2
 
 > Revisão arquitetural formal dos ADR-001..011 (todos `Proposed`). Método: cada decisão avaliada contra os drivers (`ARCHITECTURE_DRIVERS.md`), evidências do repositório e estágio real do produto (repositório documental, pré-implementação). **Nenhum status foi alterado nesta revisão** — recomendações aguardam decisão humana (`AWAITING_HUMAN_ARCHITECTURE_DECISION`).
+>
+> **RESOLUÇÃO (HG-002 · 2026-08-22):** Rodrigo aceitou o pacote ADR-001..011 conforme as recomendações desta revisão. Todos os ADRs estão agora `Accepted`; as condições registradas abaixo permanecem obrigatórias. Registro formal em [`../factory/HUMAN_DECISIONS_LOG.md`](../factory/HUMAN_DECISIONS_LOG.md). O corpo deste relatório é preservado como snapshot da análise.
 
 ## Ordem de revisão (dependências)
 

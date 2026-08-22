@@ -2,6 +2,8 @@
 
 > **Fase 003 — Arquitetura do MVP** · Etapa E
 > Comparação orientada pelos drivers ([`ARCHITECTURE_DRIVERS.md`](ARCHITECTURE_DRIVERS.md)). Notas 1–5 **sempre com justificativa**; a decisão pondera os drivers, não a soma bruta. Tudo aqui é **Recommended/Proposed** — nada `Accepted` sem aprovação humana.
+>
+> **Atualização (HG-002 · 2026-08-22):** as recomendações desta avaliação foram aceitas — ADR-001..011 agora `Accepted` (ver [`../decisions/README.md`](../decisions/README.md)). Este documento permanece como registro da análise que fundamentou as decisões.
 
 ## Pesos dos drivers relevantes para stack
 

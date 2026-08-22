@@ -16,9 +16,9 @@ Escritórios de contabilidade brasileiros. **Vertical inicial, não limitação 
 
 ## Estado atual
 
-**Arquitetura do MVP proposta (Fase 003), aguardando aprovação humana.** Não há código de produto nem decisões `Accepted`. A arquitetura recomendada — monólito modular, TypeScript/NestJS + React, PostgreSQL com RLS, jobs no banco, object storage para documentos, PaaS de entrada — está documentada em [`architecture/README.md`](architecture/README.md) e registrada em ADRs `Proposed` ([`decisions/`](decisions/README.md)). A hipótese de MVP (Assistente Digital de Pendências Documentais) permanece especificada em [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md), aguardando validação com escritórios reais ([`product/VALIDATION_PLAN.md`](product/VALIDATION_PLAN.md)).
+**Arquitetura do MVP definida (Fase 003) e ADRs aceitos (HG-002 · 2026-08-22).** Não há código de produto. A arquitetura — monólito modular, TypeScript/NestJS + React, PostgreSQL com RLS, jobs no banco, object storage para documentos, PaaS de entrada — está documentada em [`architecture/README.md`](architecture/README.md) e registrada em ADRs `Accepted` ([`decisions/`](decisions/README.md)). Condições vinculadas aos aceites: testes de isolamento multi-tenant obrigatórios (ADR-005), OWASP ASVS + testes de segurança na primeira história de auth (ADR-009), provedores/custos recorrentes seguem sujeitos a human gate (ADR-011/HG-004). A hipótese de MVP (Assistente Digital de Pendências Documentais) permanece especificada em [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md), aguardando validação com escritórios reais ([`product/VALIDATION_PLAN.md`](product/VALIDATION_PLAN.md)).
 
-**Regra crítica:** enquanto os ADRs estiverem em `Proposed`, nenhuma implementação deve assumi-los como definitivos; alterá-los exige novo ciclo de decisão.
+**Regra crítica:** os ADRs `Accepted` são vigentes e vinculantes; alterá-los exige novo ciclo de decisão (novo ADR que os substitua ou revisão formal registrada). Nenhum agente aceita o próprio ADR.
 
 ## Fonte da verdade
 

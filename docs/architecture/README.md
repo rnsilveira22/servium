@@ -1,6 +1,6 @@
 # Arquitetura — ServiumAI
 
-> **Fase 003 concluída como proposta.** Existe uma arquitetura recomendada para o MVP (monólito modular + stack definida), documentada abaixo e registrada em ADRs com status `Proposed`. **Nenhuma decisão está `Accepted`** — a aprovação humana é pré-requisito para a implementação.
+> **Fase 003 concluída e ADRs aceitos (HG-002 · 2026-08-22).** A arquitetura do MVP (monólito modular + stack definida) está documentada abaixo e registrada em ADRs com status `Accepted`. Condições dos aceites e registro da decisão: [`../factory/HUMAN_DECISIONS_LOG.md`](../factory/HUMAN_DECISIONS_LOG.md).
 >
 > Processo de decisões: [`../decisions/README.md`](../decisions/README.md).
 
@@ -18,9 +18,9 @@
 | [`SECURITY_ARCHITECTURE.md`](SECURITY_ARCHITECTURE.md) | Ativos, fronteiras de confiança, ameaças e controles |
 | [`ARCHITECTURE_REVIEW.md`](ARCHITECTURE_REVIEW.md) | Red Team da própria proposta: trade-offs, dívidas, gatilhos |
 
-## Decisões propostas (ADRs)
+## Decisões aceitas (ADRs)
 
-Todos com status `Proposed`, aguardando revisão humana — ver [`../decisions/`](../decisions/README.md):
+Todos com status `Accepted` (HG-002 · 2026-08-22) — ver [`../decisions/`](../decisions/README.md):
 
 ADR-001 estilo arquitetural · ADR-002 backend · ADR-003 frontend · ADR-004 persistência · ADR-005 tenant · ADR-006 assíncrono · ADR-007 documentos · ADR-008 comunicação · ADR-009 autenticação · ADR-010 IA · ADR-011 deployment.
 

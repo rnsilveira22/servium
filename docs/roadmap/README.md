@@ -24,11 +24,11 @@ Definir:
 
 Especificação preliminar concluída (ver [`../product/MVP_DISCOVERY.md`](../product/MVP_DISCOVERY.md)); validação com escritórios reais pendente ([`../product/VALIDATION_PLAN.md`](../product/VALIDATION_PLAN.md)).
 
-## Fase 2 — Arquitetura *(proposta concluída — aguardando revisão humana)*
+## Fase 2 — Arquitetura *(concluída — ADRs aceitos)*
 
 - [x] Arquitetura funcional, fluxos/boundaries e drivers arquiteturais definidos antes da stack
-- [x] Stack e decisões registradas via ADRs — todos em `Proposed` ([`../decisions/README.md`](../decisions/README.md))
-- [ ] Revisão humana dos ADRs (`Proposed` → `Accepted`)
+- [x] Stack e decisões registradas via ADRs ([`../decisions/README.md`](../decisions/README.md))
+- [x] Revisão humana dos ADRs (`Proposed` → `Accepted`, HG-002 · 2026-08-22; condições em [`../factory/HUMAN_DECISIONS_LOG.md`](../factory/HUMAN_DECISIONS_LOG.md))
 - Sequência detalhada em [`../architecture/README.md`](../architecture/README.md); proposta resumida em [`../architecture/ARCHITECTURE_REVIEW.md`](../architecture/ARCHITECTURE_REVIEW.md).
 
 ## Fase 3 — Core Platform
