@@ -1,0 +1,77 @@
+# Quality Gates — ServiumAI
+
+> Cinco gates obrigatórios. Nenhum é pulável; nenhum agente pode dispensar outro.
+
+## Gate 1 — Definition of Ready (entrada da análise técnica)
+
+Responsável: `servium-po` (prepara) → verificação por `servium-senior`.
+
+- [ ] Objetivo definido
+- [ ] Ator/persona definido
+- [ ] Critérios de aceite definidos, objetivos e testáveis (Given/When/Then quando apropriado)
+- [ ] Dependências conhecidas
+- [ ] Contexto suficiente
+- [ ] Ausência de ambiguidade crítica
+
+Falha → retorna a `BACKLOG` com lacunas listadas.
+
+## Gate 2 — TECH READY (entrada do desenvolvimento)
+
+Responsável: `servium-senior`.
+
+- [ ] Análise técnica concluída (template oficial)
+- [ ] Arquitetura validada contra ADRs vigentes (`Proposed` ≠ autorização)
+- [ ] Riscos identificados com mitigação
+- [ ] Tarefas decompostas e atribuídas
+- [ ] Estratégia de testes definida
+- [ ] Bloqueadores resolvidos ou registrados formalmente
+
+## Gate 3 — READY FOR QA
+
+Responsável: implementador (`servium-pleno`/`servium-senior`).
+
+- [ ] Implementação concluída dentro do escopo contratado
+- [ ] Testes criados **e executados** localmente (evidência real)
+- [ ] Build executado
+- [ ] Lint/análise estática executados (quando existirem)
+- [ ] Documentação relacionada atualizada
+- [ ] PR aberto referenciando a Issue
+- [ ] Relatório de implementação com evidências registrado no PR
+
+## Gate 4 — QA Review
+
+Responsável: `servium-reviewer-qa` (independente).
+
+Exige: CI verde · code review formal · testes · avaliação de regressão · segurança · arquitetura · critérios de aceite verificados um a um.
+
+Resultado único: `APPROVED` | `CHANGES_REQUESTED` | `BLOCKED`.
+
+### Bloqueadores automáticos (reprovação imediata)
+
+- Teste falhando / build falhando
+- Vulnerabilidade crítica
+- Quebra de isolamento (tenant)
+- Credencial exposta
+- Autorização incorreta
+- Perda potencial de dados
+- Critério de aceite não atendido
+- Mudança arquitetural não aprovada
+- Regressão relevante
+- Migration destrutiva não autorizada
+
+### Severidade de achados
+
+`CRITICAL > HIGH > MEDIUM > LOW > INFO`
+
+## Gate 5 — PO Acceptance
+
+Responsável: `servium-po`, somente após `QA_APPROVED`.
+
+- PO valida comportamento funcional contra os critérios de aceite.
+- Resultado: `ACCEPTED` | `REJECTED` — sempre com evidência ou justificativa registrada.
+- `ACCEPTED` + QA `APPROVED` ⇒ `DONE`. Formalmente: `DONE = QA_APPROVED AND PO_ACCEPTED`.
+
+## Estados de validação
+
+Usar explicitamente: `VALIDATED`, `NOT_VALIDATED`, `BLOCKED`, `AWAITING_CREDENTIAL`, `AWAITING_PERMISSION`, `AWAITING_DECISION`.
+**Nunca transformar ausência de evidência em sucesso.**

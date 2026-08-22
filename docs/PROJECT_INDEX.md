@@ -33,6 +33,16 @@ README.md
 │   ├── ADR-010 IA .................... docs/decisions/ADR-010-ai-usage-strategy.md
 │   └── ADR-011 Deployment ............ docs/decisions/ADR-011-deployment-strategy.md
 │
+├── Software Factory ............ docs/factory/SOFTWARE_FACTORY_REPORT.md
+│   ├── Equipe de agentes ....... docs/factory/AGENT_TEAM.md
+│   ├── Workflow de desenvolvimento docs/factory/DEVELOPMENT_WORKFLOW.md
+│   ├── Workflow GitHub ......... docs/factory/GITHUB_WORKFLOW.md
+│   ├── Quality gates ........... docs/factory/QUALITY_GATES.md
+│   ├── Contratos de handoff .... docs/factory/HANDOFF_CONTRACTS.md
+│   ├── Governança de agentes ... docs/factory/AGENT_GOVERNANCE.md
+│   ├── Templates de processo ... docs/factory/templates/
+│   └── Dry run ................. docs/factory/dry-run/DRY_RUN_REPORT.md
+│
 ├── Produto ................... docs/product/README.md
 │   ├── Discovery do MVP ...... docs/product/MVP_DISCOVERY.md
 │   ├── Escopo do MVP ......... docs/product/MVP_SCOPE.md
@@ -81,6 +91,14 @@ README.md
 | [`decisions/ADR-009-authentication-strategy.md`](decisions/ADR-009-authentication-strategy.md) | Autenticação: first-party + RBAC mínimo, OIDC-ready (`Proposed`). |
 | [`decisions/ADR-010-ai-usage-strategy.md`](decisions/ADR-010-ai-usage-strategy.md) | IA: determinístico-first, LLM assistivo isolado (`Proposed`). |
 | [`decisions/ADR-011-deployment-strategy.md`](decisions/ADR-011-deployment-strategy.md) | Deployment: PaaS de entrada, sem Kubernetes (`Proposed`). |
+| [`factory/SOFTWARE_FACTORY_REPORT.md`](factory/SOFTWARE_FACTORY_REPORT.md) | Relatório de configuração da Software Factory V1 (agentes, workflow, gates, GitHub). |
+| [`factory/AGENT_TEAM.md`](factory/AGENT_TEAM.md) | Equipe de agentes (PO, Senior, Pleno, Reviewer/QA), permissões e independência do QA. |
+| [`factory/DEVELOPMENT_WORKFLOW.md`](factory/DEVELOPMENT_WORKFLOW.md) | Fluxo oficial e máquina de estados das histórias, regra de DONE e rastreabilidade. |
+| [`factory/GITHUB_WORKFLOW.md`](factory/GITHUB_WORKFLOW.md) | Convenções GitHub: branches, commits, PRs, issues, labels, Project, CI. |
+| [`factory/QUALITY_GATES.md`](factory/QUALITY_GATES.md) | Os cinco quality gates, bloqueadores automáticos de QA e severidades. |
+| [`factory/HANDOFF_CONTRACTS.md`](factory/HANDOFF_CONTRACTS.md) | Contratos obrigatórios de troca entre agentes em cada transição de estado. |
+| [`factory/AGENT_GOVERNANCE.md`](factory/AGENT_GOVERNANCE.md) | Princípios de governança, segurança, escalonamento e validação para agentes. |
+| [`factory/templates/`](factory/templates/) | Templates de processo: análise técnica, implementação, QA review, aceite PO, blocker, ADR. |
 | [`product/README.md`](product/README.md) | Hub da documentação de produto. |
 | [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) | Documento central do discovery: problema do MVP, cliente, dores, hipótese de solução e critérios para avançar. |
 | [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md) | Definição rígida de escopo: In Scope, Out of Scope, critérios de entrada/conclusão. |

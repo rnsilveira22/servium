@@ -1,0 +1,62 @@
+name: docs-ci
+
+on:
+  pull_request:
+    paths:
+      - "**/*.md"
+      - ".markdownlint.jsonc"
+      - ".github/workflows/docs-ci.yml"
+
+jobs:
+  changed-docs-lint:
+    name: Lint (arquivos alterados)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Determinar arquivos Markdown alterados
+        id: changed
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          FILES="$(git diff --name-only --diff-filter=ACMRT "$BASE_SHA" "$GITHUB_SHA" -- '*.md' ':!**/node_modules/**' || true)"
+          if [ -z "$FILES" ]; then
+            echo "Nenhum arquivo .md alterado — nada a lintar."
+            echo "count=0" >> "$GITHUB_OUTPUT"
+          else
+            echo "$FILES"
+            {
+              echo "count=$(printf '%s\n' "$FILES" | wc -l)"
+              echo "list<<EOF"
+              echo "$FILES"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: markdownlint-cli2 (somente alterados)
+        if: steps.changed.outputs.count != '0'
+        run: npx --yes markdownlint-cli2 ${{ steps.changed.outputs.list }}
+
+  full-repo-report:
+    name: Relatório de dívida de lint (não bloqueante)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Lint completo (inventário de dívida)
+        run: |
+          npx --yes markdownlint-cli2 "**/*.md" "#**/node_modules/**" \
+            > markdownlint-report.txt 2>&1 || true
+          cat markdownlint-report.txt

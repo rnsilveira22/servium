@@ -87,3 +87,10 @@ Se um agente precisar de uma dessas premissas para propor algo, deve registrá-l
 | [`architecture/README.md`](architecture/README.md) | Proposta arquitetural do MVP e índice de documentos |
 | [`architecture/DOMAIN_BOUNDARIES.md`](architecture/DOMAIN_BOUNDARIES.md) | Módulos e fronteiras — referência para qualquer implementação |
 | [`decisions/README.md`](decisions/README.md) | ADRs: processo e decisões (verificar status antes de usar) |
+| [`factory/DEVELOPMENT_WORKFLOW.md`](factory/DEVELOPMENT_WORKFLOW.md) | Fluxo oficial de desenvolvimento, estados e regra de DONE |
+| [`factory/AGENT_GOVERNANCE.md`](factory/AGENT_GOVERNANCE.md) | Governança, segurança e escalonamento para agentes |
+| [`factory/HANDOFF_CONTRACTS.md`](factory/HANDOFF_CONTRACTS.md) | Contratos obrigatórios entre agentes (PO/Senior/Pleno/QA) |
+
+## Software Factory (agentes OpenCode)
+
+A equipe oficial de desenvolvimento por agentes é definida em `.opencode/agent/`: `servium-po`, `servium-senior`, `servium-pleno` e `servium-reviewer-qa`. Regras: nenhum histórico chega a `DONE` sem `QA_APPROVED AND PO_ACCEPTED`; QA é independente; permissões mínimas por agente. Detalhes em `factory/`.
