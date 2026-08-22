@@ -20,7 +20,7 @@ Integração remota finalizada: PR #2 da Software Factory aberto e com CI verde;
 | Item | Valor |
 |---|---|
 | Owner / repo | `rnsilveira22/servium` |
-| URL | https://github.com/rnsilveira22/servium |
+| URL | <https://github.com/rnsilveira22/servium> |
 | Branch padrão | `main` |
 | Branch da Factory | `chore/software-factory-v1` |
 | Visibilidade | privado |
