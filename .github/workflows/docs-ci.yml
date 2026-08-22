@@ -42,7 +42,9 @@ jobs:
 
       - name: markdownlint-cli2 (somente alterados)
         if: steps.changed.outputs.count != '0'
-        run: npx --yes markdownlint-cli2 ${{ steps.changed.outputs.list }}
+        env:
+          FILES: ${{ steps.changed.outputs.list }}
+        run: npx --yes markdownlint-cli2 $FILES
 
   full-repo-report:
     name: Relatório de dívida de lint (não bloqueante)
