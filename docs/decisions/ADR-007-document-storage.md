@@ -27,8 +27,8 @@ Documentos recebidos de clientes finais são dados potencialmente pessoais (LGPD
 
 ## Risks
 
-- URL assinada vazada → mitigação: expiração curta, escopo por documento, log de acesso;
-- Órfãos (arquivo sem metadado ou vice-versa) → mitigação: escrita em duas etapas com reconciliação periódica.
++ URL assinada vazada → mitigação: expiração curta, escopo por documento, log de acesso;
++ Órfãos (arquivo sem metadado ou vice-versa) → mitigação: escrita em duas etapas com reconciliação periódica.
 
 ## Condições de revisão
 

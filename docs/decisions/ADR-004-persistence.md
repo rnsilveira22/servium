@@ -26,7 +26,7 @@ Domínio fortemente relacional (ciclo → itens → documentos → mensagens →
 
 ## Risks
 
-- Crescimento do volume de jobs/documentos no mesmo banco → mitigação: monitoramento (ADRV-008) e gatilhos de separação definidos em ADR-006/ADR-007.
++ Crescimento do volume de jobs/documentos no mesmo banco → mitigação: monitoramento (ADRV-008) e gatilhos de separação definidos em ADR-006/ADR-007.
 
 ## Condições de revisão
 

@@ -42,6 +42,6 @@ Este projeto ainda não possui releases publicadas.
   ADR-011 (monólito modular; TypeScript/NestJS; React+TS; PostgreSQL;
   shared schema + tenant_id + RLS; jobs no banco; object storage S3-
   compatível; abstração de canal de comunicação; autenticação first-party
-  + RBAC; IA determinístico-first com LLM assistivo isolado; PaaS de
+  - RBAC; IA determinístico-first com LLM assistivo isolado; PaaS de
   entrada sem Kubernetes); limites de uso de IA; arquitetura de segurança;
   revisão arquitetural (red team) da própria proposta.

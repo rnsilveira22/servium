@@ -26,7 +26,7 @@ Ciclos, cobranças agendadas, retries e validações ocorrem em background (ADRV
 
 ## Risks
 
-- Acúmulo de jobs atrasados em falha prolongada do canal → mitigação: NFR-009 (sem rajadas na recuperação; backoff) + alarme de fila crescente.
++ Acúmulo de jobs atrasados em falha prolongada do canal → mitigação: NFR-009 (sem rajadas na recuperação; backoff) + alarme de fila crescente.
 
 ## Condições de revisão
 

@@ -33,7 +33,7 @@ CommunicationService (core)
 
 ## Risks
 
-- Canais futuros (ex.: WhatsApp) terem modelos de conversa/aprovação distintos → mitigação: a porta será revisada quando houver requisito real, sem compromisso prévio.
++ Canais futuros (ex.: WhatsApp) terem modelos de conversa/aprovação distintos → mitigação: a porta será revisada quando houver requisito real, sem compromisso prévio.
 
 ## Condições de revisão
 

@@ -25,8 +25,8 @@ LLM acessado exclusivamente via porta provider-agnóstica; prompts/versões regi
 
 ## Consequences
 
-+ Custo e risco controlados; comportamento previsível onde importa;
-+ Provedor trocável; ausência de LLM não inviabiliza o MVP;
+- Custo e risco controlados; comportamento previsível onde importa;
+- Provedor trocável; ausência de LLM não inviabiliza o MVP;
 − Classificação automática limitada no piloto → mitigado por escalonamento humano (comportamento desejado).
 
 ## Risks

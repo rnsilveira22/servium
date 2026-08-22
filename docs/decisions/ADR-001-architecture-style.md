@@ -27,8 +27,8 @@ Adotar **monólito modular**: um único deployável backend com módulos interno
 
 ## Risks
 
-- Erosão gradual das fronteiras por pressão de prazo → mitigação: revisões guiadas por DOMAIN_BOUNDARIES;
-- Crescimento real de volume exceder escala vertical → gatilho de revisão abaixo.
++ Erosão gradual das fronteiras por pressão de prazo → mitigação: revisões guiadas por DOMAIN_BOUNDARIES;
++ Crescimento real de volume exceder escala vertical → gatilho de revisão abaixo.
 
 ## Condições de revisão
 

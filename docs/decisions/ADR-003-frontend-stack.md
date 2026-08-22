@@ -25,7 +25,7 @@ Frontend exclusivamente operacional/administrativo (painel de status, fila de ex
 
 ## Risks
 
-- Escolha por popularidade sem ajuste à equipe → mitigação: decisão explicitamente reversível antes do início da implementação.
++ Escolha por popularidade sem ajuste à equipe → mitigação: decisão explicitamente reversível antes do início da implementação.
 
 ## Condições de revisão
 

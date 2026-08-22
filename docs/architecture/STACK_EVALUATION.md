@@ -100,7 +100,7 @@ Contexto: SPA operacional/administrativa interna (painel, filas, formulários de
 | Ferramentas/maturidade | 5 | 5/4 |
 | Custo gerenciado | 4 | 4/4 |
 
-Alternativas NoSQL rejeitadas: **nenhum requisito atual exige schema flexível ou escala horizontal de dados**; o domínio é transacional e relacional. 
+Alternativas NoSQL rejeitadas: **nenhum requisito atual exige schema flexível ou escala horizontal de dados**; o domínio é transacional e relacional.
 
 **Decisão proposta:** **PostgreSQL** (*Recommended* → ADR-004 `Proposed`), com RLS como defesa-em-profundidade do isolamento (ADRV-001).
 

@@ -27,8 +27,8 @@ Backend IO-bound (orquestração de banco, canal de comunicação, storage), equ
 
 ## Risks
 
-- Qualidade variável do ecossistema npm → mitigação: dependências auditadas, lockfile, poucas abstrações;
-- NestJS tem curva inicial → aceita em troca de fronteiras reforçadas.
++ Qualidade variável do ecossistema npm → mitigação: dependências auditadas, lockfile, poucas abstrações;
++ NestJS tem curva inicial → aceita em troca de fronteiras reforçadas.
 
 ## Condições de revisão
 

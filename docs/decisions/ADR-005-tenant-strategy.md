@@ -27,7 +27,7 @@ NFR-001 exige consciência e isolamento de tenant desde o primeiro dia, mesmo co
 
 ## Risks
 
-- Erro humano em política RLS → mitigação: testes automatizados de vazamento no pipeline; auditoria de acessos cross-tenant como alarme.
++ Erro humano em política RLS → mitigação: testes automatizados de vazamento no pipeline; auditoria de acessos cross-tenant como alarme.
 
 ## Condições de revisão
 

@@ -26,7 +26,7 @@ Usuários humanos do escritório (papéis mínimos: gestor/responsável), opera�
 
 ## Risks
 
-- Falha de implementação própria (ex.: fixação de sessão) → mitigação: checklist OWASP ASVS nível adequado ao piloto.
++ Falha de implementação própria (ex.: fixação de sessão) → mitigação: checklist OWASP ASVS nível adequado ao piloto.
 
 ## Condições de revisão
 

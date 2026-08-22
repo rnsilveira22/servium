@@ -26,8 +26,8 @@ Equipe mínima sem função dedicada de operações; requisitos de backup/recupe
 
 ## Risks
 
-- Lock-in de plataforma → mitigado: nada específico de provedor na aplicação; apenas serviços padrão (Postgres, S3-API);
-- Custo crescer com uso → mitigado: alertas de billing (ADRV-008).
++ Lock-in de plataforma → mitigado: nada específico de provedor na aplicação; apenas serviços padrão (Postgres, S3-API);
++ Custo crescer com uso → mitigado: alertas de billing (ADRV-008).
 
 ## Condições de revisão
 

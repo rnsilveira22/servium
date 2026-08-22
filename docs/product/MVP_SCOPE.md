@@ -30,11 +30,13 @@ O MVP existe para gerar evidência, não para ser a plataforma completa.
 ## Out of Scope
 
 **Plataforma:**
+
 - Funções administrativas multi-tenant: onboarding automatizado/self-service de tenants, billing por tenant, gestão comercial multiempresa e recursos avançados de configuração entre tenants. **Não inclui abrir mão da consciência de tenant** (identidade e isolamento lógico permanecem requisito desde o início — ver NFR-001 em [`NON_FUNCTIONAL_REQUIREMENTS.md`](NON_FUNCTIONAL_REQUIREMENTS.md));
 - Marketplace ou catálogo de Funcionários Digitais;
 - Qualquer segundo tipo de Funcionário Digital (triagem RC-02, organização documental RC-04 etc. ficam para depois);
 
 **Funcionalidades:**
+
 - Emissão de guias, documentos fiscais ou qualquer ação com efeito fiscal/financeiro (RC-08);
 - Consultas em portais governamentais (RC-07);
 - Conferência de folha (RC-09) e conciliação financeira (RC-10);
@@ -44,6 +46,7 @@ O MVP existe para gerar evidência, não para ser a plataforma completa.
 - Cobrança automática fora dos limites configurados; qualquer envio sem registro auditável;
 
 **Produto/negócio:**
+
 - Modelo comercial, preços e billing;
 - Aplicativo mobile;
 - Internacionalização;
