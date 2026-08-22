@@ -129,7 +129,9 @@ README.md
 | [`product/RISKS_AND_HYPOTHESES.md`](product/RISKS_AND_HYPOTHESES.md) | Registro formal de hipóteses (HYP-xxx) e riscos (RSK-xxx). |
 | [`product/VALIDATION_PLAN.md`](product/VALIDATION_PLAN.md) | Plano de validação com escritórios contábeis: roteiro, evidências, critérios. |
 | [`product/BACKLOG_OVERVIEW.md`](product/BACKLOG_OVERVIEW.md) | Backlog macro por épicos conceituais. |
-| [`product/INITIAL_BACKLOG.md`](product/INITIAL_BACKLOG.md) | Backlog inicial canônico — aprovado com ajustes (HG-003); Ondas 0–1 materializadas (#3–#10), 2–7 planejadas. |
+| [`product/INITIAL_BACKLOG.md`](product/INITIAL_BACKLOG.md) | Backlog canônico — HG-003; reordenado por MVP-01 (HG-005). |
+| [`product/MVP_01_VERTICAL_SLICE.md`](product/MVP_01_VERTICAL_SLICE.md) | Meta canônica MVP-01: primeiro Funcionário Digital no piloto (slices, dados mínimos, PILOT_READY). |
+| [`product/MVP_01_REPLAN_REPORT.md`](product/MVP_01_REPLAN_REPORT.md) | Relatório A–M do replanejamento time-to-pilot (HG-005). |
 | [`roadmap/README.md`](roadmap/README.md) | Roadmap por fases, sem datas arbitrárias. |
 
 ## Convenções
