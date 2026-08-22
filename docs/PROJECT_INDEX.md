@@ -19,7 +19,8 @@ README.md
 │   ├── Avaliação de stack ..... docs/architecture/STACK_EVALUATION.md
 │   ├── Limites de IA .......... docs/architecture/AI_USAGE_BOUNDARIES.md
 │   ├── Segurança .............. docs/architecture/SECURITY_ARCHITECTURE.md
-│   └── Revisão arquitetural ... docs/architecture/ARCHITECTURE_REVIEW.md
+│   ├── Revisão arquitetural ... docs/architecture/ARCHITECTURE_REVIEW.md
+│   └── Revisão dos ADRs ....... docs/architecture/ADR_REVIEW_REPORT.md
 ├── Decisões (ADRs) ........... docs/decisions/README.md
 │   ├── ADR-001 Estilo arquitetural ... docs/decisions/ADR-001-architecture-style.md
 │   ├── ADR-002 Backend ............... docs/decisions/ADR-002-backend-stack.md
@@ -40,8 +41,13 @@ README.md
 │   ├── Quality gates ........... docs/factory/QUALITY_GATES.md
 │   ├── Contratos de handoff .... docs/factory/HANDOFF_CONTRACTS.md
 │   ├── Governança de agentes ... docs/factory/AGENT_GOVERNANCE.md
+│   ├── Orquestração ............ docs/factory/AGENT_ORCHESTRATION.md
+│   ├── Política de autonomia ... docs/factory/AUTONOMY_POLICY.md
+│   ├── Decisões humanas ........ docs/factory/HUMAN_GATES.md
+│   ├── Runbook operacional ..... docs/factory/FACTORY_RUNBOOK.md
+│   ├── Status vivo ............. docs/factory/FACTORY_STATUS.md
 │   ├── Templates de processo ... docs/factory/templates/
-│   └── Dry run ................. docs/factory/dry-run/DRY_RUN_REPORT.md
+│   └── Dry runs ................ docs/factory/dry-run/
 │
 ├── Produto ................... docs/product/README.md
 │   ├── Discovery do MVP ...... docs/product/MVP_DISCOVERY.md
@@ -55,7 +61,8 @@ README.md
 │   ├── Métricas de sucesso ... docs/product/SUCCESS_METRICS.md
 │   ├── Riscos e hipóteses .... docs/product/RISKS_AND_HYPOTHESES.md
 │   ├── Plano de validação .... docs/product/VALIDATION_PLAN.md
-│   └── Backlog macro ......... docs/product/BACKLOG_OVERVIEW.md
+│   ├── Backlog macro ......... docs/product/BACKLOG_OVERVIEW.md
+│   └── Proposta backlog inicial docs/product/PROPOSED_INITIAL_BACKLOG.md
 │
 └── Roadmap ................... docs/roadmap/README.md
 ```
@@ -79,6 +86,7 @@ README.md
 | [`architecture/AI_USAGE_BOUNDARIES.md`](architecture/AI_USAGE_BOUNDARIES.md) | Classificação determinístico/IA/LLM/humano por função; regras para uso assistivo de LLM. |
 | [`architecture/SECURITY_ARCHITECTURE.md`](architecture/SECURITY_ARCHITECTURE.md) | Ativos, fronteiras de confiança, ameaças principais e controles. |
 | [`architecture/ARCHITECTURE_REVIEW.md`](architecture/ARCHITECTURE_REVIEW.md) | Red Team da proposta: pontos fortes, trade-offs, dívidas deliberadas, gatilhos de revisão. |
+| [`architecture/ADR_REVIEW_REPORT.md`](architecture/ADR_REVIEW_REPORT.md) | Revisão formal dos ADR-001..011: análise por decisão, matriz, recomendações e condições. |
 | [`decisions/README.md`](decisions/README.md) | Processo de Architecture Decision Records (ADRs): estados, convenção e template. |
 | [`decisions/ADR-001-architecture-style.md`](decisions/ADR-001-architecture-style.md) | Estilo arquitetural: monólito modular (`Proposed`). |
 | [`decisions/ADR-002-backend-stack.md`](decisions/ADR-002-backend-stack.md) | Backend: TypeScript + Node.js/NestJS (`Proposed`). |
@@ -98,7 +106,14 @@ README.md
 | [`factory/QUALITY_GATES.md`](factory/QUALITY_GATES.md) | Os cinco quality gates, bloqueadores automáticos de QA e severidades. |
 | [`factory/HANDOFF_CONTRACTS.md`](factory/HANDOFF_CONTRACTS.md) | Contratos obrigatórios de troca entre agentes em cada transição de estado. |
 | [`factory/AGENT_GOVERNANCE.md`](factory/AGENT_GOVERNANCE.md) | Princípios de governança, segurança, escalonamento e validação para agentes. |
+| [`factory/GITHUB_INTEGRATION_REPORT.md`](factory/GITHUB_INTEGRATION_REPORT.md) | Relatório da integração remota: Project, labels, templates, bloqueios do plano Free. |
+| [`factory/AGENT_ORCHESTRATION.md`](factory/AGENT_ORCHESTRATION.md) | Orquestração da equipe: ordem, filas, WIP, retry, escalonamento, paradas, merge. |
+| [`factory/AUTONOMY_POLICY.md`](factory/AUTONOMY_POLICY.md) | Níveis de autonomia (1/2/3) e regras NEVER para operação autônoma. |
+| [`factory/HUMAN_GATES.md`](factory/HUMAN_GATES.md) | Catálogo de decisões humanas, formato canônico e política de default. |
+| [`factory/FACTORY_RUNBOOK.md`](factory/FACTORY_RUNBOOK.md) | Manual de sessão autônoma: verificação, execução por papel, falhas, encerramento. |
+| [`factory/FACTORY_STATUS.md`](factory/FACTORY_STATUS.md) | Snapshot vivo do estado da factory, decisões pendentes e fila efetiva. |
 | [`factory/templates/`](factory/templates/) | Templates de processo: análise técnica, implementação, QA review, aceite PO, blocker, ADR. |
+| [`factory/dry-run/`](factory/dry-run/) | Simulações sem side effects: R1 (máquina de estados) e R2 (loop autônomo SRV-D002). |
 | [`product/README.md`](product/README.md) | Hub da documentação de produto. |
 | [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) | Documento central do discovery: problema do MVP, cliente, dores, hipótese de solução e critérios para avançar. |
 | [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md) | Definição rígida de escopo: In Scope, Out of Scope, critérios de entrada/conclusão. |
@@ -112,6 +127,7 @@ README.md
 | [`product/RISKS_AND_HYPOTHESES.md`](product/RISKS_AND_HYPOTHESES.md) | Registro formal de hipóteses (HYP-xxx) e riscos (RSK-xxx). |
 | [`product/VALIDATION_PLAN.md`](product/VALIDATION_PLAN.md) | Plano de validação com escritórios contábeis: roteiro, evidências, critérios. |
 | [`product/BACKLOG_OVERVIEW.md`](product/BACKLOG_OVERVIEW.md) | Backlog macro por épicos conceituais. |
+| [`product/PROPOSED_INITIAL_BACKLOG.md`](product/PROPOSED_INITIAL_BACKLOG.md) | Proposta do PO para backlog inicial em ondas (nenhum Issue criado; aguarda HG-003). |
 | [`roadmap/README.md`](roadmap/README.md) | Roadmap por fases, sem datas arbitrárias. |
 
 ## Convenções
