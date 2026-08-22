@@ -54,10 +54,12 @@ Nunca confundir "sem objeção" com "aprovação".
 - **Risco**: MODERATE→HARD após início da implementação — janela barata é agora. **Impacto sem decisão**: nenhuma história de implementação pode iniciar (ADRs `Proposed` bloqueiam Gate 2).
 - **Default se sem ação**: manter `Proposed` e fila parada (`default-safe: none`).
 
-### HG-003 — Aprovação da proposta inicial de backlog
+### HG-003 — Aprovação da proposta inicial de backlog — ✅ RESOLVIDO
+
+> **RESOLVIDO (2026-08-22):** APROVADO COM AJUSTES — Opção B. Backlog aprovado como direção de produto; materialização imediata restrita às Ondas 0–1 (#3–#10); ajustes vinculantes registrados em `HUMAN_DECISIONS_LOG.md` e `docs/product/INITIAL_BACKLOG.md`.
 
 - **Tipo**: produto · **Nível**: 3
-- **Contexto**: proposta PO em `docs/product/PROPOSED_INITIAL_BACKLOG.md` (somente proposta; nenhuma Issue criada ainda).
+- **Contexto**: proposta PO em `docs/product/INITIAL_BACKLOG.md` (antiga `PROPOSED_INITIAL_BACKLOG.md`, transformada em backlog canônico pelo HG-003) (somente proposta; nenhuma Issue criada ainda).
 - **Opções**: A) Aprovar como está → PO cria Issues reais; B) Ajustar prioridades/escopo → devolver ao PO; C) Rejeitar.
 - **Recomendação**: B ou A após leitura — decisão de produto é do dono.
 - **Risco**: LOW (totalmente reversível antes da criação das Issues). **Impacto sem decisão**: fila de trabalho vazia.
@@ -89,4 +91,4 @@ Humano decide (Issue/comentário)
 
 ## Contador vivo
 
-Decisões abertas hoje: **HG-003** (HG-001/HG-002 resolvidas em 2026-08-22; HG-004/HG-005 são event-driven). Fonte viva: `FACTORY_STATUS.md`. Registro histórico completo: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).
+Decisões abertas hoje: **nenhuma** (HG-001/HG-002/HG-003 resolvidas em 2026-08-22; HG-004/HG-005 são event-driven). Fonte viva: `FACTORY_STATUS.md`. Registro histórico completo: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).
