@@ -82,13 +82,11 @@ Quando habilitável (requer `gh` autenticado com permissão admin): exigir PR + 
 
 ## Status de configuração remota
 
-Operações administrativas (criar Project, labels, rulesets) dependem de `gh` instalado e autenticado:
+Configuração efetivada (ver `GITHUB_INTEGRATION_REPORT.md`):
 
-```bash
-gh auth login            # escopos mínimos: repo, project
-gh auth status           # validar
-gh label create ...      # aplicar taxonomy acima
-gh project create ...    # ServiumAI Development + campos/views
-```
+- **Project**: [`ServiumAI Development`](https://github.com/users/rnsilveira22/projects/2) criado e vinculado ao repositório — campo `Status` com os 12 estados do workflow, campos `Priority`, `Item Type` (`Type` é nome reservado do GitHub Projects), `Responsible Role`, `QA Status`, `PO Acceptance` e `Risk`; views `Board` e `Table`.
+- **Labels**: taxonomia completa aplicada (`type:*`, `priority:*`, `agent:*`, `status:blocked`, `needs:adr`, `needs:decision`). Labels padrão legadas mantidas sem uso.
+- **PR template e Issue templates**: versionados nesta branch; tornam-se ativos no GitHub após o merge em `main` (o GitHub lê templates da branch padrão).
+- **Rulesets/proteção da `main`**: `BLOCKED_BY_GITHUB_PLAN` — repositório privado no plano Free não suporta rulesets nem branch protection. Não configurar required checks enquanto o CI for acionado por filtro de paths.
 
-Sem isso, os itens correspondentes ficam `BLOCKED_GITHUB_AUTH`.
+Automações deliberadamente NÃO habilitadas: fechar Issue ou mergear PR não pode implicar `Done` — a regra `DONE = QA_APPROVED AND PO_ACCEPTED` é controlada pelos campos `QA Status` e `PO Acceptance`.
