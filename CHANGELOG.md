@@ -32,6 +32,16 @@ Este projeto ainda não possui releases publicadas.
   hipótese (e-mail = hipótese inicial; WhatsApp = alternativa a avaliar;
   canal definitivo a decidir por validação de produto + decisão arquitetural);
   política de tentativas de cobrança tornada configurável (`max_attempts`,
-  hipótese inicial 3 — HYP-008); recomendação para a Fase 003 refinada:
-  começar por arquitetura funcional → fluxos/boundaries → drivers → ADRs →
-  integrações específicas.
+   hipótese inicial 3 — HYP-008); recomendação para a Fase 003 refinada:
+   começar por arquitetura funcional → fluxos/boundaries → drivers → ADRs →
+   integrações específicas.
+- Fase 003 — Arquitetura do MVP (proposta, todos os ADRs em `Proposed`):
+  arquitetura funcional com capacidades C1–C12; boundaries de domínio com
+  módulos B1–B7; drivers arquiteturais ADRV-001 a ADRV-014; visões de
+  contexto e containers (C4); avaliação fundamentada de stack; ADR-001 a
+  ADR-011 (monólito modular; TypeScript/NestJS; React+TS; PostgreSQL;
+  shared schema + tenant_id + RLS; jobs no banco; object storage S3-
+  compatível; abstração de canal de comunicação; autenticação first-party
+  - RBAC; IA determinístico-first com LLM assistivo isolado; PaaS de
+  entrada sem Kubernetes); limites de uso de IA; arquitetura de segurança;
+  revisão arquitetural (red team) da própria proposta.

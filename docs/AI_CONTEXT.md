@@ -16,7 +16,9 @@ Escritórios de contabilidade brasileiros. **Vertical inicial, não limitação 
 
 ## Estado atual
 
-**Discovery do MVP.** Não há stack definida, não há código de produto, não há funcionalidades implementadas. A hipótese de MVP (Assistente Digital de Pendências Documentais) está especificada em [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) e documentos associados, aguardando validação com escritórios reais ([`product/VALIDATION_PLAN.md`](product/VALIDATION_PLAN.md)).
+**Arquitetura do MVP definida (Fase 003) e ADRs aceitos (HG-002 · 2026-08-22).** Não há código de produto. A arquitetura — monólito modular, TypeScript/NestJS + React, PostgreSQL com RLS, jobs no banco, object storage para documentos, PaaS de entrada — está documentada em [`architecture/README.md`](architecture/README.md) e registrada em ADRs `Accepted` ([`decisions/`](decisions/README.md)). Condições vinculadas aos aceites: testes de isolamento multi-tenant obrigatórios (ADR-005), OWASP ASVS + testes de segurança na primeira história de auth (ADR-009), provedores/custos recorrentes seguem sujeitos a human gate (ADR-011/HG-004). A hipótese de MVP (Assistente Digital de Pendências Documentais) permanece especificada em [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md), aguardando validação com escritórios reais ([`product/VALIDATION_PLAN.md`](product/VALIDATION_PLAN.md)).
+
+**Regra crítica:** os ADRs `Accepted` são vigentes e vinculantes; alterá-los exige novo ciclo de decisão (novo ADR que os substitua ou revisão formal registrada). Nenhum agente aceita o próprio ADR.
 
 ## Fonte da verdade
 
@@ -82,3 +84,13 @@ Se um agente precisar de uma dessas premissas para propor algo, deve registrá-l
 | [`PROJECT_INDEX.md`](PROJECT_INDEX.md) | Mapa da documentação |
 | [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) | Hipótese central do MVP |
 | [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md) | Escopo IN/OUT do MVP |
+| [`architecture/README.md`](architecture/README.md) | Proposta arquitetural do MVP e índice de documentos |
+| [`architecture/DOMAIN_BOUNDARIES.md`](architecture/DOMAIN_BOUNDARIES.md) | Módulos e fronteiras — referência para qualquer implementação |
+| [`decisions/README.md`](decisions/README.md) | ADRs: processo e decisões (verificar status antes de usar) |
+| [`factory/DEVELOPMENT_WORKFLOW.md`](factory/DEVELOPMENT_WORKFLOW.md) | Fluxo oficial de desenvolvimento, estados e regra de DONE |
+| [`factory/AGENT_GOVERNANCE.md`](factory/AGENT_GOVERNANCE.md) | Governança, segurança e escalonamento para agentes |
+| [`factory/HANDOFF_CONTRACTS.md`](factory/HANDOFF_CONTRACTS.md) | Contratos obrigatórios entre agentes (PO/Senior/Pleno/QA) |
+
+## Software Factory (agentes OpenCode)
+
+A equipe oficial de desenvolvimento por agentes é definida em `.opencode/agent/`: `servium-po`, `servium-senior`, `servium-pleno` e `servium-reviewer-qa`. Regras: nenhum histórico chega a `DONE` sem `QA_APPROVED AND PO_ACCEPTED`; QA é independente; permissões mínimas por agente. Detalhes em `factory/`.

@@ -31,30 +31,30 @@ Confirmar ou refutar as hipóteses críticas HYP-001 a HYP-006 ([`RISKS_AND_HYPO
 
 ### Bloco 2 — Processo atual de pendências (20 min)
 
-3. Quando chega o período da folha (ou outra obrigação), como vocês sabem quais documentos estão faltando de cada cliente?
-4. Como essa atividade é feita hoje, passo a passo? Quem faz?
-5. Quanto tempo normalmente é gasto nisso, por mês? Por pessoa?
-6. Por quais canais vocês cobram os clientes? Os clientes respondem por onde?
-7. Onde costuma ocorrer erro nesse processo? O que acontece quando ocorre?
-8. O que acontece quando um cliente simplesmente não responde às cobranças?
-9. Quem precisa revisar os documentos recebidos antes de vocês usarem?
-10. Já perderam prazo ou pagaram multa por documento que faltou? Conte como foi.
-11. Vocês já tentaram resolver isso com planilha, sistema ou processo próprio? Como foi?
+1. Quando chega o período da folha (ou outra obrigação), como vocês sabem quais documentos estão faltando de cada cliente?
+2. Como essa atividade é feita hoje, passo a passo? Quem faz?
+3. Quanto tempo normalmente é gasto nisso, por mês? Por pessoa?
+4. Por quais canais vocês cobram os clientes? Os clientes respondem por onde?
+5. Onde costuma ocorrer erro nesse processo? O que acontece quando ocorre?
+6. O que acontece quando um cliente simplesmente não responde às cobranças?
+7. Quem precisa revisar os documentos recebidos antes de vocês usarem?
+8. Já perderam prazo ou pagaram multa por documento que faltou? Conte como foi.
+9. Vocês já tentaram resolver isso com planilha, sistema ou processo próprio? Como foi?
 
 ### Bloco 3 — Ferramentas existentes (5 min)
 
-12. O software contábil que vocês usam tem algum controle de pendências? Vocês usam? Por quê (não)?
+ 1. O software contábil que vocês usam tem algum controle de pendências? Vocês usam? Por quê (não)?
 
 ### Bloco 4 — Delegação e limites (10 min)
 
-13. Se uma assistente digital fizesse essa cobrança automaticamente, dentro de regras que vocês definem, o que precisaria acontecer para vocês confiarem?
-14. Qual parte desse processo você jamais delegaria sem aprovação humana?
-15. Que mensagem seria aceitável enviar ao seu cliente? O que jamais poderia ser enviado?
+ 1. Se uma assistente digital fizesse essa cobrança automaticamente, dentro de regras que vocês definem, o que precisaria acontecer para vocês confiarem?
+ 2. Qual parte desse processo você jamais delegaria sem aprovação humana?
+ 3. Que mensagem seria aceitável enviar ao seu cliente? O que jamais poderia ser enviado?
 
 ### Bloco 5 — Fechamento (5 min)
 
-16. Se esse problema desaparecesse, o que a equipe faria com o tempo liberado?
-17. Existe algo mais crítico que isso no dia a dia de vocês? O quê?
+ 1. Se esse problema desaparecesse, o que a equipe faria com o tempo liberado?
+ 2. Existe algo mais crítico que isso no dia a dia de vocês? O quê?
 
 ## Evidências desejadas
 
