@@ -43,7 +43,7 @@ jobs:
         run: npm run build
 
       - name: Typecheck (web — build via esbuild não verifica tipos)
-        run: npx tsc --noEmit -p apps/web
+        run: npm run typecheck
 
       - name: Testes
         run: npm run test

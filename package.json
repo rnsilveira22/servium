@@ -13,7 +13,10 @@
   "scripts": {
     "build": "npm run build -w @servium/shared-types && npm run build -w @servium/api && npm run build -w @servium/web",
     "test": "npm run test -w @servium/shared-types && npm run test -w @servium/api && npm run test -w @servium/web",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit -p apps/web",
+    "verify": "npm run lint && npm run build && npm run typecheck && npm run test",
+    "lint:docs": "markdownlint-cli2 \"docs/**/*.md\" \"*.md\""
   },
   "devDependencies": {
     "eslint": "^9.20.0",

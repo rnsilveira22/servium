@@ -76,3 +76,31 @@ Seguir ordem e filas de `AGENT_ORCHESTRATION.md` (§2 e §5), respeitando WIP (�
 | Estado do Project divergente | Corrigir para a fonte da verdade (Issue + evidências) e registrar correção |
 | Conflito de merge | Responsável rebasa; se tocar código já revisado → volta a `READY_FOR_QA` |
 | Suspeita de dado real exposto | Parar tudo; remover do índice/git conforme política de segurança; reportar humano imediatamente |
+
+## 7. PRE-PUSH VALIDATION GATE (obrigatório)
+
+Nenhuma branch é enviada ao remoto com PR aberta sem que o agente responsável execute **localmente** os mesmos checks relevantes da CI, usando os scripts reais do repositório.
+
+### 7.1 Alteração apenas de documentação
+
+```bash
+npm run lint:docs        # markdownlint-cli2 em todo docs/ + raiz (config .markdownlint.jsonc)
+```
+
+### 7.2 Alteração de código
+
+```bash
+npm ci                   # instalação consistente com o lockfile (obrigatória se package-lock.json mudou)
+npm run verify           # cadeia idêntica à CI: lint → build → typecheck → test
+```
+
+A ordem `build` antes de `typecheck` é intencional e espelha a CI: `@servium/shared-types` só resolve tipos após gerar `dist/`. Não reordenar sem alterar CI junto.
+
+### 7.3 Regras
+
+- Qualquer check local falhando ⇒ **não fazer push**; corrigir; repetir; só então push;
+- Proibido mascarar falha (`continue-on-error`, `|| true`, silenciar saída) — local ou CI;
+- A CI é a única fonte de verdade pós-push; gate local existe para reduzir runs failed intermediários, nunca para substituí-la;
+- Comandos duplicados não existem: a CI chama os **mesmos scripts npm** usados localmente (`lint`, `build`, `typecheck`, `test`) — qualquer mudança de comando muda script + workflow no mesmo commit;
+- Node 22 (engines) e lockfile versionado na raiz garantem paridade de versões;
+- Notificações do GitHub permanecem sempre ativas.
