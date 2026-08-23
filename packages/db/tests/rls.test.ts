@@ -7,8 +7,8 @@ describe('RLS deny-by-default', () => {
 
   afterAll(async () => {
     if (!cleanup) return;
-    await cleanup.query('DELETE FROM clientes');
-    await cleanup.query('DELETE FROM tenants WHERE id IN ($1, $2)', [TENANT_A, TENANT_B]);
+    await cleanup.query('DELETE FROM clientes WHERE tenant_id IN ($1,$2)', [TENANT_A, TENANT_B]);
+    await cleanup.query('DELETE FROM tenants WHERE id IN ($1,$2)', [TENANT_A, TENANT_B]);
     void cleanup.end();
   });
 

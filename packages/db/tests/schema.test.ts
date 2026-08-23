@@ -11,10 +11,8 @@ const runMigrate = () =>
 
 describe('migrations (contrato do schema)', () => {
   it('aplica o conjunto completo de forma idempotente', async () => {
-    const out1 = runMigrate();
-    expect(out1).toMatch(/aplicada/);
-
-    // segunda execução é no-op
+    // roda em qualquer estado do banco: aplica pendentes ou reconhece existentes
+    runMigrate();
     expect(runMigrate()).toMatch(/0 migration\(s\) aplicada/);
 
     const client = admin();
