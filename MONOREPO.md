@@ -8,6 +8,7 @@
 apps/api             → API NestJS (backend monolítico modular)
 apps/web             → SPA React (painel operacional)
 packages/shared-types→ Tipos TypeScript compartilhados (contratos)
+packages/db         → schema Postgres: migrations SQL versionadas + runner + testes (RLS)
 ```
 
 ## Comandos (na raiz)
@@ -15,7 +16,7 @@ packages/shared-types→ Tipos TypeScript compartilhados (contratos)
 | Comando | Efeito |
 |---|---|
 | `npm install` | instala workspaces |
-| `npm run build` | compila os pacotes em ordem de dependência (shared-types → api → web) |
+| `npm run build` | compila os pacotes em ordem de dependência (shared-types → api → web → db) |
 | `npm run test` | roda os testes de fumaça (vitest, 1 por workspace) |
 | `npm run lint` | ESLint (flat config) em todo o monorepo |
 | `npm run typecheck` | verificação de tipos do workspace web (`tsc --noEmit`) |

@@ -25,6 +25,22 @@ jobs:
   quality:
     name: Lint + Typecheck + Build + Test
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: servium
+          POSTGRES_PASSWORD: servium
+          POSTGRES_DB: servium
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U servium"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://servium:servium@localhost:5432/servium
     steps:
       - uses: actions/checkout@v4
 

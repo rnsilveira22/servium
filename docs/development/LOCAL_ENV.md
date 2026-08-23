@@ -22,3 +22,7 @@ npm run db:reset       # para e APAGA o volume (recomeça do zero)
 - Migrations e dados entram nas histórias da SRV-6/#16 — este ambiente é apenas a fundação;
 - Adaptadores fake (canal de comunicação, storage) serão adicionados nas histórias que os consumirem — nenhum é necessário ainda;
 - O healthcheck (`pg_isready`) garante que `db:up` só retorna quando o banco aceita conexões.
+
+## Role de aplicação (`servium_app`)
+
+A migration `0003_rls_security.sql` cria o login `servium_app` (senha dev padrão `servium_app`, **somente local**). É esse role que a API e os testes usam: superuser bypassa RLS por definição. Override via `APP_DATABASE_URL`.
