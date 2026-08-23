@@ -13,7 +13,10 @@
   "scripts": {
     "build": "npm run build -w @servium/shared-types && npm run build -w @servium/api && npm run build -w @servium/web",
     "test": "npm run test -w @servium/shared-types && npm run test -w @servium/api && npm run test -w @servium/web",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d --wait"
   },
   "devDependencies": {
     "eslint": "^9.20.0",
