@@ -91,7 +91,9 @@ npm run lint:docs        # markdownlint-cli2 em todo docs/ + raiz (config .markd
 
 ```bash
 npm ci                   # instalação consistente com o lockfile (obrigatória se package-lock.json mudou)
-npm run verify           # cadeia idêntica à CI: lint → build → typecheck → test
+npm run db:up            # Postgres local p/ testes de @servium/db (CI usa service equivalente)
+npm run verify           # cadeia idêntica à CI: lint → build → typecheck → test (inclui db)
+npm run db:down          # encerra o banco após a validação
 ```
 
 A ordem `build` antes de `typecheck` é intencional e espelha a CI: `@servium/shared-types` só resolve tipos após gerar `dist/`. Não reordenar sem alterar CI junto.
