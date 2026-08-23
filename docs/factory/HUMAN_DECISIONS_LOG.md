@@ -70,6 +70,26 @@
 
 ---
 
+## HG-004 — Autorização de merge (PRs #11 e #12)
+
+```text
+[AUTONOMY] L3 | decisão requerida: merge das PRs documental e de implementação | solicitada em: relatório da sessão /start-factory
+```
+
+- **Decisão**: **AUTORIZADO** — `PR #11 MERGE: AUTHORIZED` · `PR #12 MERGE: AUTHORIZED`, nesta ordem.
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-08-22
+- **Gates pré-merge exigidos**: state=OPEN, MERGEABLE, CLEAN, checks verdes, diff sem alterações inesperadas, base=main, sem force push/bypass/rebase destrutivo; falha em qualquer gate ⇒ não mesclar e registrar bloqueio.
+- **Execução e evidências**:
+
+| Gate | PR #11 | PR #12 |
+|---|---|---|
+| state/base | OPEN / main ✔ | OPEN / main ✔ |
+| mergeable/status | MERGEABLE/CLEAN ✔ | MERGEABLE/CLEAN ✔ (aguardou recomputação pós-#11) |
+| checks | 2/2 pass ✔ | 2/2 pass ✔ |
+| diff revisado | 6 arquivos esperados ✔ | 26 arquivos do skeleton ✔ |
+| merge commit | `2ed0965` | `26b0db5` |
+
+- **Pós-merge verificado**: main local atualizada; `INITIAL_BACKLOG.md`, `HUMAN_DECISIONS_LOG.md` e HG-003 RESOLVED confirmados; skeleton presente na main com revalidação real (`npm ci`, lint, build, testes 3/3).
 ## HG-005 — Reprioridade de produto para MVP-01
 
 ```text

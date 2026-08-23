@@ -63,7 +63,7 @@ Registro formal: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md) (renumbering
 
 | Item | Tipo |
 |---|---|
-| Merge PRs #13 (registro HG-004), #14 (SRV-4), #15-docs (este snapshot/replanejamento) | Level 3 |
+| Merges de governança/fundação autorizados em lote (PRs #13, #14 e #19 — replanejamento MVP-01) | ✅ executados com gates pré-merge |
 | Decisão de comunicação (alternativas A/B/C) | sai da SRV-10; HG-006 se provedor/custo |
 | Deploy/piloto no cliente real | gate próprio após PILOT_READY |
 
