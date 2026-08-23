@@ -63,6 +63,7 @@ PostgreSQL 16-alpine containerizado + healthcheck + scripts `db:up/down/reset` +
 ```text
 #6 → (#7 ∥ #20 ∥ #16) → (#8s ∥ #15) → (#17 ∥ #18*) → #9 → PILOT_READY → Gate do piloto
 ```
+
 \* após validação humana da recomendação de comunicação.
 
 ## HUMAN_DECISIONS_REQUIRED
