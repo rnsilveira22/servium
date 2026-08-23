@@ -36,6 +36,10 @@ Registro formal: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md) (renumbering
 
 ## Fila efetiva (Project `ServiumAI Development`)
 
+> **PRE-PUSH VALIDATION GATE: ACTIVE** — desde 2026-08-23, por autorização humana formal.
+> Docs → `npm run lint:docs` · Código → `npm ci` + `npm run db:up` + `npm run verify`.
+> Falha local ⇒ **sem push**; corrigir e repetir. Proibido `continue-on-error`/`|| true` em checks críticos.
+
 | Issue | Item | Slice | Prioridade | Papel | Épico | Depende de | Status |
 |---|---|---|---|---|---|---|---|
 | [#3](https://github.com/rnsilveira22/servium/issues/3) | Skeleton monorepo | S0 | P0 | Pleno | EPIC-004 | — | ✅ DONE+MERGED (`26b0db5`) |
@@ -43,7 +47,7 @@ Registro formal: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md) (renumbering
 | [#5](https://github.com/rnsilveira22/servium/issues/5) | Ambiente local | S0→S1 | P0 | Pleno | EPIC-004 | integra com #3 | ✅ DONE — merge na PR #21 |
 | [#10](https://github.com/rnsilveira22/servium/issues/10) | Spike vertical slice MVP-01 (+comunicação) | S1 | P0 | Senior | EPIC-006 | — | ✅ DONE (spike aceito) |
 | [#20](https://github.com/rnsilveira22/servium/issues/20) | N5 Auth mínima (slice ADR-009) | S1/S2 | P0 | Pleno | EPIC-MVP01 | #6,#7 | Backlog |
-| [#6](https://github.com/rnsilveira22/servium/issues/6) | Modelo de dados mínimo ⚙️ recorte fechado pelo spike | S1 | P0 | Pleno | EPIC-006 | #3,#5 ✔ | Ready |
+| [#6](https://github.com/rnsilveira22/servium/issues/6) | Modelo de dados mínimo ⚙️ entregue com RLS + runner (PR #25) | S1 | P0 | Pleno | EPIC-006 | #3,#5 ✔ | **DONE** |
 | [#7](https://github.com/rnsilveira22/servium/issues/7) | Multi-tenant RLS ⚠️ ADR-005 | S1 | P0 | Pleno | EPIC-004 | #6,#4 | Ready |
 | [#9](https://github.com/rnsilveira22/servium/issues/9) | Auditoria append-only | S4 | P0 | Pleno | EPIC-009 | #6,#4 | Ready |
 | [#8](https://github.com/rnsilveira22/servium/issues/8) | Jobs essenciais (outbox condicional) | S2 | P1 | Pleno | EPIC-006 | #6,#4 | Ready |
@@ -62,7 +66,7 @@ Registro formal: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md) (renumbering
 4. **#8(subset) ∥ #15** → **#17 ∥ #18** (validar recomendação de comunicação antes);
 5. **#9** → avaliação PILOT_READY.
 
-**Próximo item elegível para `/start-factory`: #6.**
+**Próximo item elegível para `/start-factory`: #7 ∥ #20 (paralelas, desbloqueadas pela SRV-6).**
 
 ## Bloqueios / aguardando humano
 
