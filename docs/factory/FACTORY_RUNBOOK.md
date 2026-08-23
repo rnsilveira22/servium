@@ -101,7 +101,7 @@ A ordem `build` antes de `typecheck` é intencional e espelha a CI: `@servium/sh
 ### 7.3 Regras
 
 - Qualquer check local falhando ⇒ **não fazer push**; corrigir; repetir; só então push;
-- Proibido mascarar falha (`continue-on-error`, `|| true`, silenciar saída) — local ou CI;
+- Proibido mascarar falha (`continue-on-error`, `|| true`, silenciar saída) — local ou CI; em shell, usar `set -o pipefail` (pipes como `cmd | tail` escondem o código de saída do comando);
 - A CI é a única fonte de verdade pós-push; gate local existe para reduzir runs failed intermediários, nunca para substituí-la;
 - Comandos duplicados não existem: a CI chama os **mesmos scripts npm** usados localmente (`lint`, `build`, `typecheck`, `test`) — qualquer mudança de comando muda script + workflow no mesmo commit;
 - Node 22 (engines) e lockfile versionado na raiz garantem paridade de versões;
