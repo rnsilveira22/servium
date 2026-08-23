@@ -18,6 +18,9 @@ packages/shared-types→ Tipos TypeScript compartilhados (contratos)
 | `npm run build` | compila os pacotes em ordem de dependência (shared-types → api → web) |
 | `npm run test` | roda os testes de fumaça (vitest, 1 por workspace) |
 | `npm run lint` | ESLint (flat config) em todo o monorepo |
+| `npm run typecheck` | verificação de tipos do workspace web (`tsc --noEmit`) |
+| `npm run verify` | cadeia completa pré-push: lint → build → typecheck → test (idêntica à CI) |
+| `npm run lint:docs` | markdownlint em `docs/**` + raiz (`.markdownlint.jsonc`) |
 
 ## Convenções
 
@@ -25,6 +28,10 @@ packages/shared-types→ Tipos TypeScript compartilhados (contratos)
 - Contratos compartilhados nascem em `packages/shared-types` e nunca são duplicados.
 - Nenhum secret no repositório; ambiente local usa `.env` ignorado pelo git (ver `.gitignore`).
 - Testes de fumaça: 1 por workspace, executados via vitest.
+
+## Pré-push
+
+Toda PR exige validação local prévia conforme `docs/factory/FACTORY_RUNBOOK.md` §7 (PRE-PUSH VALIDATION GATE).
 
 ## Decisões registradas
 
