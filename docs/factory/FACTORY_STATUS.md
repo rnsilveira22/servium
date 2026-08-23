@@ -10,7 +10,7 @@
 
 | Dimensão | Estado |
 |---|---|
-| Branch de trabalho | `main` + branch documental `docs/hg003-backlog-inicial` (PR aberta aguardando merge humano) |
+| Branch de trabalho | `main` sincronizada (`26b0db5`) |
 | Software Factory | **OPERACIONAL** |
 | ADRs 001..011 | `Accepted` (HG-002), condições obrigatórias ativas |
 | Backlog | **APROVADO COM AJUSTES** (HG-003) → canônico em [`../product/INITIAL_BACKLOG.md`](../product/INITIAL_BACKLOG.md) |
@@ -31,7 +31,7 @@ Registro formal: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).
 
 | Issue | Item | Onda | Prioridade | Tipo | Papel | Épico | Depende de | Status |
 |---|---|---|---|---|---|---|---|---|
-| [#3](https://github.com/rnsilveira22/servium/issues/3) | Skeleton monorepo TS | 0 | P0 | Story | Pleno | EPIC-004 | — | Ready |
+| [#3](https://github.com/rnsilveira22/servium/issues/3) | Skeleton monorepo TS | 0 | P0 | Story | Pleno | EPIC-004 | — | ✅ **DONE** — PR #12 mergeada (`26b0db5`) |
 | [#4](https://github.com/rnsilveira22/servium/issues/4) | CI evoluído (lint+build+testes) | 0 | P0 | Task | Pleno | EPIC-004 | #3 | Ready |
 | [#5](https://github.com/rnsilveira22/servium/issues/5) | Ambiente local (Postgres container + fakes) | 0 | P0 | Task | Pleno | EPIC-004 | integra com #3 | Ready |
 | [#6](https://github.com/rnsilveira22/servium/issues/6) | Modelo de dados inicial + migrations | 1 | P1 | Story | Pleno | EPIC-006 | #3, #5 | Ready |
@@ -52,7 +52,7 @@ Registro formal: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).
 ## Bloqueios ativos
 
 - Nenhum bloqueio para iniciar a fila (ADRs aceitos; fila materializada);
-- Merge de PRs segue Level 3 (humano) — inclusive a PR documental desta fase;
+- Merge de PRs segue Level 3 (humano) — HG-004 registrou o padrão: autorização por lote com gates pré-merge;
 - Implementação só inicia quando a fila for considerada validada pelo humano (determinação nº 14/16 do HG-003).
 
 ## Próximos passos
