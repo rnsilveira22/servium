@@ -93,9 +93,34 @@
 
 ---
 
+## HG-005 — Reprioridade de produto para MVP-01
+
+```text
+[AUTONOMY] L3 | decisão de produto | comunicada em: "SERVIUMAI — REPRIORIDADE DE PRODUTO PARA MVP-01" (2026-08-22)
+```
+
+- **Decisão**: `PRODUCT PRIORITY: MVP-01 TIME-TO-PILOT`
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-08-22
+- **Meta canônica registrada**: `MVP-01 — Primeiro Funcionário Digital em operação assistida no cliente piloto` (fluxo end-to-end demonstrável com supervisão humana, rastreabilidade e segurança suficientes).
+- **Determinações principais** (íntegra na comunicação da decisão):
+  1. Otimizar por time-to-pilot sem violar segurança, multi-tenancy, auditoria, CAs, QA independente, ADRs Accepted e Human Gates;
+  2. REPLANEJAR, não recomeçar — backlog/arquitetura/ADRs/histórico preservados;
+  3. #4 e #5 seguem fundação imediata mínima; #6 modela só o necessário ao slice; #7 obrigatório (condição ADR-005 vinculante); #8 essencial-subconjunto (outbox segue condicional); #9 obrigatório pré-piloto;
+  4. #10 muda de foco: definir o vertical slice técnico mínimo do MVP-01 (não só multi-tenancy);
+  5. Antecipação controlada de capacidades das Ondas 3–7 somente quando necessárias ao MVP-01 (PO + Senior);
+  6. Não antecipar: 2º Funcionário Digital, framework genérico de agentes, múltiplos canais, WhatsApp não validado, ERPs, LLM no caminho crítico, infra distribuída, microsserviços, K8s, dashboards sofisticados;
+  7. LLM: DETERMINISTIC-FIRST (ADR-010) — só se regras não bastarem;
+  8. Canal: não assumir definitivo; mínimo proposto pelo PO; se envolver serviço pago/provedor/custo → acionar HG-006; nada contratado automaticamente;
+  9. Piloto passa a ser o alvo organizador (slices), não a última onda; plano rastreável até PILOT_READY;
+  10. Novas Issues apenas as indispensáveis (progressive materialization); WIP mantido; qualidade inegociável; PILOT_READY ≠ deploy automático.
+- **Renumbering do catálogo**: para evitar colisão com esta numeração cronológica do log, os eventos reservados do catálogo passam a **HG-006** (PaaS/storage pagos) e **HG-007** (credenciais/permissões ausentes). Nenhum desses eventos foi acionado ainda.
+- **Execução**: replanejamento documentado em `docs/product/MVP_01_VERTICAL_SLICE.md`, `docs/product/MVP_01_REPLAN_REPORT.md` e atualizações do backlog/Project.
+
+---
+
 ## Pendências
 
 | ID | Assunto | Estado |
 |---|---|---|
-| HG-004 | PaaS/storage pagos (event-driven) | aguardando momento (Ondas 5–6) |
-| HG-005 | Credenciais/permissões ausentes (event-driven) | aguardando momento |
+| HG-006 | PaaS/storage pagos (event-driven) | aguardando momento (canal/comunicação ou piloto) |
+| HG-007 | Credenciais/permissões ausentes (event-driven) | aguardando momento |

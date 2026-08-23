@@ -7,6 +7,21 @@
 > **Esta aprovação NÃO autoriza:** contratação de serviços, escolha de provedor pago, deploy em produção, mudança arquitetural, mudança de visibilidade do repositório, expansão de escopo ou bypass de Human Gates.
 >
 > Ondas marcadas com ⚠ dependem adicionalmente dos gates já definidos em `MVP_SCOPE.md` e `HUMAN_GATES.md`.
+>
+> **META ATUAL (HG-005 · 2026-08-22): `MVP-01 TIME-TO-PILOT`** — as Ondas abaixo permanecem como histórico/roadmap, mas o planejamento ativo é orientado por slices até `PILOT_READY`. Ver [`MVP_01_VERTICAL_SLICE.md`](MVP_01_VERTICAL_SLICE.md) e [`MVP_01_REPLAN_REPORT.md`](MVP_01_REPLAN_REPORT.md).
+
+## Mapa de slices MVP-01
+
+| Slice | Capacidades | Issues | Gate |
+|---|---|---|---|
+| S0 Repo executável | skeleton, CI, ambiente local | #3 ✅ #4 ✅ #5 | — |
+| S1 Dados + segurança mínima | modelo mínimo do slice + RLS + cadastro cliente/checklist | #6\* #7, [N1=#16] | — |
+| S2 Core do Funcionário Digital | motor de ciclo determinístico + jobs essenciais + fila de exceção | #8†, [N2=#15], [N3=#17] | — |
+| S3 Comunicação real | canal mínimo bidirecional envio/recebimento | [N4=#18] | HG-006 se provedor/custo |
+| S4 Supervisão e auditoria | trilha append-only + métricas mínimas | #9 | — |
+| S5 Cliente piloto | preparação e avaliação PILOT_READY | — | gate de piloto |
+
+\* escopo reduzido pelo spike SRV-10 · † subconjunto essencial; outbox segue condicional (HG-003) · N1–N4 materializadas como Issues #15–#18 (Epic EPIC-MVP01).
 
 ## Ajustes vinculantes do HG-003
 
