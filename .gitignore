@@ -37,3 +37,6 @@ coverage/
 node_modules/
 .opencode/node_modules/
 .opencode/package-lock.json
+
+# relatórios locais do humano — nunca versionar
+RELATORIO_FASE_*.md
