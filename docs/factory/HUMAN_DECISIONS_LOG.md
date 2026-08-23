@@ -90,6 +90,9 @@
 | merge commit | `2ed0965` | `26b0db5` |
 
 - **Pós-merge verificado**: main local atualizada; `INITIAL_BACKLOG.md`, `HUMAN_DECISIONS_LOG.md` e HG-003 RESOLVED confirmados; skeleton presente na main com revalidação real (`npm ci`, lint, build, testes 3/3).
+
+---
+
 ## HG-005 — Reprioridade de produto para MVP-01
 
 ```text
