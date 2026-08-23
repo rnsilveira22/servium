@@ -11,12 +11,13 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "npm run build -w @servium/shared-types && npm run build -w @servium/api && npm run build -w @servium/web",
-    "test": "npm run test -w @servium/shared-types && npm run test -w @servium/api && npm run test -w @servium/web",
+    "build": "npm run build -w @servium/shared-types && npm run build -w @servium/api && npm run build -w @servium/web && npm run build -w @servium/db",
+    "test": "npm run test -w @servium/shared-types && npm run test -w @servium/api && npm run test -w @servium/web && npm run test -w @servium/db",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p apps/web",
     "verify": "npm run lint && npm run build && npm run typecheck && npm run test",
     "lint:docs": "markdownlint-cli2 \"docs/**/*.md\" \"*.md\"",
+    "migrate": "npm run migrate -w @servium/db",
     "db:up": "docker compose up -d --wait",
     "db:down": "docker compose down",
     "db:reset": "docker compose down -v && docker compose up -d --wait"
