@@ -23,12 +23,13 @@ describe('migrations (contrato do schema)', () => {
     void client.end();
 
     const tables = rows.map((r) => r.tablename).sort();
-    expect(tables).toHaveLength(13);
+    // Contrato por PERTENCIMENTO (não por contagem): o recorte mínimo
+    // deve estar presente; novas tabelas (ex.: sessoes) são bem-vindas.
     expect(tables).toEqual(
       expect.arrayContaining([
         'tenants','operadores','clientes','obrigacoes','checklist_templates',
         'itens_template','ciclos','itens_ciclo','mensagens_comunicacao',
-        'documentos','excecoes','eventos_auditoria','jobs_fila',
+        'documentos','excecoes','eventos_auditoria','jobs_fila','sessoes',
       ])
     );
   });
@@ -44,7 +45,7 @@ describe('migrations (contrato do schema)', () => {
     `);
     void client.end();
 
-    expect(rows).toHaveLength(13);
+    // TODA tabela presente (incluindo futuras) precisa de RLS ativo
     for (const r of rows) {
       expect(r.relrowsecurity).toBe(true);
       expect(r.relforcerowsecurity).toBe(true);
