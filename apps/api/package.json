@@ -11,6 +11,7 @@
     "@nestjs/core": "^11.0.11",
     "@nestjs/platform-express": "^11.0.11",
     "@node-rs/argon2": "^2.1.0",
+    "@servium/db": "0.1.0",
     "@servium/shared-types": "0.1.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
