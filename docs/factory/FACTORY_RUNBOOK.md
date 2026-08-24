@@ -114,3 +114,17 @@ A ordem `build` antes de `typecheck` é intencional e espelha a CI: `@servium/sh
 - Toda operação de negócio define `app.tenant_id` antes da primeira query — preferir `withTenant()` de `@servium/db`;
 - Contexto ausente, vazio ou inválido = **deny** (políticas `NULLIF(current_setting(...))`);
 - Novas tabelas tenant-scoped: herdar padrão (tenant_id NOT NULL + política) — a suíte de catálogo da SRV-7 falha a CI caso contrário.
+
+## 9. AUTONOMOUS FEATURE MERGE (ativo desde 2026-08-24 · decisão do owner)
+
+PR **normal de implementação** é mergeada automaticamente pela Factory quando TODAS as condições valem:
+
+`CI_GREEN AND PRE-PUSH_GATE=PASS AND QA=APPROVED AND PO=ACCEPTED AND NO_HUMAN_GATE AND NO_STOP_CONDITION AND NO_LEVEL3_CHANGE AND NO_BLOCKING_REVIEW AND MERGEABLE/CLEAN AND DIFF_WITHIN_APPROVED_SCOPE`
+
+Após merge: atualizar main → validar → próximo item. Não parar por merge pronto.
+
+**Continuam exigindo o owner (Level 3)**: ADR novo/material, arquitetura estrutural, stack, boundary, segurança/RLS estrutural, custo recorrente/provedor pago, deploy cliente/produção, DNS, secrets do owner, escopo/produto, governança da Factory, visibilidade, force push/histórico.
+
+**DONE (com PR)** = CI_GREEN AND QA_APPROVED AND PO_ACCEPTED AND MERGED.
+
+**PILOT_READY** = PARAR. Checklist GO/NO-GO + HUMAN_DECISION_REQUIRED — PILOT DEPLOYMENT.
