@@ -47,6 +47,8 @@ Seguir ordem e filas de `AGENT_ORCHESTRATION.md` (§2 e §5), respeitando WIP (�
 - Evidências reais (testes executados, build, lint) → Gate 3 → PR → handoff QA;
 - Ao receber `CHANGES_REQUESTED`: responde achado-a-achado, corrige tudo, devolve.
 
+**Flexibilização de papéis (decisão owner · 2026-08-24):** quando não houver item na sua fila, o papel auxilia o seguinte na cadeia — `servium-senior` auxilia `servium-pleno` na implementação; `servium-pleno` auxilia `servium-reviewer-qa` nos testes. O veredito de QA permanece SEMPRE do revisor titular; quem implementou não assina o aceite da própria PR.
+
 ### servium-reviewer-qa
 
 - Veredito único formal via template QA; bloqueadores automáticos de `QUALITY_GATES.md` §Gate 4;
