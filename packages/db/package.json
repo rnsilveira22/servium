@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "migrate": "node scripts/migrate.mjs"
+    "migrate": "node scripts/migrate.mjs",
+    "worker": "node scripts/worker.mjs"
   },
   "dependencies": {
     "pg": "^8.13.1"
