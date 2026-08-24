@@ -106,3 +106,11 @@ A ordem `build` antes de `typecheck` é intencional e espelha a CI: `@servium/sh
 - Comandos duplicados não existem: a CI chama os **mesmos scripts npm** usados localmente (`lint`, `build`, `typecheck`, `test`) — qualquer mudança de comando muda script + workflow no mesmo commit;
 - Node 22 (engines) e lockfile versionado na raiz garantem paridade de versões;
 - Notificações do GitHub permanecem sempre ativas.
+
+## 8. Padrão de acesso a dados (ADR-005 · vinculante)
+
+- Conexões de aplicação/teste usam **sempre** o role `servium_app` (sem BYPASSRLS/superuser);
+- **Proibido** conectar a aplicação como superuser/dono do schema em runtime;
+- Toda operação de negócio define `app.tenant_id` antes da primeira query — preferir `withTenant()` de `@servium/db`;
+- Contexto ausente, vazio ou inválido = **deny** (políticas `NULLIF(current_setting(...))`);
+- Novas tabelas tenant-scoped: herdar padrão (tenant_id NOT NULL + política) — a suíte de catálogo da SRV-7 falha a CI caso contrário.

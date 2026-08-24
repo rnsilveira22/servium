@@ -10,11 +10,8 @@ const runMigrate = () =>
   });
 
 describe('migrations (contrato do schema)', () => {
-  it('aplica o conjunto completo de forma idempotente', async () => {
-    const out1 = runMigrate();
-    expect(out1).toMatch(/aplicada/);
-
-    // segunda execução é no-op
+  it('migrations são idempotentes (globalSetup já aplicou)', async () => {
+    // globalSetup aplica o conjunto; execução subsequente é no-op obrigatório
     expect(runMigrate()).toMatch(/0 migration\(s\) aplicada/);
 
     const client = admin();
