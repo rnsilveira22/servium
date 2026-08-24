@@ -1,9 +1,7 @@
 import 'reflect-metadata';
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-
+import { buildApp } from './app.factory';
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await buildApp();
   const port = Number(process.env.PORT ?? 3000);
   await app.listen(port);
 }

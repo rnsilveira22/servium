@@ -1,13 +1,13 @@
-import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  test: { environment: 'node' },
-  resolve: {
-    alias: {
-      '@servium/shared-types': fileURLToPath(
-        new URL('../../packages/shared-types/src/index.ts', import.meta.url),
-      ),
+  test: {
+    // Nest depende de metadados de decorator que se perdem quando as
+    // dependências ficam externalizadas no transform do vitest.
+    server: {
+      deps: {
+        inline: [/@nestjs/, 'reflect-metadata', '@node-rs/argon2'],
+      },
     },
   },
 });
