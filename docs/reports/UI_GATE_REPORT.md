@@ -67,4 +67,4 @@ Health: `http://localhost:3000/health`
 
 ## Gate
 
-# UI_PILOT_READY
+**UI_PILOT_READY**
