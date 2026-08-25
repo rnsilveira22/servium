@@ -2,7 +2,7 @@
   "name": "servium",
   "private": true,
   "version": "0.1.0",
-  "description": "ServiumAI \u2014 monorepo (API NestJS + SPA React + tipos compartilhados)",
+  "description": "ServiumAI — monorepo (API NestJS + SPA React + tipos compartilhados)",
   "workspaces": [
     "apps/*",
     "packages/*"
@@ -20,11 +20,16 @@
     "migrate": "npm run migrate -w @servium/db",
     "db:up": "docker compose up -d --wait",
     "db:down": "docker compose down",
-    "db:reset": "docker compose down -v && docker compose up -d --wait"
+    "db:reset": "docker compose down -v && docker compose up -d --wait",
+    "dev:api": "npm run start:dev -w @servium/api",
+    "dev:web": "npm run dev -w @servium/web",
+    "dev": "npm run dev:api & npm run dev:web",
+    "seed": "node --import tsx/esm scripts/seed.mjs"
   },
   "devDependencies": {
     "eslint": "^9.20.0",
     "markdownlint-cli2": "0.23.2",
+    "tsx": "^4.23.12",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.24.0"
   }

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
+    "dev": "vite",
     "test": "vitest run"
   },
   "dependencies": {
