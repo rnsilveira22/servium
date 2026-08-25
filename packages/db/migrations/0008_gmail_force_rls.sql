@@ -1,0 +1,4 @@
+-- 0008_gmail_force_rls.sql — FORCE ROW LEVEL SECURITY for SRV-18 tables
+
+ALTER TABLE gmail_tokens FORCE ROW LEVEL SECURITY;
+ALTER TABLE mensagens_gmail FORCE ROW LEVEL SECURITY;
