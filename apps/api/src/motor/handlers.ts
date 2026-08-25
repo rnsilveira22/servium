@@ -1,0 +1,256 @@
+/**
+ * SRV-15 · Handlers da fila para o motor do ciclo (consomem infra SRV-8).
+ * Todo acesso a dados via conexão contextualizada por tenant (padrão RUNBOOK §8);
+ * auditoria em toda ação (CA-04); idempotência por chave determinística (CA-05).
+ */
+import type { Client } from 'pg';
+
+import { enqueue, type Job } from '@servium/db';
+import {
+  LIMITES_PADRAO,
+  chaveCobranca,
+  decidirAcao,
+  podeTransicionar,
+  type EstadoItem,
+  type LimitesConfig,
+} from './engine';
+import type { CommunicationChannel } from './channel';
+
+export interface MotorDeps {
+  channel: CommunicationChannel;
+  remetentePadrao?: string;
+}
+
+type Handler = (job: Job, ctx: Client) => Promise<void>;
+
+async function auditar(
+  ctx: Client,
+  tenantId: string,
+  entidade: string,
+  entidadeId: string,
+  acao: string,
+  detalhes: Record<string, unknown> = {}
+): Promise<void> {
+  await ctx.query(
+    `INSERT INTO eventos_auditoria (tenant_id, actor_type, entidade, entidade_id, acao, detalhes)
+     VALUES ($1,'sistema',$2,$3,$4,$5)`,
+    [tenantId, entidade, entidadeId, acao, JSON.stringify(detalhes)]
+  );
+}
+
+function limitesDe(raw: unknown): LimitesConfig {
+  return { ...LIMITES_PADRAO, ...(typeof raw === 'object' && raw ? raw : {}) } as LimitesConfig;
+}
+
+/** CA-01 · ativação: materializa itens do checklist no ciclo (idempotente). */
+export const ativarCiclo =
+  (): Handler =>
+  async (job, ctx) => {
+    const cicloId = String(job.payload.ciclo_id);
+    const { rows: alvo } = await ctx.query<{ template_id: string | null }>(
+      `SELECT o.template_id FROM ciclos c JOIN obrigacoes o ON o.id = c.obrigacao_id WHERE c.id=$1 AND c.estado='aberto'`,
+      [cicloId]
+    );
+    if (!alvo[0]) return; // ciclo inexistente/encerrado ⇒ nada a fazer
+    if (!alvo[0].template_id) {
+      await auditar(ctx, job.tenant_id, 'ciclo', cicloId, 'ativacao_sem_template', {});
+      return;
+    }
+    // guarda de idempotência: itens já existentes não são recriados
+    const { rowCount: existentes } = await ctx.query('SELECT 1 FROM itens_ciclo WHERE ciclo_id=$1 LIMIT 1', [cicloId]);
+    if (existentes) return;
+    await ctx.query(
+      `INSERT INTO itens_ciclo (tenant_id, ciclo_id, item_template_id)
+       SELECT $1,$2,id FROM itens_template WHERE tenant_id=$1 AND template_id=$3 ORDER BY ordem`,
+      [job.tenant_id, cicloId, alvo[0].template_id]
+    );
+    await auditar(ctx, job.tenant_id, 'ciclo', cicloId, 'ativar', {});
+    // auto-encadeia a varredura APÓS os itens existirem (ordem de fila não é garantia)
+    await enqueue(ctx, { tipo: 'ciclo.tick', payload: { ciclo_id: cicloId }, idempotencyKey: `tick:${cicloId}:pos-ativar` });
+  };
+
+/**
+ * CA-02/CA-03/CA-06 · decisão + execução de cobrança de UM item.
+ * Retry TÉCNICO = falha do job (fila SRV-8); retry SOCIAL = rodada nova
+ * decidida pelo motor — contagens separadas conforme OPERATIONAL_FLOW.
+ */
+export const cobrarItem =
+  (deps: MotorDeps): Handler =>
+  async (job, ctx) => {
+    const itemId = String(job.payload.item_ciclo_id);
+    const { rows: dados } = await ctx.query<{
+      id: string;
+      estado: EstadoItem;
+      tentativas: number;
+      ultima_cobranca_em: Date | null;
+      config: unknown;
+      email: string | null;
+      descricao: string;
+      cliente_nome: string;
+    }>(
+      `SELECT i.id, i.estado, i.tentativas,
+              (SELECT MAX(m.criado_em) FROM mensagens_comunicacao m WHERE m.item_ciclo_id=i.id AND m.direcao='envio') AS ultima_cobranca_em,
+              c.config, cli.email, it.descricao, cli.nome AS cliente_nome
+         FROM itens_ciclo i
+         JOIN ciclos c   ON c.id = i.ciclo_id
+         JOIN obrigacoes o ON o.id = c.obrigacao_id
+         LEFT JOIN itens_template it ON it.id = i.item_template_id
+         JOIN clientes cli ON cli.id = o.cliente_id
+        WHERE i.id=$1`,
+      [itemId]
+    );
+    const item = dados[0];
+    if (!item || !item.email) return;
+
+    const cfg = limitesDe(item.config);
+    const decisao = decidirAcao(
+      { estado: item.estado, tentativas: item.tentativas, ultima_cobranca_em: item.ultima_cobranca_em },
+      cfg,
+      new Date()
+    );
+
+    if (decisao.acao === 'nada' || decisao.acao === 'aguardar') {
+      await auditar(ctx, job.tenant_id, 'item_ciclo', itemId, 'decisao', { acao: decisao.acao, motivo: decisao.motivo });
+      return;
+    }
+
+    if (decisao.acao === 'escalar') {
+      // transição automática aguardando→excecao (limite social esgotado)
+      if (!podeTransicionar(item.estado, 'excecao')) return;
+      const { rows } = await ctx.query(
+        `UPDATE itens_ciclo SET estado='excecao', atualizado_em=now()
+          WHERE id=$1 AND estado=$2 RETURNING id`,
+        [itemId, item.estado]
+      );
+      if (rows.length === 0) return; // perdeu corrida ⇒ outro worker tratou
+      await ctx.query(
+        `INSERT INTO excecoes (tenant_id, item_ciclo_id, tipo, motivo, contexto)
+         VALUES ($1,$2,'escalada_limite',$3,$4)`,
+        [job.tenant_id, itemId, decisao.motivo, JSON.stringify({ tentativas: item.tentativas })]
+      );
+      await auditar(ctx, job.tenant_id, 'item_ciclo', itemId, 'escalar', { motivo: decisao.motivo });
+      return;
+    }
+
+    // ação = cobrar (CA-05: chave determinística por rodada social)
+    const chave = chaveCobranca(itemId, item.tentativas + 1);
+    const dupe = await ctx.query('SELECT 1 FROM mensagens_comunicacao WHERE tenant_id=$1 AND idempotency_key=$2', [
+      job.tenant_id,
+      chave,
+    ]);
+    if (dupe.rowCount) return; // já cobrado nesta rodada ⇒ tick repetido não duplica
+
+    const resultado = await deps.channel.enviar({
+      destinatario: item.email,
+      assunto: `Pendência documental: ${item.descricao}`,
+      corpo: `Olá ${item.cliente_nome}, precisamos de: ${item.descricao}.`,
+      idempotencyKey: chave,
+    });
+
+    if (!resultado.ok) {
+      // falha TÉCNICA transitória ⇒ propaga p/ fila (backoff SRV-8), sem tocar cliente
+      throw new Error(`canal falhou: ${resultado.erro}`);
+    }
+
+    // Para canal síncrono (FakeChannel / pilot): envio + registro = atômico ⇒ vai direto aguardando.
+    // Canal assíncrono real (#18) passaria por cobrado → aguardando em dois steps.
+    if (!podeTransicionar(item.estado, "aguardando")) return;
+    const novoEstado = "aguardando";
+    await ctx.query('BEGIN');
+    try {
+      const upd = await ctx.query(
+        `UPDATE itens_ciclo SET estado=$2, tentativas=tentativas+1, atualizado_em=now()
+          WHERE id=$1 AND estado=$3 RETURNING id`,
+        [itemId, novoEstado, item.estado]
+      );
+      if (upd.rowCount === 0) {
+        await ctx.query('ROLLBACK');
+        return;
+      }
+      await ctx.query(
+        `INSERT INTO mensagens_comunicacao
+           (tenant_id, item_ciclo_id, direcao, canal, destinatario, remetente, message_id, idempotency_key, status)
+         VALUES ($1,$2,'envio','email',$3,$4,$5,$6,'enviado')`,
+        [
+          job.tenant_id,
+          itemId,
+          item.email,
+          deps.remetentePadrao ?? 'assistente@servium.local',
+          resultado.messageId ?? null,
+          chave,
+        ]
+      );
+      await auditar(ctx, job.tenant_id, 'item_ciclo', itemId, 'cobrar', { rodada: item.tentativas + 1 });
+      await ctx.query('COMMIT');
+    } catch (err) {
+      await ctx.query('ROLLBACK');
+      throw err;
+    }
+  };
+
+/** Varredura periódica (CA-05): enfileira cobranças elegíveis — chaves determinísticas. */
+export const tickCiclos = (): Handler => async (job, ctx) => {
+  void job;
+  const { rows: elegiveis } = await ctx.query<{ id: string; estado: EstadoItem; tentativas: number; config: unknown }>(
+    `SELECT i.id, i.estado, i.tentativas, c.config
+       FROM itens_ciclo i JOIN ciclos c ON c.id=i.ciclo_id
+      WHERE c.estado='aberto' AND i.estado IN ('pendente','aguardando')`
+  );
+  const agora = new Date();
+  let agendou = false;
+  for (const item of elegiveis) {
+    const d = decidirAcao(
+      { estado: item.estado, tentativas: item.tentativas, ultima_cobranca_em: null },
+      limitesDe(item.config),
+      agora
+    );
+    if (d.acao === 'cobrar' || d.acao === 'escalar') {
+      // idempotência dupla: chave por rodada + dedup de jobs ativos
+      await enqueue(ctx, {
+        tipo: 'item.cobrar',
+        payload: { item_ciclo_id: item.id },
+        idempotencyKey: `tick:${item.id}:r${item.tentativas + 1}`,
+      });
+      agendou = true;
+    }
+  }
+  // varredura sem elegíveis ⇒ se o tick é de um ciclo específico, tenta encerrar (CA-06)
+  if (!agendou && typeof job.payload.ciclo_id === 'string') {
+    const { rowCount } = await ctx.query(
+      `UPDATE ciclos SET estado='encerrado', encerrado_em=now()
+        WHERE id=$1 AND estado='aberto'
+          AND NOT EXISTS (
+            SELECT 1 FROM itens_ciclo WHERE ciclo_id=$1 AND estado NOT IN ('resolvido','cancelado','excecao'))`,
+      [job.payload.ciclo_id]
+    );
+    if (rowCount) await auditar(ctx, job.tenant_id, 'ciclo', job.payload.ciclo_id, 'encerrar', {});
+  }
+};
+
+/** CA-06 · encerramento: todos os itens em estado final ⇒ ciclo encerrado. */
+export const encerrarCiclo =
+  (): Handler =>
+  async (job, ctx) => {
+    const cicloId = String(job.payload.ciclo_id);
+    const { rows } = await ctx.query<{ abertos: string }>(
+      `SELECT count(*) FILTER (WHERE estado NOT IN ('resolvido','cancelado','excecao'))::text AS abertos
+         FROM itens_ciclo WHERE ciclo_id=$1`,
+      [cicloId]
+    );
+    if (rows[0]?.abertos !== '0') return;
+    const upd = await ctx.query(
+      `UPDATE ciclos SET estado='encerrado', encerrado_em=now()
+        WHERE id=$1 AND estado='aberto' RETURNING id`,
+      [cicloId]
+    );
+    if (upd.rowCount) await auditar(ctx, job.tenant_id, 'ciclo', cicloId, 'encerrar', {});
+  };
+
+export function registrarMotorHandlers(deps: MotorDeps): Map<string, Handler> {
+  return new Map([
+    ['ciclo.ativar', ativarCiclo()],
+    ['item.cobrar', cobrarItem(deps)],
+    ['ciclo.tick', tickCiclos()],
+    ['ciclo.encerrar', encerrarCiclo()],
+  ]);
+}

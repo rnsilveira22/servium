@@ -40,7 +40,7 @@ export async function claimJobs(client: pg.Client, limit = 10): Promise<Job[]> {
       `WITH proximos AS (
          SELECT id FROM jobs_fila
           WHERE estado = 'pendente' AND disponivel_em <= now()
-          ORDER BY disponivel_em
+          ORDER BY disponivel_em, criado_em
           FOR UPDATE SKIP LOCKED
           LIMIT $1
        )
