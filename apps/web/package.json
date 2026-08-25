@@ -10,7 +10,8 @@
   "dependencies": {
     "@servium/shared-types": "0.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.18.2"
   },
   "devDependencies": {
     "@types/react": "^19.0.10",
