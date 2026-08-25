@@ -57,7 +57,29 @@ export class CiclosController {
     return rows;
   }
 
-  /** Intervenção humana nº2/3: resolver item em exceção (decisão registrada). */
+  /** Listar exceções abertas de um ciclo (CA-02). */
+  @Get(':cicloId/excecoes')
+  @Roles('admin', 'operador')
+  async listarExcecoes(@Req() req: AuthedRequest, @Param('cicloId') cicloId: string) {
+    const { rows } = await this.pg(req).query(
+      `SELECT e.id, e.tipo, e.motivo, e.contexto, e.criado_em,
+              i.id AS item_id, i.tentativas,
+              it.descricao AS item_descricao,
+              cli.nome AS cliente_nome
+         FROM excecoes e
+         JOIN itens_ciclo i ON i.id = e.item_ciclo_id
+         LEFT JOIN itens_template it ON it.id = i.item_template_id
+         JOIN ciclos c ON c.id = i.ciclo_id
+         JOIN obrigacoes o ON o.id = c.obrigacao_id
+         JOIN clientes cli ON cli.id = o.cliente_id
+        WHERE c.id = $1 AND e.desfecho IS NULL
+        ORDER BY e.criado_em DESC`,
+      [cicloId]
+    );
+    return rows;
+  }
+
+  /** Intervenção humana nº2/3: resolver/cancelar item em exceção. */
   @Post('itens/:itemId/decidir')
   @Roles('admin')
   async decidirItem(@Req() req: AuthedRequest, @Param('itemId') itemId: string, @Body() body: { desfecho?: string }) {
@@ -81,6 +103,49 @@ export class CiclosController {
        VALUES ($1,'operador',$2,'item_ciclo',$3,'decidir',$4)`,
       [req.sessao!.tenantId, req.sessao!.operadorId, itemId, JSON.stringify({ desfecho: body.desfecho })]
     );
+    return { ok: true };
+  }
+
+  /** Intervenção humana nº2/3: reenviar (CA-06 — respeita limites configurados). */
+  @Post('itens/:itemId/reenviar')
+  @Roles('admin')
+  async reenviarItem(@Req() req: AuthedRequest, @Param('itemId') itemId: string) {
+    const client = this.pg(req);
+    const { rows: item } = await client.query<{ ciclo_id: string }>(
+      `SELECT ciclo_id FROM itens_ciclo WHERE id=$1 AND estado='excecao'`,
+      [itemId]
+    );
+    if (item.length === 0) throw new BadRequestException('item não está em exceção');
+
+    await client.query('BEGIN');
+    try {
+      // fecha exceção aberta com desfecho reenviado
+      await client.query(
+        `UPDATE excecoes SET desfecho='reenviado', decidido_por=$2, decidido_em=now()
+          WHERE item_ciclo_id=$1 AND desfecho IS NULL`,
+        [itemId, req.sessao!.operadorId]
+      );
+      // volta ao fluxo motor (aguardando); motor decide se cobra ou escala novamente
+      await client.query(
+        `UPDATE itens_ciclo SET estado='aguardando', atualizado_em=now() WHERE id=$1`,
+        [itemId]
+      );
+      await client.query(
+        `INSERT INTO eventos_auditoria (tenant_id, actor_type, actor_id, entidade, entidade_id, acao, detalhes)
+         VALUES ($1,'operador',$2,'item_ciclo',$3,'reenviar','{}'::jsonb)`,
+        [req.sessao!.tenantId, req.sessao!.operadorId, itemId]
+      );
+      await client.query('COMMIT');
+    } catch (err) {
+      await client.query('ROLLBACK');
+      throw err;
+    }
+    // enfileira tick para processar o item reenviado
+    await enqueue(client, {
+      tipo: 'ciclo.tick',
+      payload: { ciclo_id: item[0]!.ciclo_id },
+      idempotencyKey: `tick-reenvio:${itemId}:${Date.now()}`,
+    });
     return { ok: true };
   }
 }
