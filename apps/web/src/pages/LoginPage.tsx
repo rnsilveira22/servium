@@ -28,8 +28,13 @@ export function LoginPage() {
   return (
     <div className="login-page">
       <div className="login-card">
-        <h1 className="login-brand">ServiumAI</h1>
-        <p className="login-sub">Painel Operacional</p>
+        <img
+          src="/brand/servium-logo-login.svg"
+          alt="Servium IA"
+          className="servium-logo-login"
+          width={520}
+          height={130}
+        />
         <form onSubmit={handleSubmit}>
           <label className="field">
             <span>Escritorio (slug)</span>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Ícone do aplicativo Servium IA</title>
+  <rect width="128" height="128" rx="28" fill="#F4F8F8"/>
+  <g transform="translate(22 22) scale(1.3125)">
+    <path fill="#12304A" d="M16 8h31a9 9 0 0 1 0 18H31a5 5 0 0 0-5 5v1H8v-1C8 18.3 18.3 8 31 8Z"/>
+    <path fill="#0F8B83" d="M48 56H17a9 9 0 0 1 0-18h16a5 5 0 0 0 5-5v-1h18v1c0 12.7-10.3 23-23 23Z"/>
+    <circle cx="12" cy="17" r="5" fill="#38B7A5"/><circle cx="52" cy="47" r="5" fill="#12304A"/>
+  </g>
+</svg>

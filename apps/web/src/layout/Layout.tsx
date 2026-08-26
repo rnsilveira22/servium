@@ -22,7 +22,13 @@ export function Layout() {
   return (
     <div className="layout">
       <aside className="sidebar">
-        <div className="sidebar-brand">ServiumAI</div>
+        <img
+          src="/brand/servium-logo-horizontal-white.svg"
+          alt="Servium IA"
+          className="servium-logo-sidebar"
+          width={168}
+          height={42}
+        />
         <nav className="sidebar-nav">
           {NAV.map((n) => (
             <NavLink key={n.to} to={n.to} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'} end={n.to === '/'}>

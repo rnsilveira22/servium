@@ -1,0 +1,17 @@
+:root {
+  --servium-navy: #12304a;
+  --servium-teal: #0f8b83;
+  --servium-mint: #38b7a5;
+  --servium-ink-muted: #557080;
+  --servium-surface: #f4f8f8;
+  --servium-white: #ffffff;
+}
+
+.servium-logo-login { width: min(100%, 520px); height: auto; }
+.servium-logo-header { width: 210px; height: 52px; }
+.servium-logo-sidebar { width: 168px; height: auto; }
+.servium-symbol { width: 40px; height: 40px; }
+
+@media (max-width: 480px) {
+  .servium-logo-login { width: min(88vw, 390px); }
+}
