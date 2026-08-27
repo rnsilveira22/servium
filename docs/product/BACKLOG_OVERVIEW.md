@@ -19,6 +19,7 @@
 | EPIC-010 | Comunicação com Cliente Final | Canal inicial (e-mail), templates, limites de envio, recebimento de documentos | Fase 3/4 | Pendente |
 | EPIC-011 | Piloto | Onboarding do escritório piloto, baseline, operação assistida por 2–3 ciclos | Fase 5 | Pendente |
 | EPIC-012 | Validação e Decisão | Coleta das métricas (`[SUCCESS_METRICS.md`](SUCCESS_METRICS.md)), decisão continuar/ajustar/pivotar | Fase 6 | Pendente |
+| EPIC-013 | Demo Factory | Geração automática de vídeos de apresentação do MVP (`[DEMO_FACTORY_STORY.md`](DEMO_FACTORY_STORY.md)) — **BLOCKED** aguardando estabilidade + gate humano | pós-MVP-01 | `BLOCKED — AWAITING_MVP_STABILITY_AND_HUMAN_GATE` |
 
 ## Notas
 
