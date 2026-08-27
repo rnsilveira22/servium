@@ -50,3 +50,7 @@ Medir resultados contra as métricas definidas na Fase 1; decidir continuar, aju
 ## Fase 7 — Produto
 
 Preparar a evolução comercial: onboarding, suporte, operação contínua.
+
+## Fase 8 — Demo Factory *(planejada, BLOCKED)*
+
+Geração automática de vídeos de apresentação do MVP (estagiário digital). Registrada em [`../product/DEMO_FACTORY_STORY.md`](../product/DEMO_FACTORY_STORY.md). **BLOCKED** até: testes manuais + E2E aprovados, fluxo estável, dados fictícios definidos, identidade visual disponível e autorização humana de Rodrigo.
