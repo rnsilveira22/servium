@@ -7,6 +7,8 @@ const DATABASE_URL =
 const TENANT_NAME = process.env.SEED_TENANT ?? 'Dev Corp';
 const ADMIN_EMAIL = process.env.SEED_EMAIL ?? 'admin@dev.local';
 const ADMIN_PASS = process.env.SEED_PASSWORD ?? 'admin123';
+const OPERATOR_EMAIL = process.env.SEED_OPERATOR_EMAIL ?? 'oper@dev.local';
+const OPERATOR_PASS = process.env.SEED_OPERATOR_PASSWORD ?? 'oper123';
 
 async function main() {
   const client = new pg.Client({ connectionString: DATABASE_URL });
@@ -48,10 +50,30 @@ async function main() {
       console.log(`Created admin user: ${ADMIN_EMAIL}`);
     }
 
+    // operator user (permite validar RBAC nos testes E2E)
+    const { rows: existingOp2 } = await client.query(
+      `SELECT id FROM operadores WHERE tenant_id = $1 AND lower(email) = lower($2) LIMIT 1`,
+      [tenantId, OPERATOR_EMAIL]
+    );
+
+    if (existingOp2.length > 0) {
+      console.log(`Operator user already exists: ${OPERATOR_EMAIL}`);
+    } else {
+      const senhaHash = await hash(OPERATOR_PASS);
+      await client.query(
+        `INSERT INTO operadores (tenant_id, nome, email, senha_hash, papel)
+         VALUES ($1, 'Operador', $2, $3, 'operador')`,
+        [tenantId, OPERATOR_EMAIL, senhaHash]
+      );
+      console.log(`Created operator user: ${OPERATOR_EMAIL}`);
+    }
+
     console.log(`\nLogin credentials:
   slug:   dev-corp
   email:  ${ADMIN_EMAIL}
-  senha:  ${ADMIN_PASS}`);
+  senha:  ${ADMIN_PASS}
+  op.email: ${OPERATOR_EMAIL}
+  op.senha: ${OPERATOR_PASS}`);
   } finally {
     await client.end();
   }
