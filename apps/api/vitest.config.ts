@@ -2,6 +2,9 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
+    // Suites de integração compartilham jobs_fila/banco real: execução serial
+    // de arquivos evita que um worker/rodarJobs reivindique jobs de outro tenant.
+    fileParallelism: false,
     // Nest depende de metadados de decorator que se perdem quando as
     // dependências ficam externalizadas no transform do vitest.
     server: {

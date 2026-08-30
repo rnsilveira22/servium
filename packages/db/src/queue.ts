@@ -33,13 +33,14 @@ export async function enqueue(client: pg.Client, input: EnqueueInput): Promise<s
 }
 
 /** Reserva lote atomicamente: dois workers nunca recebem o mesmo job. */
-export async function claimJobs(client: pg.Client, limit = 10): Promise<Job[]> {
+export async function claimJobs(client: pg.Client, limit = 10, tenantId?: string): Promise<Job[]> {
   await client.query('BEGIN');
   try {
     const { rows } = await client.query<Job>(
       `WITH proximos AS (
          SELECT id FROM jobs_fila
           WHERE estado = 'pendente' AND disponivel_em <= now()
+            AND ($2::uuid IS NULL OR tenant_id = $2::uuid)
           ORDER BY disponivel_em, criado_em
           FOR UPDATE SKIP LOCKED
           LIMIT $1
@@ -49,7 +50,7 @@ export async function claimJobs(client: pg.Client, limit = 10): Promise<Job[]> {
         FROM proximos p
         WHERE j.id = p.id
        RETURNING j.id, j.tenant_id, j.tipo, j.payload, j.tentativas, j.max_tentativas`,
-      [limit]
+      [limit, tenantId ?? null]
     );
     await client.query('COMMIT');
     return rows;
