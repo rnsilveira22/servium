@@ -2,6 +2,8 @@
 
 > Produzido por `servium-senior` · 2026-08-23 · Aceite do PO na Issue #10.
 > Base de evidência: ADRs 001–011 (`Accepted`), `FIRST_DIGITAL_EMPLOYEE.md`, `OPERATIONAL_FLOW.md`, `MVP_SCOPE.md`, skeleton #3 + CI #4 já na main. Hipóteses anteriores ao spike foram descartadas onde não suportadas por estas fontes.
+>
+> **REVISÃO (HG-008 · 2026-08-30):** a Recomendação **A (SMTP+IMAP)** da seção 4.3 foi substituída **para implementação** por decisão humana: canal real do piloto = **Gmail API + OAuth 2.0** (confirmado; sem custo recorrente → HG-006 não acionado); local/CI/E2E = **Fake SMTP via Mailpit**. Histórico e comparativo A/B/C desta seção permanecem válidos como registro. Ver [`reports/POST_MVP_BACKLOG_RECONCILIATION.md`](../../reports/POST_MVP_BACKLOG_RECONCILIATION.md) §0 e [`factory/HUMAN_DECISIONS_LOG.md`](../HUMAN_DECISIONS_LOG.md) HG-008.
 
 ## 1. Menor fluxo end-to-end útil
 

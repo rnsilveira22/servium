@@ -1,6 +1,8 @@
 # GitHub Integration Report — Software Factory V1
 
 > Execução de finalização da integração remota. Nenhum agente recriado, nenhum ADR alterado, nenhuma feature de produto implementada.
+>
+> **ATUALIZAÇÃO (2026-08-30):** relatório **histórico** (integração inicial da factory). Estado real (ADRs `Accepted`, merges até `e04d1e6`): [`FACTORY_STATUS.md`](FACTORY_STATUS.md) e [`reports/POST_MVP_BACKLOG_RECONCILIATION.md`](../reports/POST_MVP_BACKLOG_RECONCILIATION.md). Histórico preservado.
 
 ---
 

@@ -1,6 +1,6 @@
 # QA Review — SRV-<issue> <título>
 
-> Produzido por `servium-reviewer-qa` (independente do implementador). Registrado no PR e, quando aplicável, em `docs/factory/qa/SRV-<issue>-review.md`.
+> Produzido por `servium-reviewer-qa` (independente do implementador). Registrado no PR e, quando aplicável, em `docs/reports/` (relatórios QA/sessão).
 
 ## PR revisado
 

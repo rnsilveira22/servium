@@ -1,6 +1,8 @@
 # Software Factory V1 — Relatório de Configuração
 
 > Execução: estruturação da Software Factory orientada por agentes do ServiumAI (OpenCode + GitHub). Branch: `chore/software-factory-v1` (a partir de `phase/003-mvp-architecture`). Nenhuma feature de produto foi desenvolvida.
+>
+> **ATUALIZAÇÃO (2026-08-30):** relatório **histórico** (pré-HG-002). Desde então o repositório evoluiu para **monorepo executável** com produto implementado (Onda 0–1 do MVP-01: SRV-6..18, UI, E2E Selenium). Estado real e pendências: [`FACTORY_STATUS.md`](FACTORY_STATUS.md) e [`reports/POST_MVP_BACKLOG_RECONCILIATION.md`](../reports/POST_MVP_BACKLOG_RECONCILIATION.md). O histórico desta fase foi preservado.
 
 ---
 

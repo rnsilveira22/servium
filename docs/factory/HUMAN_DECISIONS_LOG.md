@@ -118,9 +118,28 @@
 
 ---
 
+## HG-008 — Canal real do piloto: adotada a recomendação ajustada (Gmail API + OAuth 2.0)
+
+```text
+[AUTONOMY] L3 | human gate de produto/arquitetura | aprovada na reconciliação pós-MVP (HUMAN GATE · 2026-08-30) — decisões Q1–Q4
+```
+
+- **Decisão**: **APROVADO — Gmail API + OAuth 2.0 como canal real do piloto**, substituindo para implementação a recomendação anterior **A (SMTP+IMAP próprio)** da [SRV-10](../factory/spikes/SRV-10-mvp01-slice.md), preservando a porta `CommunicationChannel` (ADR-008).
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-08-30
+- **Divergência explicada**: a SRV-10 recomendou A (infraestrutura própria, custo zero, HG-006 evitado) por critérios de comparativo; a implementação já mergeada (PR #34, SRV-18) usou Gmail API + OAuth 2.0. O decisor **confirma a adoção do Gmail API/OAuth como decisão humana**, sanitizando o ajuste realizado no PR #34. **HG-006 não é acionado**: decisão sem custo recorrente (quota gratuita do Gmail; quotas Google registradas como dependência externa).
+- **Arquitetura de testes (decidida, NÃO implementada ainda)**:
+  - piloto/produção → **Gmail API + OAuth 2.0**;
+  - local/CI/E2E → **Fake SMTP via Mailpit**;
+  - ambos atrás da porta `CommunicationChannel` (ADR-008);
+  - Mailpit será tratado após o **runtime operacional** (P0.1) estar corretamente wireado.
+- **Referência formal**: [`POST_MVP_BACKLOG_RECONCILIATION.md`](../reports/POST_MVP_BACKLOG_RECONCILIATION.md) §0 (decisão Q2) e §4 (matriz SRV-10); Issue #18 / PR [#34](https://github.com/rnsilveira22/servium/pull/34).
+- **Resultado**: o plano de comunicação do piloto fica rastreado; ausência de registro anterior no log fica corrigida preservando o histórico.
+
+---
+
 ## Pendências
 
 | ID | Assunto | Estado |
 |---|---|---|
-| HG-006 | PaaS/storage pagos (event-driven) | aguardando momento (canal/comunicação ou piloto) |
+| HG-006 | PaaS/storage pagos (event-driven) | aguardando momento — **não acionado** em 2026-08-30 (HG-008: canal decidido sem custo recorrente) |
 | HG-007 | Credenciais/permissões ausentes (event-driven) | aguardando momento |

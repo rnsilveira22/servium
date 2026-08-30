@@ -2,6 +2,8 @@
 
 > **Fase 002 — Discovery do MVP**
 > Fluxo operacional do primeiro Funcionário Digital ([`FIRST_DIGITAL_EMPLOYEE.md`](FIRST_DIGITAL_EMPLOYEE.md)). Modelagem conceitual de estados e transições — **não** modelagem de banco de dados nem definição tecnológica.
+>
+> **NOTA DE ALINHAMENTO (2026-08-30):** este documento mantém os nomes conceituais da Fase 002 (`EmValidacao`, `Escalado`). A máquina **implementada** (banco + motor) usa os estados do CHECK em `packages/db/migrations/0002_business.sql` e da [SRV-10 §2](../factory/spikes/SRV-10-mvp01-slice.md): `pendente → cobrado → aguardando → recebido → resolvido/cancelado/excecao` (mapeamento: `recebido` = `EmValidacao`; `excecao` = `Escalado`; estado reservado `cobrado` para canal assíncrono). O nome conceitual de referência para o código é o do motor (`apps/api/src/motor/engine.ts`). Histórico da Fase 002 preservado.
 
 ## Visão geral do fluxo
 
