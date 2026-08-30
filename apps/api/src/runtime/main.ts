@@ -33,9 +33,11 @@ async function main(): Promise<void> {
 
   // PRM-P0.1-E · correlaciona respostas do cliente (Mailpit em dev/CI/E2E)
   const apiUrl = process.env.MAILPIT_API_URL;
+  const caixa = process.env.MAILPIT_AGENT_EMAIL ?? 'assistente@servium.local';
   const recebedor = apiUrl
     ? new RecebedorPeriodico({
         apiUrl,
+        caixa,
         receberIntervalMs: Number(process.env.RECEBER_INTERVAL_MS ?? 30_000),
       })
     : null;
