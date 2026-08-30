@@ -12,7 +12,9 @@ export function ObrigacoesPage() {
   const [descricao, setDescricao] = useState('');
   const [prazo, setPrazo] = useState('');
   const [erro, setErro] = useState('');
+  const [aviso, setAviso] = useState('');
   const [saving, setSaving] = useState(false);
+  const [ativandoId, setAtivandoId] = useState<string | null>(null);
 
   const load = () => {
     Promise.all([
@@ -31,6 +33,7 @@ export function ObrigacoesPage() {
   const handleCreate = async (e: FormEvent) => {
     e.preventDefault();
     setErro('');
+    setAviso('');
     setSaving(true);
     try {
       await api('/obrigacoes', { method: 'POST', body: { cliente_id: clienteId, descricao, prazo: prazo || undefined } });
@@ -41,6 +44,20 @@ export function ObrigacoesPage() {
       setErro(err instanceof Error ? err.message : 'Erro ao criar obrigacao');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleAtivarCiclo = async (o: ObrigacaoDTO) => {
+    setErro('');
+    setAviso('');
+    setAtivandoId(o.id);
+    try {
+      await api('/ciclos', { method: 'POST', body: { obrigacao_id: o.id } });
+      setAviso(`Ciclo ativado para "${o.descricao}".`);
+    } catch (err) {
+      setErro(err instanceof Error ? err.message : 'Não foi possível ativar o ciclo.');
+    } finally {
+      setAtivandoId(null);
     }
   };
 
@@ -56,6 +73,7 @@ export function ObrigacoesPage() {
       </div>
 
       {erro && <div className="alert alert-error">{erro}</div>}
+      {aviso && <div className="alert alert-success">{aviso}</div>}
 
       {showForm && (
         <form className="form-inline" onSubmit={handleCreate}>
@@ -93,6 +111,7 @@ export function ObrigacoesPage() {
               <th>Descricao</th>
               <th>Prazo</th>
               <th>Criado em</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -102,6 +121,15 @@ export function ObrigacoesPage() {
                 <td>{o.descricao}</td>
                 <td>{o.prazo ? new Date(o.prazo).toLocaleDateString('pt-BR') : '-'}</td>
                 <td>{new Date(o.criado_em).toLocaleDateString('pt-BR')}</td>
+                <td>
+                  <button
+                    className="btn btn-sm btn-primary"
+                    disabled={ativandoId !== null}
+                    onClick={() => handleAtivarCiclo(o)}
+                  >
+                    {ativandoId === o.id ? 'Ativando...' : 'Ativar ciclo'}
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>

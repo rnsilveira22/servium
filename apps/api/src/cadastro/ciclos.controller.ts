@@ -48,11 +48,16 @@ export class CiclosController {
   async listar(@Req() req: AuthedRequest) {
     const { rows } = await this.pg(req).query(
       `SELECT c.id, c.estado, c.criado_em,
+              o.descricao AS obrigacao, cli.nome AS cliente,
               count(i.id)::int AS itens,
               count(i.id) FILTER (WHERE i.estado='resolvido')::int AS resolvidos,
               count(i.id) FILTER (WHERE i.estado='excecao')::int AS excecoes
-         FROM ciclos c LEFT JOIN itens_ciclo i ON i.ciclo_id=c.id
-        GROUP BY c.id ORDER BY c.criado_em DESC`
+         FROM ciclos c
+         LEFT JOIN itens_ciclo i ON i.ciclo_id=c.id
+         JOIN obrigacoes o ON o.id=c.obrigacao_id
+         JOIN clientes cli ON cli.id=o.cliente_id
+        GROUP BY c.id, o.descricao, cli.nome
+        ORDER BY c.criado_em DESC`
     );
     return rows;
   }
