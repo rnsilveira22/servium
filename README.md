@@ -2,9 +2,9 @@
 
 **ServiumAI** é uma plataforma B2B de **funcionários digitais especializados**: força de trabalho digital organizada, com funções definidas, permissões controladas e supervisão humana, criada para assumir atividades operacionais e rotineiras de empresas — começando por escritórios de contabilidade.
 
-> **Status: Discovery do MVP**
+> **Status: MVP-01 em implementação — `PRE_PILOT_REMEDIATION_REQUIRED`**
 >
-> Este projeto está em fase de discovery e especificação do MVP. Não há produto disponível, não há stack definida e não há funcionalidades implementadas. A hipótese de MVP está documentada em [`docs/product/MVP_DISCOVERY.md`](docs/product/MVP_DISCOVERY.md) e aguarda validação com escritórios contábeis reais.
+> O backlog da **Onda 0–1 do MVP-01** foi implementado como **monorepo TypeScript executável** (API NestJS + SPA React + pacote de banco com migrations/RLS + suíte E2E Selenium), a partir do vertical slice definido pelo spike **SRV-10** (2026-08-23) e das decisões arquiteturais registradas nos **ADR-001..011 (Accepted, HG-002)**. A reconciliação pós-MVP ([`docs/reports/POST_MVP_BACKLOG_RECONCILIATION.md`](docs/reports/POST_MVP_BACKLOG_RECONCILIATION.md)) aprovada por human gate (2026-08-30) invalidou o estado `PILOT_READY` e define as remediações pré-piloto (P0.1 runtime do Funcionário Digital · P0.2 auditoria #9 · P0.3 hardening de auth #20). A hipótese de MVP permanece documentada em [`docs/product/MVP_DISCOVERY.md`](docs/product/MVP_DISCOVERY.md) e **aguarda validação com escritórios contábeis reais**.
 
 ---
 
@@ -78,9 +78,7 @@ Detalhes em [`docs/PRODUCT_PRINCIPLES.md`](docs/PRODUCT_PRINCIPLES.md).
 
 ## Arquitetura
 
-**Nenhuma arquitetura definitiva foi definida nesta fase.** Nenhuma linguagem, framework, banco de dados, provedor de nuvem ou fornecedor de IA foi escolhido.
-
-A arquitetura será construída por meio de decisões documentadas em **ADRs** (Architecture Decision Records), no diretório [`docs/decisions/`](docs/decisions/README.md). Preocupações arquiteturais preliminares já estão registradas em [`docs/architecture/README.md`](docs/architecture/README.md) para orientar as próximas fases.
+Stack escolhida e registrada nos **ADR-001..011** (`Accepted` via HG-002): monólito modular em **TypeScript** (backend **NestJS** + SPA **React**), **PostgreSQL** único com **RLS deny-by-default** e `tenant_id` contextual (ADR-004/005), **jobs persistidos no banco** com SKIP LOCKED/idempotency keys (ADR-006), porta de comunicação `CommunicationChannel` (ADR-008), autenticação first-party com sessões httpOnly (ADR-009) e **deterministic-first** (ADR-010). O repositório é um **monorepo executável** — veja [`MONOREPO.md`](MONOREPO.md) para estrutura e comandos. Decisões registradas em [`docs/decisions/`](docs/decisions/README.md); preocupações arquiteturais em [`docs/architecture/README.md`](docs/architecture/README.md).
 
 ## Documentação
 
@@ -101,11 +99,11 @@ A arquitetura será construída por meio de decisões documentadas em **ADRs** (
 Fases e objetivos — sem datas arbitrárias:
 
 1. **Fundação** *(concluída)* — documentação, governança e definição do produto.
-2. **Descoberta e especificação do MVP** *(atual)* — primeiro problema, primeiro cliente, primeiro funcionário digital.
-3. **Arquitetura** — definição de stack e arquitetura via ADRs.
-4. **Core da plataforma** — capacidades fundamentais.
-5. **Primeiro funcionário digital** — primeiro caso de uso real.
-6. **Piloto** — execução em ambiente controlado.
+2. **Descoberta e especificação do MVP** *(concluída)* — primeiro problema, primeiro cliente, primeiro funcionário digital.
+3. **Arquitetura** *(concluída)* — definição de stack e arquitetura via ADRs (HG-002).
+4. **Core da plataforma** *(em curso)* — capacidades fundamentais da Onda 0–1 do MVP-01 implementadas; estado atual `PRE_PILOT_REMEDIATION_REQUIRED`.
+5. **Primeiro funcionário digital** — primeiro caso de uso real (motor determinístico de pendências — implementado; runtime a wirelar, P0.1).
+6. **Piloto** — execução em ambiente controlado (decisão de comunicação: Gmail API + OAuth; local/CI/E2E via Mailpit).
 7. **Validação** — medição de resultados.
 8. **Evolução comercial** — preparação para escala.
 
@@ -113,7 +111,7 @@ Detalhes em [`docs/roadmap/README.md`](docs/roadmap/README.md).
 
 ## Desenvolvimento
 
-Instruções técnicas detalhadas (como configurar ambiente, executar testes e contribuir) serão adicionadas conforme a stack for definida nas próximas fases. Até lá, este repositório é exclusivamente documental.
+Monorepo **npm workspaces** (`apps/*`, `packages/*`) — TypeScript. Comandos na raiz: `npm ci` · `npm run db:up` (Postgres via Docker) · `npm run migrate` · `npm run seed` · `npm run verify` (lint + build + typecheck + testes) · `npm run dev` · suíte E2E Selenium em `apps/e2e`. Detalhes em [`MONOREPO.md`](MONOREPO.md).
 
 ## Licença
 

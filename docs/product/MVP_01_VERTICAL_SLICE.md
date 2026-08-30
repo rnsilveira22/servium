@@ -69,7 +69,9 @@ Documento ilegível/tipo errado; resposta fora de contexto; limite de tentativas
 
 ## Comunicação
 
-Canal mínimo proposto pelo PO: **e-mail transacional via SMTP configurado pelo escritório piloto** (sem contratação de novo serviço pago). Templates identificados como "em nome do escritório". Se o piloto exigir serviço pago/provedor externo → **HG-006** antes de qualquer contratação. Canal definitivo segue não assumido.
+Canal mínimo proposto pelo PO: **e-mail transicional via SMTP configurado pelo escritório piloto** (sem contratação de novo serviço pago). Templates identificados como "em nome do escritório". Se o piloto exigir serviço pago/provedor externo → **HG-006** antes de qualquer contratação. Canal definitivo segue não assumido.
+
+> **REVISÃO (HG-008 · 2026-08-30):** por decisão humana, o canal real do piloto é **Gmail API + OAuth 2.0** (substitui para implementação o SMTP/IMAP da recomendação SRV-10; sem custo recorrente → HG-006 não acionado). Local/CI/E2E usarão **Fake SMTP via Mailpit** (a implementar após P0.1). Detalhes em [`reports/POST_MVP_BACKLOG_RECONCILIATION.md`](../reports/POST_MVP_BACKLOG_RECONCILIATION.md) §0 e [`factory/HUMAN_DECISIONS_LOG.md`](../factory/HUMAN_DECISIONS_LOG.md) HG-008.
 
 ## Auditoria
 

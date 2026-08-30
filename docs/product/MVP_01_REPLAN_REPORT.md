@@ -1,6 +1,8 @@
 # Relatório de Replanejamento — MVP-01 (HG-005)
 
 > Produzido pela factory em 2026-08-22 após a decisão `PRODUCT PRIORITY: MVP-01 TIME-TO-PILOT`.
+>
+> **ATUALIZAÇÃO (2026-08-30):** relatório **histórico de planejamento**. N1–N4 e N5 foram materializadas e mergeadas (PRs #31/#32/#33/#34/#28); a decisão de comunicação (indicada aqui como `PENDING_SPIKE`/HG-006) foi resolvida em **HG-008**: canal real do piloto = **Gmail API + OAuth 2.0** (sem custo recorrente → HG-006 não acionado). Estado real: [`FACTORY_STATUS.md`](../factory/FACTORY_STATUS.md) e [`reports/POST_MVP_BACKLOG_RECONCILIATION.md`](../reports/POST_MVP_BACKLOG_RECONCILIATION.md). Histórico preservado.
 
 ## A. Produto — o que é o MVP-01
 

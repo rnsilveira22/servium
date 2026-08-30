@@ -2,6 +2,8 @@
 
 > **Fase 002 — Discovery do MVP**
 > Backlog macro por **épicos conceituais**. Não são tarefas técnicas nem histórias detalhadas — a decomposição ocorrerá após a definição arquitetural (Fase 003). Ordem indica sequenciamento preliminar, não compromisso de prazo.
+>
+> **ATUALIZAÇÃO (2026-08-30):** Fase 003 concluída (ADRs Accepted via HG-002) e **Onda 0–1 do MVP-01 materializada e mergeada**. Backlog canônico operacional: [`INITIAL_BACKLOG.md`](INITIAL_BACKLOG.md). Estado real das histórias e do MVP-01 (`PRE_PILOT_REMEDIATION_REQUIRED`): [`FACTORY_STATUS.md`](../factory/FACTORY_STATUS.md) e [`reports/POST_MVP_BACKLOG_RECONCILIATION.md`](../reports/POST_MVP_BACKLOG_RECONCILIATION.md). EPIC-013/Demo Factory permanece **BLOCKED**. Este macro é histórico.
 
 ## Épicos
 
