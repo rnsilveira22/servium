@@ -15,26 +15,29 @@ API_LOG="$(mktemp)"
 WEB_LOG="$(mktemp)"
 
 cleanup() {
-  if [[ -n "${API_PID:-}" ]]; then kill "$API_PID" 2>/dev/null || true; fi
-  if [[ -n "${WEB_PID:-}" ]]; then kill "$WEB_PID" 2>/dev/null || true; fi
+  if [[ -n "${API_PID:-}" ]]; then kill -- "-$API_PID" 2>/dev/null || true; fi
+  if [[ -n "${WEB_PID:-}" ]]; then kill -- "-$WEB_PID" 2>/dev/null || true; fi
 }
 trap cleanup EXIT INT TERM
 
-echo ">>> 1/5 Postgres (docker compose up -d --wait)"
+echo ">>> 1/6 Postgres (docker compose up -d --wait)"
 npm run db:up >/dev/null
 
-echo ">>> 2/5 Seed (admin + operador)"
+echo ">>> 2/6 Migrations (idempotente — CI e local idênticos)"
+npm run migrate >/dev/null
+
+echo ">>> 3/6 Seed (admin + operador)"
 npm run seed >/dev/null
 
-echo ">>> 3/5 Build da API"
+echo ">>> 4/6 Build da API"
 npm run build -w @servium/api >/dev/null
 
-echo ">>> 4/5 API (:3000) + Web (:5173) em background"
+echo ">>> 5/6 API (:3000) + Web (:5173) em background"
 : > "$API_LOG"
 : > "$WEB_LOG"
-node apps/api/dist/main.js >"$API_LOG" 2>&1 &
+setsid node apps/api/dist/main.js >"$API_LOG" 2>&1 &
 API_PID=$!
-npm run dev -w @servium/web -- --port 5173 >"$WEB_LOG" 2>&1 &
+setsid npm run dev -w @servium/web -- --port 5173 --host 127.0.0.1 --strictPort >"$WEB_LOG" 2>&1 &
 WEB_PID=$!
 
 echo -n ">>> Aguardando API /health"
@@ -65,6 +68,6 @@ for _ in $(seq 1 60); do
   sleep 1
 done
 
-echo ">>> 5/5 Vitest E2E (HEADLESS=${HEADLESS})"
+echo ">>> 6/6 Vitest E2E (HEADLESS=${HEADLESS})"
 cd "$REPO_ROOT/apps/e2e"
 npx vitest run --reporter=verbose

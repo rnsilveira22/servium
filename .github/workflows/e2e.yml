@@ -1,0 +1,181 @@
+name: E2E
+
+on:
+  pull_request:
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.base.json'
+      - 'eslint.config.mjs'
+      - '.gitignore'
+      - '.github/workflows/e2e.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'apps/**'
+      - 'packages/**'
+      - 'scripts/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tsconfig.base.json'
+      - 'eslint.config.mjs'
+      - '.gitignore'
+      - '.github/workflows/e2e.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  selenium-e2e:
+    name: Selenium E2E
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: servium
+          POSTGRES_PASSWORD: servium
+          POSTGRES_DB: servium
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U servium -d servium"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgres://servium:servium@localhost:5432/servium
+      E2E_WEB_URL: http://localhost:5173
+      E2E_API_URL: http://localhost:3000
+      HEADLESS: '1'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar Chrome for Testing 151 (compatível com chromedriver 151.x)
+        run: |
+          set -euo pipefail
+          chrome=/opt/chrome/chrome-linux64/chrome
+          curl -fsSL --retry 3 --retry-delay 2 -o /tmp/chrome-linux64.zip \
+            "https://storage.googleapis.com/chrome-for-testing-public/151.0.7922.108/linux64/chrome-linux64.zip"
+          sudo mkdir -p /opt/chrome
+          sudo unzip -q /tmp/chrome-linux64.zip -d /opt/chrome
+          sudo chmod +x "$chrome"
+          sudo ln -sf "$chrome" /opt/chrome/google-chrome
+          echo "/opt/chrome/chrome-linux64" >> "$GITHUB_PATH"
+          echo "/opt/chrome" >> "$GITHUB_PATH"
+          "$chrome" --version
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Migrations reais (idênticas ao produto)
+        run: npm run migrate
+
+      - name: Seed E2E (admin + operador)
+        run: npm run seed
+
+      - name: Build (shared-types, db, api, web)
+        run: npm run build
+
+      - name: Iniciar API + Frontend + Executar Selenium E2E
+        run: |
+          set -euo pipefail
+          : > /tmp/api.log
+          : > /tmp/web.log
+          setsid node apps/api/dist/main.js >/tmp/api.log 2>&1 &
+          API_PID=$!
+          setsid npm run dev -w @servium/web -- --port 5173 --host 127.0.0.1 --strictPort >/tmp/web.log 2>&1 &
+          WEB_PID=$!
+          cleanup() { kill -- "-$API_PID" 2>/dev/null || true; kill -- "-$WEB_PID" 2>/dev/null || true; }
+          trap cleanup EXIT
+
+          echo ">>> Readiness API /health (db:true)"
+          api_ok=""
+          for _ in $(seq 1 90); do
+            body="$(curl -sf http://localhost:3000/health 2>/dev/null || true)"
+            if [ "$(printf '%s' "$body" | grep -cE '"db"\s*:\s*true')" -ge 1 ]; then
+              api_ok=1
+              break
+            fi
+            if ! kill -0 "$API_PID" 2>/dev/null; then
+              echo "[FALHOU] API não está de pé — log:"
+              cat /tmp/api.log
+              exit 1
+            fi
+            sleep 1
+          done
+          if [ -z "$api_ok" ]; then
+            echo "[FALHOU] API não respondeu /health (db:true) em 90s — logs:"
+            tail -40 /tmp/api.log
+            exit 1
+          fi
+          echo "API ok ($(curl -s http://localhost:3000/health))"
+
+          echo ">>> Readiness Frontend :5173 (/login)"
+          web_ok=""
+          for _ in $(seq 1 90); do
+            if curl -sf http://localhost:5173/login >/dev/null 2>&1; then
+              web_ok=1
+              break
+            fi
+            if ! kill -0 "$WEB_PID" 2>/dev/null; then
+              echo "[FALHOU] Frontend não está de pé — log:"
+              cat /tmp/web.log
+              exit 1
+            fi
+            sleep 1
+          done
+          if [ -z "$web_ok" ]; then
+            echo "[FALHOU] Frontend não respondeu em 90s — logs:"
+            tail -40 /tmp/web.log
+            exit 1
+          fi
+          echo "Web ok"
+
+          echo ">>> Versões — Chrome e ChromeDriver"
+          google-chrome --version
+          node_modules/.bin/chromedriver --version
+
+          echo ">>> Selenium E2E (vitest)"
+          cd apps/e2e
+          npx vitest run --reporter=verbose 2>&1 | tee /tmp/e2e-vitest.log
+
+      - name: Diagnosticar falha (logs disponíveis para troubleshooting)
+        if: failure()
+        run: |
+          echo "=== /tmp/api.log ==="
+          tail -120 /tmp/api.log 2>/dev/null || true
+          echo "=== /tmp/web.log ==="
+          tail -120 /tmp/web.log 2>/dev/null || true
+          echo "=== apps/e2e/evidence ==="
+          ls -la apps/e2e/evidence 2>/dev/null || true
+
+      - name: Publicar artifacts (logs + evidências E2E)
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-${{ github.sha }}
+          if-no-files-found: ignore
+          path: |
+            /tmp/api.log
+            /tmp/web.log
+            /tmp/e2e-vitest.log
+            apps/e2e/evidence/**
+          retention-days: 7
