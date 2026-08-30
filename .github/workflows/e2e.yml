@@ -150,7 +150,8 @@ jobs:
 
           echo ">>> Versões — Chrome e ChromeDriver"
           google-chrome --version
-          node_modules/.bin/chromedriver --version
+          CDPATH="$(node -e "try{process.stdout.write(require('./apps/e2e/node_modules/chromedriver').path)}catch{process.stdout.write(require('chromedriver').path)}")"
+          "$CDPATH" --version
 
           echo ">>> Selenium E2E (vitest)"
           cd apps/e2e
