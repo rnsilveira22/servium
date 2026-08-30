@@ -6,6 +6,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/main.js",
     "start:dev": "npx tsx watch src/main.ts",
+    "worker": "node dist/runtime/worker-main.js",
     "test": "vitest run"
   },
   "dependencies": {
