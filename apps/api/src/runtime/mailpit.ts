@@ -47,11 +47,8 @@ export class MailpitAdapter implements CommunicationChannel {
 }
 
 export function buildMailpitConfig(env: Record<string, string | undefined> = process.env): MailpitConfig {
-  if (!env.MAILPIT_SMTP_HOST) {
-    throw new Error('MAILPIT_SMTP_HOST ausente — configure o serviço Mailpit (local: docker compose up -d mailpit)');
-  }
   return {
-    smtpHost: env.MAILPIT_SMTP_HOST,
+    smtpHost: env.MAILPIT_SMTP_HOST ?? 'localhost',
     smtpPort: Number(env.MAILPIT_SMTP_PORT ?? 1025),
     from: env.MAILPIT_FROM ?? 'assistente@servium.local',
   };
