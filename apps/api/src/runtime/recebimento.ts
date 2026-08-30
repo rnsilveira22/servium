@@ -37,7 +37,13 @@ export function parseToken(token: string): TokenCorrelacao | null {
 /* ------------------------------------------------------------------ */
 
 interface MailpitEnvelope {
-  messages?: Array<{ ID: string; MessageID: string; From: { Address: string }; Subject: string }>;
+  messages?: Array<{
+    ID: string;
+    MessageID: string;
+    From: { Address: string };
+    To?: Array<{ Address: string }>;
+    Subject: string;
+  }>;
 }
 
 interface MailpitDetalhe {
@@ -48,13 +54,26 @@ interface MailpitDetalhe {
   Snippet?: string;
 }
 
-export async function buscarMensagensDoMailpit(apiUrl: string): Promise<MensagemRecebida[]> {
+function abaixoCaixa(endereco: string, caixa: string): boolean {
+  return endereco.toLowerCase() === caixa.toLowerCase();
+}
+
+/**
+ * Lista só as mensagens entregues NA caixa do agente (respostas do cliente).
+ * Cobranças que nós enviamos também ficam no Mailpit e carregam o token no
+ * corpo — sem este filtro seriam lidas como 'resposta' indevidamente.
+ */
+export async function buscarMensagensDoMailpit(apiUrl: string, caixa?: string): Promise<MensagemRecebida[]> {
   const res = await fetch(`${apiUrl}/api/v1/messages`);
   if (!res.ok) throw new Error(`mailpit: GET /api/v1/messages falhou (${res.status})`);
   const envelope = (await res.json()) as MailpitEnvelope;
 
   const saidas: MensagemRecebida[] = [];
   for (const m of envelope.messages ?? []) {
+    const remetenteEnvelope = m.From?.Address ?? '';
+    if (caixa && abaixoCaixa(remetenteEnvelope, caixa)) continue; // mensagem que nós enviamos
+    if (caixa && !(m.To ?? []).some((t) => abaixoCaixa(t.Address, caixa))) continue; // não é da nossa caixa
+
     const det = await fetch(`${apiUrl}/api/v1/message/${m.ID}`);
     if (!det.ok) continue;
     const d = (await det.json()) as MailpitDetalhe;
@@ -62,7 +81,7 @@ export async function buscarMensagensDoMailpit(apiUrl: string): Promise<Mensagem
     const token = extrairToken(corpo);
     saidas.push({
       messageId: d.MessageID ?? m.MessageID ?? String(m.ID),
-      remetente: (d.From?.Address ?? m.From?.Address) ?? '',
+      remetente: (d.From?.Address ?? remetenteEnvelope) ?? '',
       assunto: d.Subject ?? m.Subject,
       corpo,
       tokenCorrelacao: token,
@@ -176,6 +195,7 @@ export async function correlacionarRecebidas(mensagens: MensagemRecebida[]): Pro
 
 export interface RecebedorOptions {
   apiUrl: string;
+  caixa: string;
   receberIntervalMs: number;
   log?: (level: 'info' | 'warn' | 'error', msg: string, extra?: Record<string, unknown>) => void;
 }
@@ -206,10 +226,6 @@ export class RecebedorPeriodico {
     this.rodadaPromise = null;
   }
 
-  accountFor(apiUrl: string): void {
-    this.opts = { ...this.opts, apiUrl };
-  }
-
   async rodada(): Promise<RecebimentoResultado> {
     if (this.rodadaPromise) return this.rodadaPromise;
     this.rodadaPromise = this.executa();
@@ -222,7 +238,7 @@ export class RecebedorPeriodico {
 
   private async executa(): Promise<RecebimentoResultado> {
     try {
-      const mensagens = await buscarMensagensDoMailpit(this.opts.apiUrl);
+      const mensagens = await buscarMensagensDoMailpit(this.opts.apiUrl, this.opts.caixa);
       const res = await correlacionarRecebidas(mensagens);
       if (res.processadas > 0) {
         this.opts.log?.('info', 'respostas correlacionadas', { processadas: res.processadas, semToken: res.semToken });

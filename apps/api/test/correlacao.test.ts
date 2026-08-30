@@ -159,12 +159,12 @@ describe('PRM-P0.1-E · correlação resposta ↔ item do ciclo', () => {
     const server: Server = createServer(async (req, res) => {
       if (req.url === '/api/v1/messages') {
         res.setHeader('content-type', 'application/json');
-        res.end(JSON.stringify({ messages: [{ ID: '111', MessageID: `<${MSG_ID}>`, From: { Address: 'c@x' }, Subject: 'Re: Pendência' }] }));
+        res.end(JSON.stringify({ messages: [{ ID: '111', MessageID: `<${MSG_ID}>`, From: { Address: 'cliente-corr@local' }, To: [{ Address: 'assistente@servium.local' }], Subject: 'Re: Pendência' }] }));
         return;
       }
       if (req.url === '/api/v1/message/111') {
         res.setHeader('content-type', 'application/json');
-        res.end(JSON.stringify({ MessageID: `<${MSG_ID}>`, From: { Address: 'c@x' }, Subject: 'Re: Pendência', Text: `arquivo em anexo\nIdentificador: ${token}` }));
+        res.end(JSON.stringify({ MessageID: `<${MSG_ID}>`, From: { Address: 'cliente-corr@local' }, Subject: 'Re: Pendência', Text: `arquivo em anexo\nIdentificador: ${token}` }));
         return;
       }
       res.statusCode = 404;
@@ -173,9 +173,34 @@ describe('PRM-P0.1-E · correlação resposta ↔ item do ciclo', () => {
     await new Promise<void>((r) => server.listen(0, '127.0.0.1', r));
     const addr = server.address() as { port: number };
     try {
-      const msgs = await buscarMensagensDoMailpit(`http://127.0.0.1:${addr.port}`);
+      const msgs = await buscarMensagensDoMailpit(`http://127.0.0.1:${addr.port}`, 'assistente@servium.local');
       expect(msgs).toHaveLength(1);
-      expect(msgs[0]!).toMatchObject({ messageId: `<${MSG_ID}>`, remetente: 'c@x', tokenCorrelacao: token });
+      expect(msgs[0]!).toMatchObject({ messageId: `<${MSG_ID}>`, remetente: 'cliente-corr@local', tokenCorrelacao: token });
+    } finally {
+      server.close();
+    }
+  }, 15_000);
+
+  it('cobranças enviadas (token no corpo) não são lidas como resposta', async () => {
+    const token = parseToken(`t:${itemId}:r9`)!.token;
+    const server: Server = createServer(async (req, res) => {
+      res.setHeader('content-type', 'application/json');
+      if (req.url === '/api/v1/messages') {
+        res.end(JSON.stringify({ messages: [{ ID: '777', MessageID: '<sent-1>', From: { Address: 'assistente@servium.local' }, To: [{ Address: 'cliente-corr@local' }], Subject: 'Pendência' }] }));
+        return;
+      }
+      if (req.url === '/api/v1/message/777') {
+        res.end(JSON.stringify({ MessageID: '<sent-1>', From: { Address: 'assistente@servium.local' }, Subject: 'Pendência', Text: `Olá\nIdentificador: ${token}` }));
+        return;
+      }
+      res.statusCode = 404;
+      res.end();
+    });
+    await new Promise<void>((r) => server.listen(0, '127.0.0.1', r));
+    const addr = server.address() as { port: number };
+    try {
+      const msgs = await buscarMensagensDoMailpit(`http://127.0.0.1:${addr.port}`, 'assistente@servium.local');
+      expect(msgs).toHaveLength(0);
     } finally {
       server.close();
     }
