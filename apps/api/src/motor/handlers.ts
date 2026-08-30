@@ -140,11 +140,16 @@ export const cobrarItem =
     ]);
     if (dupe.rowCount) return; // já cobrado nesta rodada ⇒ tick repetido não duplica
 
+    // PRM-P0.1-E · token de correlação codificando o item e a rodada: quando o
+    // cliente responder citando o "Identificador", o runtime vincula a resposta.
+    const tokenCorrelacao = `t:${itemId}:r${item.tentativas + 1}`;
+
     const resultado = await deps.channel.enviar({
       destinatario: item.email,
       assunto: `Pendência documental: ${item.descricao}`,
-      corpo: `Olá ${item.cliente_nome}, precisamos de: ${item.descricao}.`,
+      corpo: `Olá ${item.cliente_nome}, precisamos de: ${item.descricao}.\n\nIdentificador: ${tokenCorrelacao}`,
       idempotencyKey: chave,
+      tokenCorrelacao,
     });
 
     if (!resultado.ok) {
@@ -169,8 +174,8 @@ export const cobrarItem =
       }
       await ctx.query(
         `INSERT INTO mensagens_comunicacao
-           (tenant_id, item_ciclo_id, direcao, canal, destinatario, remetente, message_id, idempotency_key, status)
-         VALUES ($1,$2,'envio','email',$3,$4,$5,$6,'enviado')`,
+           (tenant_id, item_ciclo_id, direcao, canal, destinatario, remetente, message_id, idempotency_key, token_correlacao, status)
+         VALUES ($1,$2,'envio','email',$3,$4,$5,$6,$7,'enviado')`,
         [
           job.tenant_id,
           itemId,
@@ -178,6 +183,7 @@ export const cobrarItem =
           deps.remetentePadrao ?? 'assistente@servium.local',
           resultado.messageId ?? null,
           chave,
+          tokenCorrelacao,
         ]
       );
       await auditar(ctx, job.tenant_id, 'item_ciclo', itemId, 'cobrar', { rodada: item.tentativas + 1 });

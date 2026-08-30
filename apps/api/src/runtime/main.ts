@@ -9,6 +9,7 @@ import { buildChannelFromEnv, registerChannelProvider } from './channel';
 import { MailpitProvider } from './mailpit';
 import { createMotorWorker } from './worker';
 import { MotorScheduler } from './scheduler';
+import { RecebedorPeriodico } from './recebimento';
 
 async function main(): Promise<void> {
   registerChannelProvider('mailpit', new MailpitProvider());
@@ -30,12 +31,23 @@ async function main(): Promise<void> {
   await worker.start();
   scheduler.start();
 
+  // PRM-P0.1-E · correlaciona respostas do cliente (Mailpit em dev/CI/E2E)
+  const apiUrl = process.env.MAILPIT_API_URL;
+  const recebedor = apiUrl
+    ? new RecebedorPeriodico({
+        apiUrl,
+        receberIntervalMs: Number(process.env.RECEBER_INTERVAL_MS ?? 30_000),
+      })
+    : null;
+  recebedor?.start();
+
   let encerrando = false;
   for (const sig of ['SIGINT', 'SIGTERM'] as const) {
     process.once(sig, () => {
       if (encerrando) return;
       encerrando = true;
       void (async () => {
+        await recebedor?.stop();
         scheduler.stop();
         await worker.stop();
         process.exit(0);
