@@ -1,0 +1,19 @@
+{
+  "name": "@servium/e2e",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:headless": "HEADLESS=1 vitest run",
+    "test:watch": "vitest --watch"
+  },
+  "devDependencies": {
+    "@types/selenium-webdriver": "^4.1.28",
+    "chromedriver": "^151.0.5",
+    "selenium-webdriver": "^4.27.0",
+    "tsx": "^4.23.12",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.7"
+  }
+}

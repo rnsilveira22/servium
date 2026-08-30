@@ -33,6 +33,9 @@ build/
 out/
 coverage/
 
+# Evidências locais dos testes E2E (Selenium) — screenshots e artefatos de execução
+apps/e2e/evidence/
+
 # Dependências locais de ferramentas (OpenCode, Node)
 node_modules/
 .opencode/node_modules/
