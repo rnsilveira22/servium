@@ -24,6 +24,7 @@
     "dev:api": "npm run start:dev -w @servium/api",
     "dev:web": "npm run dev -w @servium/web",
     "dev": "npm run dev:api & npm run dev:web",
+    "runtime": "npm run runtime -w @servium/api",
     "seed": "node --import tsx/esm scripts/seed.mjs"
   },
   "devDependencies": {

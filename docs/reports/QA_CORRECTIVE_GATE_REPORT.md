@@ -17,7 +17,9 @@ O UI_PILOT_READY (PR #35) foi um **falso positivo de QA**. Durante o primeiro te
 ## Root Cause
 
 ### Falha 1 — CSS
+
 Agentes criaram componentes TSX usando classes CSS que **não existiam** no `App.css`:
+
 - `.field` (deveria ser `.form-group`)
 - `.btn-primary`, `.btn-full`, `.link`
 - `.page-loading`, `.login-brand`, `.login-sub`
@@ -26,6 +28,7 @@ Agentes criaram componentes TSX usando classes CSS que **não existiam** no `App
 **Por que não detectou**: ESLint/TypeScript não validam classes CSS. Testes usam `renderToString` (SSR) que não aplica CSS. O build passa porque CSS inválido é silenciosamente ignorado pelo browser.
 
 ### Falha 2 — Runbook
+
 Nenhum script de desenvolvimento foi adicionado aos package.json durante toda a implementação do MVP.
 
 **Por que não detectou**: O gate automated só verifica `lint + build + typecheck + test`. Nenhum desses verifica se scripts de dev existem ou se a aplicação inicia corretamente.
@@ -33,10 +36,12 @@ Nenhum script de desenvolvimento foi adicionado aos package.json durante toda a 
 ## Correções
 
 ### CSS (App.css)
+
 - 11 classes adicionadas na seção correta do stylesheet
 - Bug fix: sidebar mobile `left: -var(--sidebar-width)` → `left: calc(-1 * var(--sidebar-width))`
 
 ### Runbook
+
 | Package | Script adicionado | Comando |
 |---|---|---|
 | `apps/api` | `start` | `node dist/main.js` |
@@ -48,12 +53,15 @@ Nenhum script de desenvolvimento foi adicionado aos package.json durante toda a 
 | root | `seed` | `node --import tsx/esm scripts/seed.mjs` |
 
 ### Seed
+
 `scripts/seed.mjs`: cria tenant `dev-corp` + admin `admin@dev.local` / `admin123`
 
 ## QA Process Changes
 
 ### Visual Acceptance Gate (novo)
+
 Toda alteração de frontend relevante agora exige:
+
 1. Build OK
 2. Testes OK
 3. Execução real da aplicação
@@ -63,10 +71,13 @@ Toda alteração de frontend relevante agora exige:
 7. Evidência visual (screenshots reais)
 
 ### Runbook Testing (novo)
+
 Todo comando apresentado ao usuário deve ter sido executado exatamente como documentado.
 
 ### Regra de Veto
+
 Reviewer/QA pode REJECT mesmo com CI verde se:
+
 - UI quebrada visualmente
 - Runbook incorreto
 - Fluxo impossível de executar
@@ -161,6 +172,7 @@ npm run dev:web
 ## Screenshots
 
 Não foi possível capturar screenshots (ambiente CLI sem navegador). As validações visuais foram feitas via:
+
 - CSS inspecionado linha a linha (todas as classes mapeadas)
 - Build de produção OK (CSS gerado: 9.27KB)
 - Componentes renderizados sem erros TypeScript
