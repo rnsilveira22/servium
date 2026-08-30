@@ -39,8 +39,16 @@ jobs:
           --health-interval 5s
           --health-timeout 5s
           --health-retries 10
+      mailpit:
+        image: axllent/mailpit:latest
+        ports:
+          - 1025:1025
+          - 8025:8025
     env:
       DATABASE_URL: postgres://servium:servium@localhost:5432/servium
+      MAILPIT_SMTP_HOST: localhost
+      MAILPIT_SMTP_PORT: "1025"
+      MAILPIT_API_URL: http://localhost:8025
     steps:
       - uses: actions/checkout@v4
 

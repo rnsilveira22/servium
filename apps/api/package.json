@@ -18,12 +18,14 @@
     "@servium/db": "0.1.0",
     "@servium/shared-types": "0.1.0",
     "googleapis": "^176.0.0",
+    "nodemailer": "^6.10.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^22.20.1",
+    "@types/nodemailer": "^6.4.24",
     "@types/supertest": "^7.2.1",
     "supertest": "^7.2.2",
     "vitest": "^3.0.7"
