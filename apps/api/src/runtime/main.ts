@@ -5,11 +5,13 @@
  * Composição idêntica à do ambiente real (ADR-006): sem trigger artificial.
  * Encerramento gracioso em SIGINT/SIGTERM.
  */
-import { buildChannelFromEnv } from './channel';
+import { buildChannelFromEnv, registerChannelProvider } from './channel';
+import { MailpitProvider } from './mailpit';
 import { createMotorWorker } from './worker';
 import { MotorScheduler } from './scheduler';
 
 async function main(): Promise<void> {
+  registerChannelProvider('mailpit', new MailpitProvider());
   const channel = buildChannelFromEnv();
   const worker = createMotorWorker({
     channel,

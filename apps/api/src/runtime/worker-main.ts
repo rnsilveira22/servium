@@ -3,10 +3,12 @@
  * PRM-P0.1-A · Entry point do worker do motor (processo dedicado do piloto).
  * Encerramento gracioso em SIGINT/SIGTERM.
  */
-import { buildChannelFromEnv } from './channel';
+import { buildChannelFromEnv, registerChannelProvider } from './channel';
+import { MailpitProvider } from './mailpit';
 import { createMotorWorker } from './worker';
 
 async function main(): Promise<void> {
+  registerChannelProvider('mailpit', new MailpitProvider());
   const channel = buildChannelFromEnv();
   const worker = createMotorWorker({
     channel,
