@@ -71,6 +71,17 @@ export class RequireAuth implements CanActivate {
       await appConn.query('SELECT set_config($1, $2, false)', ['app.tenant_id', r.tenant_id]);
       req.pg = appConn;
       void adminConn.end();
+      // Fecha o req.pg quando a resposta for entregue — evita pool de
+      // conexões servium_app idle acumulando até esgotar o postgres.
+      const res = ctx.switchToHttp().getResponse();
+      let encerrado = false;
+      const fechar = () => {
+        if (encerrado) return;
+        encerrado = true;
+        void appConn!.end().catch(() => undefined);
+      };
+      res.once('finish', fechar);
+      res.once('close', fechar);
       return true;
     } catch (e) {
       await adminConn.end().catch(() => undefined);
