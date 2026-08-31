@@ -5,6 +5,7 @@ import { LoginPage } from '../pages/LoginPage.js';
 import { LayoutPage } from '../pages/LayoutPage.js';
 import { ObrigacoesPage } from '../pages/ObrigacoesPage.js';
 import { CiclosPage } from '../pages/CiclosPage.js';
+import { CicloDetailPage } from '../pages/CicloDetailPage.js';
 import type { WebDriver } from 'selenium-webdriver';
 import { ENV } from '../config/env.js';
 
@@ -13,6 +14,7 @@ let loginPage: LoginPage;
 let layoutPage: LayoutPage;
 let obrigacoesPage: ObrigacoesPage;
 let ciclosPage: CiclosPage;
+let cicloDetailPage: CicloDetailPage;
 
 function apiFetch(path: string, method: string, body: unknown): Promise<number> {
   const bodyStr = body === undefined ? 'undefined' : JSON.stringify(body);
@@ -35,6 +37,7 @@ beforeAll(async () => {
   layoutPage = new LayoutPage(driver);
   obrigacoesPage = new ObrigacoesPage(driver);
   ciclosPage = new CiclosPage(driver);
+  cicloDetailPage = new CicloDetailPage(driver);
 });
 
 afterAll(async () => {
@@ -75,5 +78,12 @@ describe('Local Acceptance — ativação de ciclo pela UI', () => {
     await ciclosPage.open();
     expect(await ciclosPage.hasCiclo(clienteNome, descricao)).toBe(true);
     await takeScreenshot(driver, `ciclo-listado-${sufixo}`);
+
+    await cicloDetailPage.openByRow(clienteNome, descricao);
+    expect(await cicloDetailPage.heading()).toBe(`Ciclo de ${clienteNome} — ${descricao}`);
+    expect(await cicloDetailPage.hasSection('Itens (0)')).toBe(true);
+    expect(await cicloDetailPage.hasError()).toBe(false);
+    expect(await cicloDetailPage.currentUrl()).toContain('/ciclos/');
+    await takeScreenshot(driver, `ciclo-detalhe-${sufixo}`);
   }, 60_000);
 });
