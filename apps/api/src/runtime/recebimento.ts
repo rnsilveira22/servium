@@ -114,44 +114,60 @@ async function auditar(
   );
 }
 
-/** Vincula uma resposta já tokenizada ao item (idempotente por message_id). */
+/** Vincula uma resposta já tokenizada ao item (idempotente por message_id).
+ *  Toda a sequência roda em transação: ou grava item + mensagens + auditoria,
+ *  ou nada — nunca deixa estado parcial (item 'recebido' sem rastro da resposta). */
 async function vincularResposta(
   ctx: pg.Client,
   tenantId: string,
   token: TokenCorrelacao,
   msg: MensagemRecebida
 ): Promise<boolean> {
-  const dupe = await ctx.query('SELECT 1 FROM mensagens_gmail WHERE tenant_id=$1 AND gmail_message_id=$2', [
-    tenantId,
-    msg.messageId,
-  ]);
-  if (dupe.rowCount) return false;
+  await ctx.query('BEGIN');
+  try {
+    const dupe = await ctx.query('SELECT 1 FROM mensagens_gmail WHERE tenant_id=$1 AND gmail_message_id=$2', [
+      tenantId,
+      msg.messageId,
+    ]);
+    if (dupe.rowCount) {
+      await ctx.query('ROLLBACK');
+      return false;
+    }
 
-  const upd = await ctx.query(
-    `UPDATE itens_ciclo SET estado='recebido', atualizado_em=now()
-      WHERE id=$1 AND tenant_id=$2 AND estado='aguardando' RETURNING id`,
-    [token.itemId, tenantId]
-  );
-  if (upd.rowCount === 0) return false; // não está aguardando ⇒ ignora (já resolvido/exceção)
+    const upd = await ctx.query(
+      `UPDATE itens_ciclo SET estado='recebido', atualizado_em=now()
+        WHERE id=$1 AND tenant_id=$2 AND estado='aguardando' RETURNING id`,
+      [token.itemId, tenantId]
+    );
+    if (upd.rowCount === 0) {
+      await ctx.query('ROLLBACK'); // não está aguardando ⇒ ignora (já resolvido/exceção)
+      return false;
+    }
 
-  await ctx.query(
-    `INSERT INTO mensagens_comunicacao
-       (tenant_id, item_ciclo_id, direcao, canal, remetente, message_id, idempotency_key, token_correlacao, status)
-     VALUES ($1,$2,'recebimento','email',$3,$4,'recv:' || $5,$6,'processado')`,
-    [tenantId, token.itemId, msg.remetente, msg.messageId, msg.messageId, token.token]
-  );
-  await ctx.query(
-    `INSERT INTO mensagens_gmail
-       (tenant_id, gmail_message_id, item_ciclo_id, direcao, subject, destinatario, token_correlacao)
-     VALUES ($1,$2,$3,'recebimento',$4,$5,$6)`,
-    [tenantId, msg.messageId, token.itemId, msg.assunto ?? null, msg.remetente, token.token]
-  );
-  await auditar(ctx, tenantId, 'item_ciclo', token.itemId, 'receber', {
-    rodada: token.rodada,
-    token: token.token,
-    message_id: msg.messageId,
-  });
-  return true;
+    await ctx.query(
+      `INSERT INTO mensagens_comunicacao
+         (tenant_id, item_ciclo_id, direcao, canal, remetente, message_id, idempotency_key, token_correlacao, status)
+       VALUES ($1,$2,'recebimento','email',$3,$4,'recv:' || $5,$6,'processado')`,
+      [tenantId, token.itemId, msg.remetente, msg.messageId, msg.messageId, token.token]
+    );
+    await ctx.query(
+      `INSERT INTO mensagens_gmail
+         (tenant_id, gmail_message_id, item_ciclo_id, direcao, subject, destinatario, token_correlacao)
+       VALUES ($1,$2,$3,'recebimento',$4,$5,$6)`,
+      [tenantId, msg.messageId, token.itemId, msg.assunto ?? null, msg.remetente, token.token]
+    );
+    await auditar(ctx, tenantId, 'item_ciclo', token.itemId, 'receber', {
+      rodada: token.rodada,
+      token: token.token,
+      message_id: msg.messageId,
+    });
+
+    await ctx.query('COMMIT');
+    return true;
+  } catch (err) {
+    await ctx.query('ROLLBACK').catch(() => undefined);
+    throw err;
+  }
 }
 
 export async function correlacionarRecebidas(mensagens: MensagemRecebida[]): Promise<RecebimentoResultado> {
