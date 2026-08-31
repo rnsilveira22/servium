@@ -16,7 +16,9 @@ export async function api<T = unknown>(path: string, opts: ApiOptions = {}): Pro
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
     const msg = (data as { message?: string }).message ?? `Erro ${res.status}`;
-    throw new Error(msg);
+    const err = new Error(msg) as Error & { status?: number };
+    err.status = res.status;
+    throw err;
   }
   return data as T;
 }
