@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, NotFoundException, Param, Post, Req, UseGuards } from '@nestjs/common';
 import type { Client } from 'pg';
 
 import { enqueue } from '@servium/db';
@@ -60,6 +60,76 @@ export class CiclosController {
         ORDER BY c.criado_em DESC`
     );
     return rows;
+  }
+
+  /** Detalhe de um ciclo em linguagem de negócio (acompanhamento do Funcionário Digital). */
+  @Get(':cicloId')
+  @Roles('admin', 'operador')
+  async detalhe(@Req() req: AuthedRequest, @Param('cicloId') cicloId: string) {
+    const pg = this.pg(req);
+
+    const { rows: ciclos } = await pg.query(
+      `SELECT c.id, c.estado, c.criado_em, c.encerrado_em,
+              o.id AS obrigacao_id, o.descricao AS obrigacao,
+              cli.id AS cliente_id, cli.nome AS cliente
+         FROM ciclos c
+         JOIN obrigacoes o ON o.id=c.obrigacao_id
+         JOIN clientes cli ON cli.id=o.cliente_id
+        WHERE c.id=$1`,
+      [cicloId]
+    );
+    if (ciclos.length === 0) throw new NotFoundException('ciclo não encontrado');
+    const ciclo = ciclos[0]!;
+
+    const { rows: itens } = await pg.query(
+      `SELECT id, descricao, estado, tentativas, atualizado_em, excecao_id, excecao_tipo,
+              excecao_motivo, excecao_contexto, excecao_criado_em
+         FROM (
+           SELECT DISTINCT ON (i.id)
+                  i.id, i.estado, i.tentativas, i.atualizado_em,
+                  t.descricao, t.ordem,
+                  e.id AS excecao_id, e.tipo AS excecao_tipo, e.motivo AS excecao_motivo,
+                  e.contexto AS excecao_contexto, e.criado_em AS excecao_criado_em
+             FROM itens_ciclo i
+             JOIN itens_template t ON t.id=i.item_template_id
+             LEFT JOIN excecoes e ON e.item_ciclo_id=i.id AND e.desfecho IS NULL
+            WHERE i.ciclo_id=$1
+            ORDER BY i.id, e.criado_em DESC
+         ) sub
+        ORDER BY sub.ordem`,
+      [cicloId]
+    );
+
+    const { rows: comunicacoes } = await pg.query(
+      `SELECT id, item_ciclo_id, direcao, canal, destinatario, remetente, template, status, criado_em
+         FROM mensagens_comunicacao
+        WHERE item_ciclo_id IN (SELECT id FROM itens_ciclo WHERE ciclo_id=$1)
+          AND status <> 'novo'
+        ORDER BY criado_em DESC
+        LIMIT 50`,
+      [cicloId]
+    );
+
+    return {
+      ...ciclo,
+      itens: itens.map((i) => ({
+        id: i.id,
+        descricao: i.descricao,
+        estado: i.estado,
+        tentativas: i.tentativas,
+        atualizado_em: i.atualizado_em,
+        excecao: i.excecao_id
+          ? {
+              id: i.excecao_id,
+              tipo: i.excecao_tipo,
+              motivo: i.excecao_motivo,
+              contexto: i.excecao_contexto,
+              criado_em: i.excecao_criado_em,
+            }
+          : null,
+      })),
+      comunicacoes,
+    };
   }
 
   /** Listar exceções abertas de um ciclo (CA-02). */
