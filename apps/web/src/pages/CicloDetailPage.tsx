@@ -7,11 +7,35 @@ interface CicloDetalhe {
   id: string;
   estado: string;
   criado_em: string;
+  encerrado_em: string | null;
+  obrigacao_id: string;
+  obrigacao: string;
+  cliente_id: string;
+  cliente: string;
   itens: {
     id: string;
     estado: string;
     tentativas: number;
     descricao: string;
+    atualizado_em: string;
+    excecao: {
+      id: string;
+      tipo: string;
+      motivo: string;
+      contexto: unknown;
+      criado_em: string;
+    } | null;
+  }[];
+  comunicacoes: {
+    id: string;
+    item_ciclo_id: string | null;
+    direcao: string;
+    canal: string;
+    destinatario: string | null;
+    remetente: string | null;
+    template: string | null;
+    status: string;
+    criado_em: string;
   }[];
 }
 
@@ -25,6 +49,18 @@ interface Excecao {
   tentativas: number;
   item_descricao: string;
   cliente_nome: string;
+}
+
+function formatarData(iso?: string | null): string {
+  if (!iso) return '—';
+  return new Date(iso).toLocaleString('pt-BR');
+}
+
+function mensagemErro(err: unknown): string {
+  const status = (err as { status?: number } | undefined)?.status;
+  if (status === 404) return 'Ciclo não encontrado.';
+  if (status === 403) return 'Você não tem permissão para ver este ciclo.';
+  return 'Não foi possível carregar o ciclo. Tente novamente.';
 }
 
 export function CicloDetailPage() {
@@ -41,12 +77,19 @@ export function CicloDetailPage() {
 
   useEffect(() => {
     if (!id) return;
+    setLoading(true);
+    setCiclo(null);
+    setExcecoes([]);
+    setErro('');
     Promise.all([
       api<CicloDetalhe>(`/ciclos/${id}`),
       api<Excecao[]>(`/ciclos/${id}/excecoes`).catch(() => [] as Excecao[]),
     ])
       .then(([c, e]) => { setCiclo(c); setExcecoes(e); })
-      .catch(() => setErro('Erro ao carregar detalhes do ciclo'))
+      .catch((err) => {
+        console.error('Falha ao carregar o detalhe do ciclo', id, err);
+        setErro(mensagemErro(err));
+      })
       .finally(() => setLoading(false));
   }, [id]);
 
@@ -83,14 +126,14 @@ export function CicloDetailPage() {
 
   if (loading) return <div className="page-loading">Carregando...</div>;
 
-  if (erro && !ciclo) return <div className="alert alert-error">{erro}</div>;
+  if (erro && !ciclo) return <div className="container"><div className="alert alert-error">{erro}</div><Link to="/ciclos" className="link">&larr; Ciclos</Link></div>;
 
   return (
     <div>
       <div className="page-header">
         <div>
           <Link to="/ciclos" className="link">&larr; Ciclos</Link>
-          <h1>Ciclo {id?.slice(0, 8)}</h1>
+          <h1>{ciclo ? `Ciclo de ${ciclo.cliente} — ${ciclo.obrigacao}` : 'Ciclo'}</h1>
         </div>
       </div>
 
@@ -103,16 +146,30 @@ export function CicloDetailPage() {
             <table className="table">
               <tbody>
                 <tr>
-                  <td className="text-muted">ID</td>
-                  <td>{ciclo.id}</td>
+                  <td className="text-muted">Cliente</td>
+                  <td>{ciclo.cliente}</td>
                 </tr>
                 <tr>
-                  <td className="text-muted">Estado</td>
+                  <td className="text-muted">Obrigacao</td>
+                  <td>{ciclo.obrigacao}</td>
+                </tr>
+                <tr>
+                  <td className="text-muted">Status</td>
                   <td><span className={`badge badge-${ciclo.estado}`}>{ciclo.estado}</span></td>
                 </tr>
                 <tr>
-                  <td className="text-muted">Criado em</td>
-                  <td>{new Date(ciclo.criado_em).toLocaleDateString('pt-BR')}</td>
+                  <td className="text-muted">Ativado em</td>
+                  <td>{formatarData(ciclo.criado_em)}</td>
+                </tr>
+                {ciclo.encerrado_em && (
+                  <tr>
+                    <td className="text-muted">Encerrado em</td>
+                    <td>{formatarData(ciclo.encerrado_em)}</td>
+                  </tr>
+                )}
+                <tr>
+                  <td className="text-muted">ID</td>
+                  <td className="text-muted">{ciclo.id}</td>
                 </tr>
               </tbody>
             </table>
@@ -129,6 +186,7 @@ export function CicloDetailPage() {
                     <th>Descricao</th>
                     <th>Estado</th>
                     <th>Tentativas</th>
+                    <th>Ultima acao</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -137,6 +195,37 @@ export function CicloDetailPage() {
                       <td>{item.descricao}</td>
                       <td><span className={`badge badge-${item.estado}`}>{item.estado}</span></td>
                       <td>{item.tentativas}</td>
+                      <td>{formatarData(item.atualizado_em)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </section>
+
+          <section className="section">
+            <h2>Comunicacoes ({ciclo.comunicacoes.length})</h2>
+            {ciclo.comunicacoes.length === 0 ? (
+              <div className="empty-state"><p>Nenhuma comunicacao neste ciclo.</p></div>
+            ) : (
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Direcao</th>
+                    <th>Canal</th>
+                    <th>Status</th>
+                    <th>Destinatario / Remetente</th>
+                    <th>Data</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {ciclo.comunicacoes.map((com) => (
+                    <tr key={com.id}>
+                      <td>{com.direcao}</td>
+                      <td>{com.canal}</td>
+                      <td><span className="badge badge-info">{com.status}</span></td>
+                      <td>{com.destinatario ?? com.remetente ?? '—'}</td>
+                      <td>{formatarData(com.criado_em)}</td>
                     </tr>
                   ))}
                 </tbody>
