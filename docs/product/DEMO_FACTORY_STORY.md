@@ -43,7 +43,7 @@ demo/
 
 | Componente | Candidato | Observação |
 |---|---|---|
-| Automação de navegador | Playwright | Já utilizado para E2E |
+| Automação de navegador | Selenium | Já utilizado para E2E (`apps/e2e`) |
 | Montagem de vídeo | FFmpeg | Recorte, legendas, logo, exportação MP4 |
 | Narração pt-BR | TTS configurável | Provedor a decidir na implementação (sem custo automático) |
 | Execução futura | GitHub Actions | Após versão aprovada (artefato MP4) |

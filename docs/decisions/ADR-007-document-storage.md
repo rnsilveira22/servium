@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 Documentos recebidos de clientes finais são dados potencialmente pessoais (LGPD, ADRV-007): exigem integridade (hash), imutabilidade, vínculo auditável a tarefas, retenção/eliminação executável e custo previsível. Comparação conceitual: filesystem local × object storage × banco.
 
-## Decision (proposed)
+## Decision (Accepted)
 
 **Conteúdo binário em object storage compatível com S3** (gerenciado no piloto), **metadados no PostgreSQL** (tenant, origem, tipo, tamanho, hash SHA-256, data, vínculo ao item, política de retenção). Conteúdo imutável; eliminação lógica + física conforme política LGPD. Acesso via URLs assinadas de curta duração, sempre mediadas pela aplicação (autorização contextual por tenant).
 

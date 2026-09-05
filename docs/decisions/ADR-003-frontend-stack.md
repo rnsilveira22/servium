@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 Frontend exclusivamente operacional/administrativo (painel de status, fila de exceções, aprovações, configuração de checklists/templates/limites). Sem SEO, sem usuário final externo. Comparação em [`../architecture/STACK_EVALUATION.md`](../architecture/STACK_EVALUATION.md).
 
-## Decision (proposed)
+## Decision (Accepted)
 
 **React + TypeScript** como SPA, consumindo a API JSON do backend. Component library madura para dashboards operacionais (tabelas densas, formulários) escolhida na implementação.
 

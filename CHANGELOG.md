@@ -7,6 +7,12 @@ Este projeto ainda não possui releases publicadas.
 
 ### Added
 
+- Fase inicial F0/F1 — auditoria da Software Factory V1 + design e plano executável da **Factory V2**:
+  `docs/reports/FACTORY_V2_FASE0_AUDITORIA_DESIGN.md` e `docs/reports/FACTORY_V2_FASE1_IMPLEMENTATION_PLAN.md`.
+- Factory V2 aprovada por human gates (HG-F2-01/02/03 + HG-REC-01 · 2026-09-04): agente
+  `servium-orchestrator`, comando `start-orchestrator`, `docs/factory/ORCHESTRATOR.md`,
+   máquina de estados canônica de **14 estados**, política de merge **por classe**
+   (normal L2 autônomo; estrutural L3 humano).
 - Initial project foundation: documentação de visão, princípios de produto,
   glossário, contexto para agentes de IA, índice de documentação, estrutura
   de ADRs, roadmap inicial, licença proprietária e configurações base do

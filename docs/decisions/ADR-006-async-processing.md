@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 Ciclos, cobranças agendadas, retries e validações ocorrem em background (ADRV-005), com exigência de idempotência de efeitos externos (ADRV-003/NFR-008) e simplicidade operacional máxima (ADRV-011). Escala do piloto: dezenas de clientes × itens mensais.
 
-## Decision (proposed)
+## Decision (Accepted)
 
 **Fila de jobs persistida no próprio PostgreSQL** (tabela de jobs com estados, `SKIP LOCKED` para concorrência segura), executada pelo worker do backend. Padrão transactional outbox conceitual: intenção de efeito externo registrada na mesma transação do estado de negócio; envio só ocorre com chave de idempotência.
 

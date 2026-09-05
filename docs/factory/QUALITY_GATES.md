@@ -1,6 +1,6 @@
-# Quality Gates — ServiumAI
+# Quality Gates — ServiumAI (V2)
 
-> Cinco gates obrigatórios. Nenhum é pulável; nenhum agente pode dispensar outro.
+> Cinco gates obrigatórios (mais Gate 4.5 quando aplicável). Nenhum é pulável; nenhum agente pode dispensar outro. Transições de gate são validadas/executadas pelo **Orchestrator** (ver `AGENT_ORCHESTRATION.md` §4).
 
 ## Gate 1 — Definition of Ready (entrada da análise técnica)
 
@@ -13,7 +13,7 @@ Responsável: `servium-po` (prepara) → verificação por `servium-senior`.
 - [ ] Contexto suficiente
 - [ ] Ausência de ambiguidade crítica
 
-Falha → retorna a `BACKLOG` com lacunas listadas.
+Falha → retorna a `OPEN` com lacunas listadas (estado `PO_APPROVED` exige DoR completa).
 
 ## Gate 2 — TECH READY (entrada do desenvolvimento)
 
@@ -65,11 +65,19 @@ Resultado único: `APPROVED` | `CHANGES_REQUESTED` | `BLOCKED`.
 
 ## Gate 5 — PO Acceptance
 
-Responsável: `servium-po`, somente após `QA_APPROVED`.
+Responsável: `servium-po`, somente após `QA_APPROVED` (e após `HUMAN_REVIEW` quando exigido).
 
 - PO valida comportamento funcional contra os critérios de aceite.
 - Resultado: `ACCEPTED` | `REJECTED` — sempre com evidência ou justificativa registrada.
-- `ACCEPTED` + QA `APPROVED` ⇒ `DONE`. Formalmente: `DONE = QA_APPROVED AND PO_ACCEPTED`.
+- `ACCEPTED` + QA `APPROVED` + **merge concluído** ⇒ `DONE`. Formalmente: `DONE = QA_APPROVED AND PO_ACCEPTED AND MERGED`.
+
+## Gate 4.5 — Human Review (quando aplicável)
+
+Responsável: humano (Rodrigo). Acionado pelo Orchestrator quando item entrar em `HUMAN_REVIEW`.
+
+- Obrigatório para: mudanças arquiteturais/estruturais, decisões de produto, alterações de governança/Human Gates, dependências removíveis, qualquer ação `AUTONOMY_POLICY` Level 3.
+- A decisão humana deve seguir o formato canônico `HUMAN_DECISION_REQUIRED` (`HUMAN_GATES.md`).
+- Sem decisão registrada, o item permanece `HUMAN_REVIEW`/`AWAITING_DECISION` — nunca avança por silêncio.
 
 ## Estados de validação
 

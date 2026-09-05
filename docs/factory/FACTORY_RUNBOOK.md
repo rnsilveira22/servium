@@ -1,14 +1,16 @@
 # Factory Runbook — ServiumAI
 
 > Manual operacional de uma sessão autônoma da factory. O comando `START_FACTORY` (`.opencode/command/start-factory.md`) referencia este runbook. Fontes normativas: `AGENT_GOVERNANCE.md`, `AUTONOMY_POLICY.md`, `AGENT_ORCHESTRATION.md`.
+>
+> **Factory V2 (Orchestrator):** a V1 deste runbook permanece **íntegra como fallback**. A V2 adiciona o agente `servium-orchestrator` e inicia via `.opencode/command/start-orchestrator.md`; papel e limites em `ORCHESTRATOR.md`. Estados canônicos V2 em `DEVELOPMENT_WORKFLOW.md`; política de merge unificada por classe em `AUTONOMY_POLICY.md` (HG-F2-03) em harmonia com o §9 deste documento.
 
 ## 0. Identidade da sessão
 
-Uma sessão OpenCode **atua como um agente por vez por item**. Antes de agir, declarar no primeiro output:
+Uma sessão OpenCode **atua como um agente por vez por item** (na V2, sob coordenação do Orchestrator). Antes de agir, declarar no primeiro output:
 
 ```text
 [FACTORY] sessão iniciada | branch: <branch> | data: <data>
-[FACTORY] papel ativo inicial: <po|senior|pleno|qa> (muda só em gate/handoff)
+[FACTORY] papel ativo inicial: <orchestrator|po|senior|pleno|qa> (muda só em gate/handoff)
 ```
 
 ## 1. Verificação de estado (sempre, nesta ordem)

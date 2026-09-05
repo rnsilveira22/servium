@@ -137,6 +137,59 @@
 
 ---
 
+## HG-F2-01 — Criação do Orchestrator + governança da Factory V2
+
+```text
+[AUTONOMY] L3 | governance da Factory V2 | solicitada em: docs/reports/FACTORY_V2_FASE1_IMPLEMENTATION_PLAN.md §C (HG-F2-01)
+```
+
+- **Decisão**: **APROVADO** — autoriza criar `servium-orchestrator`; comandos de start da V2; documentação do Orchestrator; atualização da governança; formalização dos handoff contracts; integração com os agentes V1; manutenção da V1 como fallback.
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-09-04 · **Fase**: `FACTORY_V2_PHASE1_DESIGN_READY`
+- **Limites impostos pelo decisor**: Orchestrator é coordenador; **sem** autoridade de produto, prioridade, aceite, ADR, arquitetura, Human Gates, governança fora do processo, deploy, dados reais, merge estrutural, nem substituição de Rodrigo/PO.
+- **Condição de implementação**: branch própria + PR específico da Factory V2; sem alterações silenciosas em `main`.
+- **Evidência**: `.opencode/agent/servium-orchestrator.md` · `.opencode/command/start-orchestrator.md` · `docs/factory/ORCHESTRATOR.md` (branch `feat/f2-orchestrator`).
+
+---
+
+## HG-F2-02 — Estados canônicos da Factory V2
+
+```text
+[AUTONOMY] L3 | governance da Factory V2 | solicitada em: docs/reports/FACTORY_V2_FASE1_IMPLEMENTATION_PLAN.md §C (HG-F2-02)
+```
+
+- **Decisão**: **APROVADO** — adotar a máquina de estados canônica V2 (14 estados): `OPEN · PO_APPROVED · TECH_READY · IMPLEMENTING · QA_REVIEW · QA_FAILED · QA_APPROVED · HUMAN_REVIEW · PO_ACCEPTED · DONE · BLOCKED · AWAITING_DECISION · REJECTED · ESCALATED_TECHNICAL_FAILURE`. **DONE = QA_APPROVED AND PO_ACCEPTED AND MERGED.**
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-09-04
+- **Evidência**: `docs/factory/DEVELOPMENT_WORKFLOW.md` (estados V2) · `docs/factory/GITHUB_WORKFLOW.md` (mapa do campo Status; migração do Project pendente de execução admin).
+
+---
+
+## HG-F2-03 — Política de merge única (por classe)
+
+```text
+[AUTONOMY] L3 | governance da Factory V2 | solicitada em: docs/reports/FACTORY_V2_FASE1_IMPLEMENTATION_PLAN.md §C (HG-F2-03)
+```
+
+- **Decisão**: **APROVADO — Opção A (merge por classe)** — resolve o conflito P0-1 entre `AUTONOMY_POLICY.md` (todo merge L3) e `FACTORY_RUNBOOK.md` §9 (merge autônomo de PR normal):
+  - **PR normal** (código/doc com cobertura, CI verde, QA `APPROVED`, PO `ACCEPTED`, sem ADR `Proposed` dependente): **autônomo (L2)** com notificação;
+  - **PR estrutural** (arquitetura, banco, produto, dependência removível, governança, Human Gates): **L3 — sempre humano**.
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-09-04
+- **Evidência**: `docs/factory/AUTONOMY_POLICY.md` · `docs/factory/AGENT_ORCHESTRATION.md` §10 · `docs/factory/FACTORY_RUNBOOK.md` §9 (harmonizado).
+
+---
+
+## HG-REC-01 — Reconciliação do estado (#45–#49 + documentos)
+
+```text
+[AUTONOMY] L3 | governance da Factory V2 | solicitada em: docs/reports/FACTORY_V2_FASE1_IMPLEMENTATION_PLAN.md §D (HG-REC-01)
+```
+
+- **Decisão**: **APROVADO** — autoriza a reconciliação: fechamento das issues **#45–#49** com evidência de implementação mergeada (PRs #61–#65) e correção do `FACTORY_STATUS.md`/`README`/`CHANGELOG`/referências Playwright/ADR headings, com registro rastreável (sem alteração silenciosa).
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-09-04
+- **Fora do escopo desta autorização** (explicitado pelo decisor): implementar #51, implementar #58, nova UX/UI, alterar API/banco/regras de produto, deploy, dados reais.
+- **Evidência**: `docs/factory/FACTORY_STATUS.md` e docs reconciliados no branch `feat/f2-orchestrator`; fechamento das issues requer `gh`/web (pendente).
+
+---
+
 ## Pendências
 
 | ID | Assunto | Estado |

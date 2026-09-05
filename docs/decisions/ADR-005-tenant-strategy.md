@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 NFR-001 exige consciência e isolamento de tenant desde o primeiro dia, mesmo com um único tenant ativo no piloto. Critérios: isolamento, complexidade operacional, custo, backup único, métricas agregadas (M-01..M-12) e risco.
 
-## Decision (proposed)
+## Decision (Accepted)
 
 **Schema compartilhado com coluna `tenant_id` obrigatória em toda entidade de negócio**, acesso sempre contextualizado ao tenant corrente, e **Row-Level Security do PostgreSQL como defesa-em-profundidade**. Testes automatizados dedicados de isolamento entre tenants.
 

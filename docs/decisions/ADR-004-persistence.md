@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 Domínio fortemente relacional (ciclo → itens → documentos → mensagens → auditoria), requisitos de transações, trilha append-only, JSON para configurações flexíveis e isolamento por tenant com defesa-em-profundidade (ADRV-001, ADRV-002, ADRV-007).
 
-## Decision (proposed)
+## Decision (Accepted)
 
 **PostgreSQL** como único banco de dados do MVP: dados transacionais, jobs persistidos (ADR-006), metadados documentais e trilha de auditoria. Row-Level Security como segunda camada de isolamento por tenant.
 

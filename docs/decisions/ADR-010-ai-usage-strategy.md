@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 O produto é "IA" no discurso, mas o fluxo do MVP é majoritariamente determinístico (checklists, estados, limites, templates). Usar LLM onde uma regra basta gera custo, latência, não-determinismo e risco de alucinação (RSK-003, RSK-009; ADRV-013). Nenhum provedor deve ser escolhido sem necessidade validada.
 
-## Decision (proposed)
+## Decision (Accepted)
 
 Classificar cada função em determinístico / IA potencial / LLM potencial / humano obrigatório ([`../architecture/AI_USAGE_BOUNDARIES.md`](../architecture/AI_USAGE_BOUNDARIES.md)). No MVP:
 
