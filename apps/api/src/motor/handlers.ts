@@ -59,14 +59,21 @@ export const ativarCiclo =
     // guarda de idempotência: itens já existentes não são recriados
     const { rowCount: existentes } = await ctx.query('SELECT 1 FROM itens_ciclo WHERE ciclo_id=$1 LIMIT 1', [cicloId]);
     if (existentes) return;
-    await ctx.query(
-      `INSERT INTO itens_ciclo (tenant_id, ciclo_id, item_template_id)
-       SELECT $1,$2,id FROM itens_template WHERE tenant_id=$1 AND template_id=$3 ORDER BY ordem`,
-      [job.tenant_id, cicloId, alvo[0].template_id]
-    );
-    await auditar(ctx, job.tenant_id, 'ciclo', cicloId, 'ativar', {});
-    // auto-encadeia a varredura APÓS os itens existirem (ordem de fila não é garantia)
-    await enqueue(ctx, { tipo: 'ciclo.tick', payload: { ciclo_id: cicloId }, idempotencyKey: `tick:${cicloId}:pos-ativar` });
+    await ctx.query('BEGIN');
+    try {
+      await ctx.query(
+        `INSERT INTO itens_ciclo (tenant_id, ciclo_id, item_template_id)
+         SELECT $1,$2,id FROM itens_template WHERE tenant_id=$1 AND template_id=$3 ORDER BY ordem`,
+        [job.tenant_id, cicloId, alvo[0].template_id]
+      );
+      await auditar(ctx, job.tenant_id, 'ciclo', cicloId, 'ativar', {});
+      // auto-encadeia a varredura DENTRO da transação: ação+evento+efeito como unidade (sem job órfão)
+      await enqueue(ctx, { tipo: 'ciclo.tick', payload: { ciclo_id: cicloId }, idempotencyKey: `tick:${cicloId}:pos-ativar` });
+      await ctx.query('COMMIT');
+    } catch (err) {
+      await ctx.query('ROLLBACK');
+      throw err;
+    }
   };
 
 /**
@@ -117,18 +124,28 @@ export const cobrarItem =
     if (decisao.acao === 'escalar') {
       // transição automática aguardando→excecao (limite social esgotado)
       if (!podeTransicionar(item.estado, 'excecao')) return;
-      const { rows } = await ctx.query(
-        `UPDATE itens_ciclo SET estado='excecao', atualizado_em=now()
-          WHERE id=$1 AND estado=$2 RETURNING id`,
-        [itemId, item.estado]
-      );
-      if (rows.length === 0) return; // perdeu corrida ⇒ outro worker tratou
-      await ctx.query(
-        `INSERT INTO excecoes (tenant_id, item_ciclo_id, tipo, motivo, contexto)
-         VALUES ($1,$2,'escalada_limite',$3,$4)`,
-        [job.tenant_id, itemId, decisao.motivo, JSON.stringify({ tentativas: item.tentativas })]
-      );
-      await auditar(ctx, job.tenant_id, 'item_ciclo', itemId, 'escalar', { motivo: decisao.motivo });
+      await ctx.query('BEGIN');
+      try {
+        const { rows } = await ctx.query(
+          `UPDATE itens_ciclo SET estado='excecao', atualizado_em=now()
+            WHERE id=$1 AND estado=$2 RETURNING id`,
+          [itemId, item.estado]
+        );
+        if (rows.length === 0) {
+          await ctx.query('ROLLBACK');
+          return; // perdeu corrida ⇒ outro worker tratou
+        }
+        await ctx.query(
+          `INSERT INTO excecoes (tenant_id, item_ciclo_id, tipo, motivo, contexto)
+           VALUES ($1,$2,'escalada_limite',$3,$4)`,
+          [job.tenant_id, itemId, decisao.motivo, JSON.stringify({ tentativas: item.tentativas })]
+        );
+        await auditar(ctx, job.tenant_id, 'item_ciclo', itemId, 'escalar', { motivo: decisao.motivo });
+        await ctx.query('COMMIT');
+      } catch (err) {
+        await ctx.query('ROLLBACK');
+        throw err;
+      }
       return;
     }
 
@@ -222,14 +239,21 @@ export const tickCiclos = (): Handler => async (job, ctx) => {
   }
   // varredura sem elegíveis ⇒ se o tick é de um ciclo específico, tenta encerrar (CA-06)
   if (!agendou && typeof job.payload.ciclo_id === 'string') {
-    const { rowCount } = await ctx.query(
-      `UPDATE ciclos SET estado='encerrado', encerrado_em=now()
-        WHERE id=$1 AND estado='aberto'
-          AND NOT EXISTS (
-            SELECT 1 FROM itens_ciclo WHERE ciclo_id=$1 AND estado NOT IN ('resolvido','cancelado','excecao'))`,
-      [job.payload.ciclo_id]
-    );
-    if (rowCount) await auditar(ctx, job.tenant_id, 'ciclo', job.payload.ciclo_id, 'encerrar', {});
+    await ctx.query('BEGIN');
+    try {
+      const { rowCount } = await ctx.query(
+        `UPDATE ciclos SET estado='encerrado', encerrado_em=now()
+          WHERE id=$1 AND estado='aberto'
+            AND NOT EXISTS (
+              SELECT 1 FROM itens_ciclo WHERE ciclo_id=$1 AND estado NOT IN ('resolvido','cancelado','excecao'))`,
+        [job.payload.ciclo_id]
+      );
+      if (rowCount) await auditar(ctx, job.tenant_id, 'ciclo', job.payload.ciclo_id, 'encerrar', {});
+      await ctx.query('COMMIT');
+    } catch (err) {
+      await ctx.query('ROLLBACK');
+      throw err;
+    }
   }
 };
 
@@ -244,12 +268,19 @@ export const encerrarCiclo =
       [cicloId]
     );
     if (rows[0]?.abertos !== '0') return;
-    const upd = await ctx.query(
-      `UPDATE ciclos SET estado='encerrado', encerrado_em=now()
-        WHERE id=$1 AND estado='aberto' RETURNING id`,
-      [cicloId]
-    );
-    if (upd.rowCount) await auditar(ctx, job.tenant_id, 'ciclo', cicloId, 'encerrar', {});
+    await ctx.query('BEGIN');
+    try {
+      const upd = await ctx.query(
+        `UPDATE ciclos SET estado='encerrado', encerrado_em=now()
+          WHERE id=$1 AND estado='aberto' RETURNING id`,
+        [cicloId]
+      );
+      if (upd.rowCount) await auditar(ctx, job.tenant_id, 'ciclo', cicloId, 'encerrar', {});
+      await ctx.query('COMMIT');
+    } catch (err) {
+      await ctx.query('ROLLBACK');
+      throw err;
+    }
   };
 
 export function registrarMotorHandlers(deps: MotorDeps): Map<string, Handler> {
