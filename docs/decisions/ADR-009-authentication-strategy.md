@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 Usuários humanos do escritório (papéis mínimos: gestor/responsável), operações sensíveis auditadas, tenant sempre contextualizado (NFR-002, ADRV-001/009). IAM completo ou IdP externo seriam excesso para o piloto.
 
-## Decision (proposed)
+## Decision (Accepted)
 
 **Autenticação first-party**: e-mail + senha (hash moderno, ex.: argon2/bcrypt), sessões httpOnly server-side, RBAC mínimo em tabelas próprias (usuário ↔ papel ↔ tenant). Ações sensíveis (alterar limites/templates, resolver exceções) exigem papel adequado e geram evento de auditoria. Funcionários Digitais são atores registrados com identidade própria de serviço (sem login humano), preparando service identities futuras. Desenho compatível com plugagem futura de OIDC/IdP externo sem reescrita.
 

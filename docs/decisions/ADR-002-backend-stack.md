@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 Backend IO-bound (orquestração de banco, canal de comunicação, storage), equipe mínima, necessidade de velocidade com tipagem e jobs assíncronos simples (ADRV-005, ADRV-011, ADRV-012). Comparação completa em [`../architecture/STACK_EVALUATION.md`](../architecture/STACK_EVALUATION.md).
 
-## Decision (proposed)
+## Decision (Accepted)
 
 **TypeScript + Node.js**, com framework **NestJS** para reforçar os módulos do monólito modular (injeção de dependência, módulos explícitos). Filas via PostgreSQL (ADR-006), sem Redis no MVP.
 

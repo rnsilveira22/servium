@@ -113,7 +113,7 @@ consistente e com revisão humana.
 ## Contexto
 
 Após o MVP pronto, testado e aprovado, gerar vídeos demonstrativos com ambiente
-isolado, dados fictícios, navegação Playwright, gravação de tela, narração pt-BR
+isolado, dados fictícios, navegação Selenium, gravação de tela, narração pt-BR
 com IA, legendas, identidade visual e exportação MP4.
 
 ## Objetivo

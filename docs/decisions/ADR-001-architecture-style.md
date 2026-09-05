@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 O MVP é um sistema operacional interno de orquestração (ciclos, cobranças limitadas, documentos, supervisão humana) com carga trivial no piloto (dezenas de clientes), equipe de desenvolvimento mínima e necessidade de velocidade com segurança (drivers ADRV-001..014, em especial ADRV-011 simplicidade e ADRV-012 velocidade). As fronteiras de domínio já estão modeladas em [`../architecture/DOMAIN_BOUNDARIES.md`](../architecture/DOMAIN_BOUNDARIES.md) (7 módulos).
 
-## Decision (proposed)
+## Decision (Accepted)
 
 Adotar **monólito modular**: um único deployável backend com módulos internos de fronteiras explícitas (ownership de dados, dependências direcionadas, comunicação por interfaces/eventos), mais SPA e infraestrutura mínima. Módulos podem ser extraídos para serviços futuramente **somente** quando gatilhos documentados ocorrerem.
 

@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 Equipe mínima sem função dedicada de operações; requisitos de backup/recuperação/TLS corretos desde o dia um (NFR-016, ADRV-009); custo proporcional ao piloto (ADRV-011). Kubernetes e orquestração complexa são antecipação injustificável.
 
-## Decision (proposed)
+## Decision (Accepted)
 
 **PaaS de entrada**: aplicação empacotada como container portátil (backend + SPA), **PostgreSQL gerenciado**, **object storage gerenciado compatível S3**. Dois processos do mesmo artefato (API e worker/scheduler). Ambientes: produção do piloto + ambiente de desenvolvimento/staging simples.
 

@@ -2,9 +2,9 @@
 
 **ServiumAI** é uma plataforma B2B de **funcionários digitais especializados**: força de trabalho digital organizada, com funções definidas, permissões controladas e supervisão humana, criada para assumir atividades operacionais e rotineiras de empresas — começando por escritórios de contabilidade.
 
-> **Status: MVP-01 em implementação — `PRE_PILOT_REMEDIATION_REQUIRED`**
+> **Status: MVP-01 em remediação pré-piloto — P0.1 resolvido/margeado · restam P0.2/P0.3**
 >
-> O backlog da **Onda 0–1 do MVP-01** foi implementado como **monorepo TypeScript executável** (API NestJS + SPA React + pacote de banco com migrations/RLS + suíte E2E Selenium), a partir do vertical slice definido pelo spike **SRV-10** (2026-08-23) e das decisões arquiteturais registradas nos **ADR-001..011 (Accepted, HG-002)**. A reconciliação pós-MVP ([`docs/reports/POST_MVP_BACKLOG_RECONCILIATION.md`](docs/reports/POST_MVP_BACKLOG_RECONCILIATION.md)) aprovada por human gate (2026-08-30) invalidou o estado `PILOT_READY` e define as remediações pré-piloto (P0.1 runtime do Funcionário Digital · P0.2 auditoria #9 · P0.3 hardening de auth #20). A hipótese de MVP permanece documentada em [`docs/product/MVP_DISCOVERY.md`](docs/product/MVP_DISCOVERY.md) e **aguarda validação com escritórios contábeis reais**.
+> O backlog da **Onda 0–1 do MVP-01** foi implementado como **monorepo TypeScript executável** (API NestJS + SPA React + pacote de banco com migrations/RLS + suíte E2E Selenium), a partir do vertical slice definido pelo spike **SRV-10** (2026-08-23) e das decisões arquiteturais registradas nos **ADR-001..011 (Accepted, HG-002)**. O **P0.1 (runtime do Funcionário Digital)** foi implementado e mergeado (PRs #61–#66; issues #45–#50). Restam **P0.2 (auditoria #9)** e **P0.3 (hardening de auth #20)** antes de redeclarar `PILOT_READY`. A **Software Factory V2** (Orchestrator, 14 estados canônicos, merge por classe) foi aprovada por human gates em 2026-09-04 (HG-F2-01/02/03 + HG-REC-01). A hipótese de MVP permanece documentada em [`docs/product/MVP_DISCOVERY.md`](docs/product/MVP_DISCOVERY.md) e **aguarda validação com escritórios contábeis reais**.
 
 ---
 
@@ -91,6 +91,8 @@ Stack escolhida e registrada nos **ADR-001..011** (`Accepted` via HG-002): monó
 | [`docs/AI_CONTEXT.md`](docs/AI_CONTEXT.md) | Contexto e regras para agentes de IA |
 | [`docs/architecture/README.md`](docs/architecture/README.md) | Preocupações arquiteturais preliminares |
 | [`docs/decisions/README.md`](docs/decisions/README.md) | Processo de ADRs |
+| [`docs/factory/ORCHESTRATOR.md`](docs/factory/ORCHESTRATOR.md) | Orchestrator da Software Factory V2 |
+| [`docs/factory/DEVELOPMENT_WORKFLOW.md`](docs/factory/DEVELOPMENT_WORKFLOW.md) | Máquina de estados canônica V2 |
 | [`docs/product/README.md`](docs/product/README.md) | Documentação de produto (discovery e especificação do MVP) |
 | [`docs/roadmap/README.md`](docs/roadmap/README.md) | Roadmap por fases |
 
@@ -101,8 +103,8 @@ Fases e objetivos — sem datas arbitrárias:
 1. **Fundação** *(concluída)* — documentação, governança e definição do produto.
 2. **Descoberta e especificação do MVP** *(concluída)* — primeiro problema, primeiro cliente, primeiro funcionário digital.
 3. **Arquitetura** *(concluída)* — definição de stack e arquitetura via ADRs (HG-002).
-4. **Core da plataforma** *(em curso)* — capacidades fundamentais da Onda 0–1 do MVP-01 implementadas; estado atual `PRE_PILOT_REMEDIATION_REQUIRED`.
-5. **Primeiro funcionário digital** — primeiro caso de uso real (motor determinístico de pendências — implementado; runtime a wirelar, P0.1).
+4. **Core da plataforma** *(em curso)* — capacidades fundamentais da Onda 0–1 do MVP-01 implementadas; P0.1 resolvido; restam P0.2/P0.3.
+5. **Primeiro funcionário digital** — primeiro caso de uso real (motor determinístico de pendências e runtime do Funcionário Digital — implementados e mergeados).
 6. **Piloto** — execução em ambiente controlado (decisão de comunicação: Gmail API + OAuth; local/CI/E2E via Mailpit).
 7. **Validação** — medição de resultados.
 8. **Evolução comercial** — preparação para escala.

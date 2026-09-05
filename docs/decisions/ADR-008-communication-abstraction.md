@@ -8,7 +8,7 @@ Accepted (HG-002 · 2026-08-22)
 
 O canal de comunicação com clientes finais ainda está **a validar** (e-mail é hipótese inicial — HYP-005; WhatsApp é alternativa a avaliar). O core não pode depender de provedor específico (ADRV-006, ADRV-010), e todo envio exige idempotência e evidência auditável (NFR-007/008).
 
-## Decision (proposed)
+## Decision (Accepted)
 
 Definir a porta conceitual **`CommunicationChannel`** com operações mínimas: enviar mensagem (destinatário, template renderizado, chave de idempotência) e receber mensagens/anexos. Adaptadores concretos implementam a porta (ex.: `EmailAdapter` hoje; `FutureChannelAdapter` depois). O ledger de envios fica no módulo Communication, nunca no adaptador. Escolha do provedor concreto ocorre na implementação, após validação de produto.
 

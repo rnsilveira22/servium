@@ -183,7 +183,7 @@ Não foi possível capturar screenshots (ambiente CLI sem navegador). As valida�
 | Pendência | Prioridade |
 |---|---|
 | Screenshots reais por rota (requer browser) | Alta |
-| Testes E2E com Cypress/Playwright | Média |
+| Testes E2E com Selenium (`apps/e2e`) | Média |
 | Tratamento de erros de rede offline | Baixa |
 
 ## Gate
