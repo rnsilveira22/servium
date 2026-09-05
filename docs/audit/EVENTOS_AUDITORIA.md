@@ -81,9 +81,9 @@ Sustenta o keyset `(criado_em DESC, id DESC)` usado por `listarEventos` (§5). F
 |---|---|---|---|
 | `sistema` | motor (`handlers.ts`) e runtime de recebimento (`recebimento.ts`) | `NULL` | infra/processamento automático |
 | `operador` | auth, cadastro, ciclos (ativar/decidir/reenviar) | UUID do operador autenticado | ações humanas |
-| `servico` | — (nenhum emissor hoje) | — | [PRM-P0.3-C](PRE_PILOT_REMEDIATION_PLAN.md) — identidade de serviço do Funcionário Digital |
+| `servico` | — (nenhum emissor hoje) | — | [PRM-P0.3-C](../reports/PRE_PILOT_REMEDIATION_PLAN.md) — identidade de serviço do Funcionário Digital |
 
-O valor `servico` já é aceito pelo `CHECK` do schema (`0002:123`) e previsto pelo DTO ([`packages/db/src/audit.ts:33-42`](../../packages/db/src/audit.ts)), mas **não é emitido por nenhum caminho** em `main@150188f` — em [PRM-P0.3-C](PRE_PILOT_REMEDIATION_PLAN.md) o worker passará a gravar com identidade de serviço estável.
+O valor `servico` já é aceito pelo `CHECK` do schema (`0002:123`) e previsto pelo DTO ([`packages/db/src/audit.ts:33-42`](../../packages/db/src/audit.ts)), mas **não é emitido por nenhum caminho** em `main@150188f` — em [PRM-P0.3-C](../reports/PRE_PILOT_REMEDIATION_PLAN.md) o worker passará a gravar com identidade de serviço estável.
 
 ## 3. Inventário de eventos (15 ações)
 
@@ -142,13 +142,13 @@ Endpoint **`GET /auditoria`** — [`apps/api/src/auditoria/auditoria.controller.
 
 - **Leituras** (listar clientes/ciclos/obrigações/templates, `GET /auditoria`): por design, leitura não gera evento (registrado no plano §11, `PRE_PILOT_REMEDIATION_PLAN.md`).
 - **Login com tenant desconhecido** (`AuthController.login` quando o `SELECT` não retorna operador): sem FK válida não há evento; o sinal vai ao log da aplicação (anti-enumeração — resposta idêntica).
-- **`trocar_senha` / `login_block`** (rate limit): não existem — pertencem a [PRM-P0.3-A/B](PRE_PILOT_REMEDIATION_PLAN.md), bloqueadas por HG-PR-SEC.
+- **`trocar_senha` / `login_block`** (rate limit): não existem — pertencem a [PRM-P0.3-A/B](../reports/PRE_PILOT_REMEDIATION_PLAN.md), bloqueadas por HG-PR-SEC.
 - **Conteúdo das comunicações:** o envio em si não é auditado como evento; a ação `cobrar` (rodada) e o recebimento `receber` (token/message_id) rastreiam o fluxo, sem corpo da mensagem.
 - **Scheduler/ticks re-enfileirados** sem ação de negócio não geram evento (só `decisao` quando o motor decide não agir).
 
 ## 6. Retenção — DEFERIDA (HG-RETENÇÃO)
 
-**`HG-RETENÇÃO DEFERRED (2026-08-30)`** — decisão humana registrada no [plano §13](PRE_PILOT_REMEDIATION_PLAN.md) (e §21, §24, Anexo A.3) e reapresentada na [Issue #53](https://github.com/rnsilveira22/servium/issues/53):
+**`HG-RETENÇÃO DEFERRED (2026-08-30)`** — decisão humana registrada no [plano §13](../reports/PRE_PILOT_REMEDIATION_PLAN.md) (e §21, §24, Anexo A.3) e reapresentada na [Issue #53](https://github.com/rnsilveira22/servium/issues/53):
 
 - Durante **MVP/piloto**, os eventos de auditoria são **preservados** até a aprovação da política — **nada é purgado automaticamente**.
 - **Não há prazo numérico de retenção** neste documento: definir prazos é decisão de PO/jurídico no gate `HG-RETENÇÃO`.
@@ -179,7 +179,7 @@ A tabela acima referencia os testes de **#51** (CA-04-x) e **#52** (CA-03-x), al
 1. **PII admin-only residual:** `detalhes` contém dado pessoal mínimo (`nome` de cliente, `descricao` de obrigação) e UUIDs de operadores. Acesso restrito a admin do próprio tenant (RBAC+RLS); revisão jurídica futura do que deve (ou não) compor `detalhes`.
 2. **Caminhos de cadastro não-atômicos:** `criar`/cliente, `criar`/obrigação, `criar`/checklist_template e `ativar` (HTTP) emitem o evento **pós-COMMIT/autocommit** — falha do INSERT de auditoria deixa a entidade sem rastro (CA-03 coberto apenas nos caminhos do motor/decidir/reenviar/receber). Mitigação operacional: monitorar eventos ausentes por entidade criada.
 3. **Login via conexão admin:** `login_sucesso`/`login_falha` usam conexão **admin** pré-auth (sem RLS) para gravar o evento — escopo restrito ao INSERT de auditoria de credencial e `tenant_id` do operador autenticado; não acessa dados de negócio. Utilização indevida futura dessa conexão seria violação da separação documentada em [`auth.controller.ts:102-104`](../../apps/api/src/auth/auth.controller.ts).
-4. **Ator `servico` não emitido:** a trilha ainda não distingue "FD agindo" de "infra do sistema" (tudo `sistema`) — dependência de [PRM-P0.3-C](PRE_PILOT_REMEDIATION_PLAN.md), fora desta entrega.
+4. **Ator `servico` não emitido:** a trilha ainda não distingue "FD agindo" de "infra do sistema" (tudo `sistema`) — dependência de [PRM-P0.3-C](../reports/PRE_PILOT_REMEDIATION_PLAN.md), fora desta entrega.
 5. **Retenção em aberto:** sem HG-RETENÇÃO não há prazo nem purge; o crescimento da tabela no piloto é aceito intencionalmente (política §6).
 
 ## 9. Referências cruzadas
