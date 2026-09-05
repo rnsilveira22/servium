@@ -190,6 +190,12 @@
 
 ---
 
+## Confirmação integral das aprovações HG-F2 (registro de retificação)
+
+A mensagem original de aprovação (04/09/2026) chegou truncada após o texto do **HG-F2-02**. O decisor (Rodrigo) confirmou em 04/09/2026 que os quatro gates — **HG-F2-01**, **HG-F2-02**, **HG-F2-03** e **HG-REC-01** — foram **aprovados na íntegra, sem ressalvas**, valendo as opções recomendadas no plano aprovado (`docs/reports/FACTORY_V2_FASE1_IMPLEMENTATION_PLAN.md` §C/§D): HG-F2-03 → **merge por classe (Opção A)**; HG-REC-01 → **lote completo de reconciliação**. Este registro sanitiza o artefato sem apagar o histórico.
+
+---
+
 ## Pendências
 
 | ID | Assunto | Estado |
