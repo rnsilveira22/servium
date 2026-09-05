@@ -3,6 +3,7 @@ import type { Client } from 'pg';
 
 import { enqueue } from '@servium/db';
 import { RequireAuth, Roles, type AuthedRequest } from '../auth/auth.guard';
+import { decidirItem as decidirItemTxn, type DesfechoItem } from './decidir-item';
 
 @Controller('ciclos')
 @UseGuards(RequireAuth)
@@ -161,22 +162,11 @@ export class CiclosController {
     if (!['resolvido', 'cancelado'].includes(body?.desfecho ?? '')) {
       throw new BadRequestException("desfecho deve ser 'resolvido' ou 'cancelado'");
     }
-    const client = this.pg(req);
-    const upd = await client.query(
-      `UPDATE itens_ciclo SET estado=$2, atualizado_em=now()
-        WHERE id=$1 AND estado='excecao' RETURNING id`,
-      [itemId, body.desfecho]
-    );
-    if (upd.rowCount === 0) throw new BadRequestException('item não está em exceção');
-    await client.query(
-      `UPDATE excecoes SET desfecho=$2, decidido_por=$3, decidido_em=now()
-        WHERE item_ciclo_id=$1 AND desfecho IS NULL`,
-      [itemId, body.desfecho, req.sessao!.operadorId]
-    );
-    await client.query(
-      `INSERT INTO eventos_auditoria (tenant_id, actor_type, actor_id, entidade, entidade_id, acao, detalhes)
-       VALUES ($1,'operador',$2,'item_ciclo',$3,'decidir',$4)`,
-      [req.sessao!.tenantId, req.sessao!.operadorId, itemId, JSON.stringify({ desfecho: body.desfecho })]
+    await decidirItemTxn(
+      this.pg(req),
+      { tenantId: req.sessao!.tenantId, operadorId: req.sessao!.operadorId },
+      itemId,
+      body.desfecho as DesfechoItem
     );
     return { ok: true };
   }
