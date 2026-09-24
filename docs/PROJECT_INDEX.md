@@ -66,6 +66,7 @@ README.md
 │   ├── Plano de validação .... docs/product/VALIDATION_PLAN.md
 │   ├── Backlog macro ......... docs/product/BACKLOG_OVERVIEW.md
 │   ├── Backlog inicial (canônico) docs/product/INITIAL_BACKLOG.md
+│   ├── Matriz de rastreabilidade docs/product/TRACEABILITY_MATRIX.md
 │   └── Demo Factory .......... docs/product/DEMO_FACTORY_STORY.md
 │
 └── Roadmap ................... docs/roadmap/README.md
@@ -138,6 +139,7 @@ README.md
 | [`product/BACKLOG_OVERVIEW.md`](product/BACKLOG_OVERVIEW.md) | Backlog macro por épicos conceituais. |
 | [`product/DEMO_FACTORY_STORY.md`](product/DEMO_FACTORY_STORY.md) | Épico Demo Factory: automação de vídeos demonstrativos do MVP (**BLOCKED** — aguarda estabilidade + gate humano). |
 | [`product/INITIAL_BACKLOG.md`](product/INITIAL_BACKLOG.md) | Backlog canônico — HG-003; reordenado por MVP-01 (HG-005). |
+| [`product/TRACEABILITY_MATRIX.md`](product/TRACEABILITY_MATRIX.md) | Matriz Requisito → Documento → Código → Teste → Status; estado real da implementação (2026-09-23). |
 | [`product/MVP_01_VERTICAL_SLICE.md`](product/MVP_01_VERTICAL_SLICE.md) | Meta canônica MVP-01: primeiro Funcionário Digital no piloto (slices, dados mínimos, PILOT_READY). |
 | [`product/MVP_01_REPLAN_REPORT.md`](product/MVP_01_REPLAN_REPORT.md) | Relatório A–M do replanejamento time-to-pilot (HG-005). |
 | [`roadmap/README.md`](roadmap/README.md) | Roadmap por fases, sem datas arbitrárias. |
@@ -148,3 +150,7 @@ README.md
 - Marca escrita consistentemente como **Servium IA**; nome técnico/repositório como **servium**.
 - Links relativos entre documentos.
 - Fatos e hipóteses devem estar claramente separados.
+
+## Documentation Sync Rule
+
+> **Código e documentação evoluem juntos.** Sempre que uma mudança alterar comportamento, regra de negócio, fluxo, entidade, banco, API, contrato, estado, permissão, agente, atividade/tarefa, UX/UI, dashboard, auditoria, integração ou arquitetura, o documento afetado deve ser atualizado **no mesmo ciclo/PR** (regra completa em [`../AGENTS.md`](../AGENTS.md) e [`AI_CONTEXT.md`](AI_CONTEXT.md)). Ponto de entrada da checagem: [`product/TRACEABILITY_MATRIX.md`](product/TRACEABILITY_MATRIX.md).

@@ -323,6 +323,26 @@ body {
   margin-bottom: 1rem;
 }
 
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1rem;
+}
+
+.checkbox-line {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--font-size-sm) !important;
+  font-weight: 500;
+  margin-bottom: 0 !important;
+  color: var(--color-text);
+}
+
+.text-sm {
+  font-size: var(--font-size-xs);
+}
+
 .form-group label {
   display: block;
   font-size: var(--font-size-sm);

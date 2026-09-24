@@ -77,6 +77,42 @@ O MVP considera-se concluído quando, no escritório piloto:
 - Escritório piloto com baseline documentado;
 - Checklists reais fornecidos pelo escritório piloto.
 
+## Classificação de escopo da evolução da Estagiária Digital (2026-09-23)
+
+> Formalização dos novos requisitos (FR-020..FR-029 — ver [`FUNCTIONAL_REQUIREMENTS.md`](FUNCTIONAL_REQUIREMENTS.md)). Esta classificação **não autoriza implementação**; apenas registra o entendimento de produto para priorização. Implementação segue Factory V2 + Human Gates. Critérios: o que é **necessário** para testar a Estagiária Digital com a Innove (MVP obrigatório), o que entra **logo após o fluxo principal estável** (MVP incremental) e o que **não bloqueia** o primeiro teste real (Pós-MVP).
+
+### MVP obrigatório
+
+| Requisito | Justificativa |
+|---|---|
+| FR-020 · Atividade operacional recorrente | Sem modelar a rotina, o piloto usa apenas "obrigação/ciclo" avulso (já implementado); a camada de atividade é o diferencial testável |
+| FR-021 · Seleção do agente executor | Estrutural e barata: existir como configuração (identidade) sem criar agentes futuros; impede retrabalho |
+| FR-029 · UX/UI consistente | Critical para aceitação real com a Innove (spec UX v1 §24–§26) — base M0 já existe; M1 Frente A pendente |
+
+### MVP incremental
+
+| Requisito | Justificativa | Dependência |
+|---|---|---|
+| FR-022 · Periodicidade/competência | Entra logo após fluxo principal estável | FR-020 |
+| FR-025 · Feedback ↔ agente | Corrigir/orientar exige fluxo já em operação | FR-021 |
+| FR-026 · Dashboard operacional | Evolução da FR-011; dados já existem na trilha | FR-020, FR-027 |
+| FR-027 · Timeline operacional | Camada de apresentação sobre eventos existentes | FR-028 |
+| FR-028 · Auditoria operacional | Camada de apresentação sobre dados existentes | — (dados prontos) |
+
+### Pós-MVP
+
+| Requisito | Justificativa |
+|---|---|
+| FR-023 · Organização documental (árvore cliente/competência/categoria) | RC-04 declarada fora do MVP-01; adiciona storage/classificação |
+| FR-024 · Classificação com confiança | Implementação avaliada conforme estágio real; evitar IA desnecessária (ADR-010) |
+
+### Regra de precedência
+
+1. Fluxo principal do MVP (ver [`MVP_01_VERTICAL_SLICE.md`](MVP_01_VERTICAL_SLICE.md)) permanece a prioridade #1;
+2. Nenhum item **Pós-MVP** bloqueia o teste real;
+3. Items **MVP incremental** só começam depois do fluxo principal estável e dos critérios PILOT_READY;
+4. Qualquer item acima que altere contrato/entidade/arquitetura exige ADR ou atualização de ADR (governança atual).
+
 ## Restrições
 
 - Nenhuma ação irreversível sem aprovação humana;

@@ -28,3 +28,21 @@
 - **ADR** (Architecture Decision Record) — registro documentado de uma decisão arquitetural. Ver [`decisions/README.md`](decisions/README.md).
 - **MVP** — Minimum Viable Product; primeira versão do produto com valor validável.
 - **LGPD** — Lei Geral de Proteção de Dados (Lei nº 13.709/2018), aplicável ao tratamento de dados pessoais no Brasil.
+
+## Termos adicionados (2026-09-23 — evolução Estagiária Digital)
+
+> Formalizados com os requisitos FR-020..FR-029 ([`product/FUNCTIONAL_REQUIREMENTS.md`](product/FUNCTIONAL_REQUIREMENTS.md)). Rastreabilidade: [`product/TRACEABILITY_MATRIX.md`](product/TRACEABILITY_MATRIX.md). **Status (2026-09-23):** Atividade e Agente Executor foram **implementados** (entidades `atividades` e `agentes` — migration `0014_atividades_agentes.sql`); Execução e demais termos permanecem como conceitos de pontos de extensão (FR-022+).
+
+| Termo | Definição |
+|---|---|
+| **Estagiária Digital** | Primeiro agente operacional da plataforma — Assistente Digital de Pendências Documentais. Agente operacional configurável, executável, observável, corrigível e progressivamente orientável pelo usuário. **Implementado** (catálogo `agentes`, slug `estagiaria-digital`, seed por tenant). |
+| **Atividade** | Rotina operacional recorrente definida pelo usuário (ex.: "solicitação mensal de documentos para fechamento") com periodicidade, escopo, agente executor, canal, prazo, checklist e comportamento de execução. Diferente de tarefa isolada. **Implementado** (entidade `atividades`, por tenant com RLS). |
+| **Agente Executor** | Entidade/configuração extensível que executa uma atividade. O MVP possui apenas a Estagiária Digital; agentes futuros (Assistente Pleno, Analistas) não devem ser impedidos pela arquitetura. **Implementado** — atividade referencia o agente por FK (`agente_id`), sem hardcode. |
+| **Execução** | Ocorrência de uma atividade em um período/competência, gerada pela definição recorrente, com resultado e auditoria próprios. |
+| **Competência** | Período (mês/ano) ao qual uma execução coleta documentos (ex.: 09/2026). |
+| **Confiança de classificação** | Nível usado na organização documental: ALTA (automático), MÉDIA (execução + sinalização/revisão), BAIXA (não executar automaticamente; gerar exceção). |
+| **Feedback operacional** | Correção de uma execução específica do agente (ex.: "este documento foi classificado errado"). |
+| **Regra operacional** | Orientação do usuário que deve ser reaplicada nas próximas execuções (ex.: "quando aparecer esse tipo, considere boleto"). |
+| **Organização documental** | Capacidade de receber, identificar tipo, classificar, organizar/renomear e separar documentos por cliente, competência/mês e categoria. |
+| **Timeline operacional** | Representação da sequência de acontecimentos de uma atividade/execução (solicitação → recebimento → classificação → cobrança → conclusão), em vez de apenas status final. |
+| **Auditoria operacional** | Camada de apresentação da trilha auditável que responde o que aconteceu, quem/qual agente executou, para qual cliente, quando, com qual resultado e se houve intervenção humana — distinta do log técnico de chamadas. |

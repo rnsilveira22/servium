@@ -2,9 +2,9 @@
 
 **Servium IA** é uma plataforma B2B de **funcionários digitais especializados**: força de trabalho digital organizada, com funções definidas, permissões controladas e supervisão humana, criada para assumir atividades operacionais e rotineiras de empresas — começando por escritórios de contabilidade.
 
-> **Status: MVP-01 em remediação pré-piloto — P0.1 resolvido/margeado · restam P0.2/P0.3**
+> **Status: MVP-01 pré-piloto — onda 0–1 implementada · remediação P0 concluída · aguardando approvação humana p/ PILOT_READY**
 >
-> O backlog da **Onda 0–1 do MVP-01** foi implementado como **monorepo TypeScript executável** (API NestJS + SPA React + pacote de banco com migrations/RLS + suíte E2E Selenium), a partir do vertical slice definido pelo spike **SRV-10** (2026-08-23) e das decisões arquiteturais registradas nos **ADR-001..011 (Accepted, HG-002)**. O **P0.1 (runtime do Funcionário Digital)** foi implementado e mergeado (PRs #61–#66; issues #45–#50). Restam **P0.2 (auditoria #9)** e **P0.3 (hardening de auth #20)** antes de redeclarar `PILOT_READY`. A **Software Factory V2** (Orchestrator, 14 estados canônicos, merge por classe) foi aprovada por human gates em 2026-09-04 (HG-F2-01/02/03 + HG-REC-01). A hipótese de MVP permanece documentada em [`docs/product/MVP_DISCOVERY.md`](docs/product/MVP_DISCOVERY.md) e **aguarda validação com escritórios contábeis reais**.
+> O backlog da **Onda 0–1 do MVP-01** foi implementado como **monorepo TypeScript executável** (API NestJS + SPA React + pacote de banco com migrations/RLS + suíte E2E Selenium), a partir do vertical slice definido pelo spike **SRV-10** (2026-08-23) e das decisões arquiteturais registradas nos **ADR-001..011 (Accepted, HG-002)**. A **remediação pré-piloto** foi concluída: **P0.1** (runtime do Funcionário Digital, PRs #61–#66), **P0.2** (auditoria #9) e **P0.3** (hardening de auth #20) **resolvidos**; **B-2** (e-mail provider por tenant, PR #103) e **M0 UX** (PR #96) mergeados; modelos de e-mail padrão por checklist implementados. A **Software Factory V2** (Orchestrator, 14 estados canônicos, merge por classe) foi aprovada por human gates em 2026-09-04 (HG-F2-01/02/03 + HG-REC-01). A hipótese de MVP permanece documentada em [`docs/product/MVP_DISCOVERY.md`](docs/product/MVP_DISCOVERY.md) e **aguarda validação com escritórios contábeis reais** (piloto Innove Contabilidade).
 
 ---
 
@@ -103,7 +103,7 @@ Fases e objetivos — sem datas arbitrárias:
 1. **Fundação** *(concluída)* — documentação, governança e definição do produto.
 2. **Descoberta e especificação do MVP** *(concluída)* — primeiro problema, primeiro cliente, primeiro funcionário digital.
 3. **Arquitetura** *(concluída)* — definição de stack e arquitetura via ADRs (HG-002).
-4. **Core da plataforma** *(em curso)* — capacidades fundamentais da Onda 0–1 do MVP-01 implementadas; P0.1 resolvido; restam P0.2/P0.3.
+4. **Core da plataforma** *(concluída)* — capacidades fundamentais da Onda 0–1 do MVP-01 implementadas; P0.1/P0.2/P0.3 e B-2 resolvidos; M0 UX mergeado.
 5. **Primeiro funcionário digital** — primeiro caso de uso real (motor determinístico de pendências e runtime do Funcionário Digital — implementados e mergeados).
 6. **Piloto** — execução em ambiente controlado (decisão de comunicação: Gmail API + OAuth; local/CI/E2E via Mailpit).
 7. **Validação** — medição de resultados.

@@ -43,6 +43,18 @@ Todo agente deve:
 13. informar riscos ou pendências;
 14. nunca inserir credenciais no repositório.
 
+## Documentation Sync Rule (obrigatória em todo ciclo de desenvolvimento)
+
+> **Código e documentação evoluem juntos.** Qualquer mudança que altere comportamento, regra de negócio, fluxo, entidade, banco de dados, API, contrato, estado, permissão, agente, atividade/tarefa, UX/UI, dashboard, auditoria, integração ou arquitetura exige a atualização documental **no mesmo ciclo/PR**.
+
+Fluxo esperado: **Requisito → Documentação/decisão → Implementação → Testes → Atualização documental → QA → Human Gate (quando necessário)**.
+
+Ponto de entrada da checagem: [`TRACEABILITY_MATRIX.md`](product/TRACEABILITY_MATRIX.md) e [`PROJECT_INDEX.md`](PROJECT_INDEX.md). Requisitos novos (FR-020 a FR-029 — atividade, agente executor, periodicidade, organização documental, feedback, dashboard, timeline, auditoria operacional, UX) estão formalizados em [`product/FUNCTIONAL_REQUIREMENTS.md`](product/FUNCTIONAL_REQUIREMENTS.md) com classificação de escopo em [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md). O handoff deve reportar `## Documentation Impact` (ver `AGENTS.md`).
+
+- **QA também valida documentação** — `código correto + documentação desatualizada` = implementação incompleta;
+- **Não inventar requisitos** — conflito entre doc existente e novo requisito é resolvido por *documentar impacto → propor decisão → Human Gate*, nunca silenciosamente;
+- Mudança arquitetural relevante → **ADR ou atualização de ADR** no mesmo ciclo.
+
 ## Regra de implementação
 
 Futuras implementações **devem seguir a especificação validada do MVP** — em especial [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md), [`product/FUNCTIONAL_REQUIREMENTS.md`](product/FUNCTIONAL_REQUIREMENTS.md) e [`product/NON_FUNCTIONAL_REQUIREMENTS.md`](product/NON_FUNCTIONAL_REQUIREMENTS.md). Não implementar requisitos fora do escopo definido, nem funcionalidades marcadas como `Won't` ou *Out of Scope*, sem decisão documentada que revise o escopo.

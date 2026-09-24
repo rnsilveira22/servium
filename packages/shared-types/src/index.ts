@@ -123,3 +123,76 @@ export interface TenantEmailIntegrationDTO {
   receive_enabled: boolean;
   status: string;
 }
+
+// ===== FR-020 · Atividade Operacional + FR-021 · Agente Executor =====
+
+/** Periodicidade de recorrência da atividade (configuração armazenada; engine de
+ *  execução é ponto de extensão — FR-022, não implementada nesta rodada). */
+export const PERIODICIDADES_ATIVIDADE = ['mensal', 'trimestral', 'semestral', 'anual'] as const;
+export type PeriodicidadeAtividade = (typeof PERIODICIDADES_ATIVIDADE)[number];
+
+/** Passos de comportamento operacional que o motor aplicará nas execuções. */
+export const COMPORTAMENTOS_ATIVIDADE = [
+  'solicitar',
+  'acompanhar',
+  'cobrar',
+  'registrar',
+  'identificar',
+  'escalar',
+] as const;
+export type ComportamentoAtividade = (typeof COMPORTAMENTOS_ATIVIDADE)[number];
+export type ComportamentoAtividadeMap = Record<ComportamentoAtividade, boolean>;
+
+export const COMPORTAMENTO_PADRAO_ATIVIDADE: ComportamentoAtividadeMap = {
+  solicitar: true,
+  acompanhar: true,
+  cobrar: true,
+  registrar: true,
+  identificar: true,
+  escalar: true,
+};
+
+/** Escopo implementado no MVP: todos os clientes ativos do tenant. */
+export const ESCOPOS_ATIVIDADE = ['todos_ativos'] as const;
+export type EscopoAtividade = (typeof ESCOPOS_ATIVIDADE)[number];
+
+export interface AgenteDTO {
+  id: string;
+  slug: string;
+  nome: string;
+  descricao: string;
+  capacidade: string;
+  ativo: boolean;
+  criado_em: string;
+}
+
+export interface CriarAtividadeInput {
+  nome: string;
+  descricao?: string;
+  periodicidade?: PeriodicidadeAtividade;
+  escopo?: EscopoAtividade;
+  agente_id: string;
+  canal?: string;
+  prazo_dias?: number | null;
+  checklist_template_id?: string | null;
+  comportamento?: Partial<ComportamentoAtividadeMap>;
+}
+
+export interface AtividadeDTO {
+  id: string;
+  nome: string;
+  descricao: string | null;
+  periodicidade: string;
+  escopo: string;
+  agente_id: string;
+  agente_nome: string | null;
+  agente_slug: string | null;
+  canal: string;
+  prazo_dias: number | null;
+  checklist_template_id: string | null;
+  checklist_template_nome: string | null;
+  comportamento: ComportamentoAtividadeMap;
+  status: string;
+  criado_em: string;
+  atualizado_em: string;
+}
