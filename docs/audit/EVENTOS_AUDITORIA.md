@@ -6,7 +6,7 @@
 
 Este documento é a referência do que **é auditável hoje** no Servium IA: a tabela `eventos_auditoria`, os eventos emitidos pelos caminhos atuais, o mecanismo append-only, a delegação de isolamento ao RLS, as leituras disponíveis (PRM-P0.2-A) e a política de retenção (**DEFERIDA** via HG-RETENÇÃO).
 
-> **Revisado em 2026-09-23 (base `c06f4f7`):** o inventário §3 foi reconciliado com o código real — adicionados os eventos `cancelar`, `criar`/`atualizar`/`excluir` (`email_template`) e `login_block`, e o ator `servico` passou a ter emissor real (P0.3-C). **Atualização FR-020/FR-021 (2026-09-23):** +4 linhas de emissão para a entidade `atividade` (`criar`, `atualizar`, `ativar`, `desativar` — `apps/api/src/cadastro/atividades.controller.ts`). Contagem atual: **20 ações distintas** em **28 linhas de emissão** (§3).
+> **Revisado em 2026-09-23 (base `c06f4f7`):** o inventário §3 foi reconciliado com o código real — adicionados os eventos `cancelar`, `criar`/`atualizar`/`excluir` (`email_template`) e `login_block`, e o ator `servico` passou a ter emissor real (P0.3-C). **Atualização FR-020/FR-021 (2026-09-23):** +4 linhas de emissão para a entidade `atividade` (`criar`, `atualizar`, `ativar`, `desativar` — `apps/api/src/cadastro/atividades.controller.ts`). **Correção FR-028 (2026-09-23, base `6d02dce`):** encontrada +1 linha omitida no inventário — `vincular_email_template` (`apps/api/src/cadastro/cadastro.controller.ts:225`, também via helper `cadastro/audit.ts`), entidade `checklist_template`. Contagem atual: **21 ações distintas** em **29 linhas de emissão** (§3).
 
 ## 1. Objetivo e escopo
 
@@ -87,13 +87,15 @@ Sustenta o keyset `(criado_em DESC, id DESC)` usado por `listarEventos` (§5). F
 
 O valor `servico` é aceito pelo `CHECK` do schema (`0002:123`), previsto pelo DTO ([`packages/db/src/audit.ts:33-42`](../../packages/db/src/audit.ts)) e, **desde P0.3-C**, é **emitido pelo motor** (`handlers.ts:46`) quando o worker roda com `SERVIUM_SERVICE_ID` (bootstrap via [`apps/api/src/runtime/main.ts`](../../apps/api/src/runtime/main.ts)`requireServiceId`). O helper `auditar` escolhe `sistema` quando `serviceId` está ausente.
 
-## 3. Inventário de eventos (20 ações · 28 linhas de emissão)
+## 3. Inventário de eventos (21 ações · 29 linhas de emissão)
 
 > Conferido por `grep -rn "INSERT INTO eventos_auditoria" apps packages` em `c06f4f7` + FR-020/21: **9 arquivos de produção** com **13 pontos de escrita** (helper `auditar` em `cadastro/audit.ts` reutilizado por `cadastro.controller.ts`, `email-templates.controller.ts` e `atividades.controller.ts`; `auth.controller.ts` tem dois métodos; `ciclos.controller.ts` tem dois pontos). As ações abaixo correspondem 1:1 a linhas de código reais; `ativar`, `encerrar` e `criar` têm **vários sítios de emissão**: `ativar`(ciclo HTTP + motor + atividade), `encerrar`(2), `criar`(5 entidades: `cliente`, `obrigacao`, `checklist_template`, `email_template`, `atividade`). **Leitura NÃO gera evento.**
 >
 > **Atualização 2026-09-23:** +5 ações em relação à base `main@150188f`: `cancelar`, `criar` (email_template), `atualizar` (email_template), `excluir` (email_template), `login_block`. O ator `servico` agora é emitido (P0.3-C) — ver §2.5.
 >
 > **Atualização FR-020/FR-021 (2026-09-23):** +4 linhas de emissão da entidade `atividade` — `criar`, `atualizar`, `ativar`, `desativar` (auditoria via helper `cadastro/audit.ts`, pós-COMMIT, em `apps/api/src/cadastro/atividades.controller.ts`). Novo nome de ação distinto: `desativar`.
+>
+> **Correção FR-028 (2026-09-23):** +1 linha omitida do inventário — `vincular_email_template` (`checklist_template`), emitida em `apps/api/src/cadastro/cadastro.controller.ts:225` (método `vincularTemplate`, `POST /checklist-templates/:id/email-template`). O evento já existia em `c06f4f7`; apenas o DOCUMENTO estava incompleto (regra Documentation Sync).
 
 | Evento (`acao`) | Fonte (arquivo:função) | Quando | Payload/detalhes-chave | Ator |
 |---|---|---|---|---|
@@ -125,6 +127,7 @@ O valor `servico` é aceito pelo `CHECK` do schema (`0002:123`), previsto pelo D
 | `atualizar` (atividade) | `apps/api/src/cadastro/atividades.controller.ts:247` (`AtividadesController.atualizar`) | `PUT /atividades/:id` — auditoria via helper (**pós-COMMIT**) | `{ campos, comportamento? }`; `entidade=atividade` | `operador` |
 | `ativar` (atividade) | `apps/api/src/cadastro/atividades.controller.ts:278` (`AtividadesController.alterarStatus`) | `POST /atividades/:id/ativar` — auditoria via helper (**pós-COMMIT**) | `{}`; `entidade=atividade` | `operador` |
 | `desativar` (atividade) | `apps/api/src/cadastro/atividades.controller.ts:278` (`AtividadesController.alterarStatus`) | `POST /atividades/:id/desativar` — auditoria via helper (**pós-COMMIT**) | `{}`; `entidade=atividade` | `operador` |
+| `vincular_email_template` | `apps/api/src/cadastro/cadastro.controller.ts:225` (`CadastroController.vincularTemplate`) | `POST /checklist-templates/:id/email-template` — auditoria via helper `cadastro/audit.ts` (**pós-COMMIT**) | `{ email_template_id }`; `entidade=checklist_template` | `operador` |
 
 **Notas honestas sobre atomicidade** (relevantes p/ CA-03):
 
@@ -144,10 +147,10 @@ O valor `servico` é aceito pelo `CHECK` do schema (`0002:123`), previsto pelo D
 Endpoint **`GET /auditoria`** — [`apps/api/src/auditoria/auditoria.controller.ts`](../../apps/api/src/auditoria/auditoria.controller.ts):
 
 - **RBAC:** `@UseGuards(RequireAuth)` + `@Roles('admin')` — `operador` recebe `403`; anônimo `401`.
-- **Filtros:** `entidade`, `acao`, `entidade_id` (UUID validado) e `limite`.
+- **Filtros:** `entidade`, `acao`, `entidade_id` (UUID validado), `limite` e — **desde FR-028** — `desde`/`ate` (timestamp ISO 8601; `desde ≤ ate` senão `400`), `actor_type` (`sistema`/`operador`/`servico`, senão `400`) e `cliente_id` (UUID). O filtro `cliente_id` resolve por subquery JOIN seguro (`itens_ciclo`→`ciclos`→`obrigacoes`→`clientes`), respeitando o RLS da conexão; `atividade` não é resolvida por cliente (as atividades são `todos_ativos`, não específicas de um cliente).
 - **Paginação keyset:** `antes_de` (timestamp ISO 8601) + `antes_id` (UUID) — **devem vir juntos**; incompletos ⇒ `400`. Ordenação `(criado_em DESC, id DESC)`, tiebreaker por `id`.
 - **`limite`:** inteiro **1–200**; fora ⇒ `400`. Default na camada de dados: 50.
-- **Resposta:** `{ eventos, tem_mais }` — `tem_mais` derivado de `LIMIT limite+1` (linha descartada ⇒ há página seguinte).
+- **Resposta:** `{ eventos, tem_mais }` — `tem_mais` derivado de `LIMIT limite+1` (linha descartada ⇒ há página seguinte). **Desde FR-028 cada evento carrega `operacional`** (`{ titulo, resultado, severidade, excecao, intervencaoHumana, agente, cliente, atividade, descricao, alteracoes }`), derivado pelo presenter [`apps/api/src/auditoria/presenter.ts`](../../apps/api/src/auditoria/presenter.ts) — campos aditivos, contrato `EventoAuditoriaDTO` intacto; dado ausente → `null`/`[]` (nunca inventado).
 
 `listarEventos` — [`packages/db/src/audit.ts:54-100`](../../packages/db/src/audit.ts):
 
@@ -189,6 +192,8 @@ Endpoint **`GET /auditoria`** — [`apps/api/src/auditoria/auditoria.controller.
 | ordenação/keyset | `packages/db/tests/audit-lista.test.ts:127-146` (DESC + empate de `criado_em`); `:148-187` (páginas não repetem/perdem linha); endpoint `apps/api/test/auditoria.test.ts:201-219` | CA-04 (#51) |
 | filtros/limite/validação | `packages/db/tests/audit-lista.test.ts:189-208` (filtros combináveis); `:210-223` (`tem_mais`; clamp [1,200]); `apps/api/test/auditoria.test.ts:184-199` (400 para entrada inválida — previne 22P02) | CA-04 (#51) |
 | `trocar_senha` / `trocar_senha_falha` | `apps/api/test/trocar-senha.test.ts` — sucesso 204 + auditoria; falhas auditadas (`senha_invalida`, `politica_violada`); senha atualizada e demais sessões revogadas | CA-A-1 (#54) |
+| FR-028 · camada operacional | `apps/api/test/auditoria-operacional.test.ts` — presenter (18 casos unitários: `cobrar`, `escalar`, `decidir`, `sistema`, `atividade` sem cliente, fallback, `login_sucesso`); filtros `desde`/`ate`, `actor_type`, `cliente_id`; enriquecimento cliente/atividade/agente; isolamento cross-tenant; RBAC 403; sem rotas de mutação (404) + `UPDATE` rejeitado; keyset com camada operacional | FR-028 |
+| FR-028 · UI operacional | `apps/web/src/pages/AuditoriaPage.test.tsx` — render operacional, dados ausentes não exibidos (`Cliente:` inexistente), filtro aplicado ao backend, estado vazio, erro sem stack trace, paginação keyase; `AuditoriaPage.tsx` reescrito (cards + `<details>` técnico por evento + `MetricasTecnicas` preservado) | FR-028 |
 
 A tabela acima referencia os testes de **#51** (CA-04-x) e **#52** (CA-03-x), além dos testes históricos de CA-01/CA-02 — satisfazendo o CA-05-3 ("documenta provas de CA-01/CA-02/CA-03/CA-04"). Rastreio completo dos critérios da Issue #9: CA-01/CA-02 satisfeitos por `#25`/`#27` (reconciliação §5), CA-03 fechado por #52, CA-04 por #51 e CA-05 por este documento.
 

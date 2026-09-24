@@ -16,6 +16,25 @@ export interface FiltrosEventos {
   entidadeId?: string;
   /** Ação (ex.: 'cobrar', 'ativar', 'decidir', 'receber'). */
   acao?: string;
+  /**
+   * FR-028 · iníci da janela de período (`criado_em >= desde`). Usado com
+   * `ate` para o filtro de período da Auditoria Operacional.
+   */
+  desde?: string | Date;
+  /**
+   * FR-028 · fim da janela de período (`criado_em <= ate`).
+   */
+  ate?: string | Date;
+  /**
+   * FR-028 · tipo de ator ('sistema' | 'operador' | 'servico') — filtro de
+   * agente na Auditoria Operacional.
+   */
+  actorType?: string;
+  /**
+   * FR-028 · filtro por cliente: restringe os eventos cujo `entidade_id`
+   * resolve (via JOIN seguro, respeitando o RLS das tabelas) para um cliente.
+   */
+  clienteId?: string;
   /** Máximo de eventos (default 50; clamp interno [1,200]). */
   limite?: number;
   /**
@@ -71,6 +90,37 @@ export async function listarEventos(
   if (filtros.acao !== undefined) {
     params.push(filtros.acao);
     clausulas.push(`acao = $${params.length}`);
+  }
+  if (filtros.desde !== undefined) {
+    params.push(filtros.desde);
+    clausulas.push(`criado_em >= $${params.length}::timestamptz`);
+  }
+  if (filtros.ate !== undefined) {
+    params.push(filtros.ate);
+    clausulas.push(`criado_em <= $${params.length}::timestamptz`);
+  }
+  if (filtros.actorType !== undefined) {
+    params.push(filtros.actorType);
+    clausulas.push(`actor_type = $${params.length}`);
+  }
+  if (filtros.clienteId !== undefined) {
+    // FR-028 · filtro por cliente via JOIN seguro: as tabelas de destino
+    // (clientes, obrigacoes, ciclos, itens_ciclo) também têm RLS FORCE, logo
+    // o filtro é restrito ao tenant da conexão — nunca busca fora dele.
+    params.push(filtros.clienteId);
+    const n = params.length;
+    clausulas.push(
+      `(entidade = 'cliente' AND entidade_id IN (SELECT id FROM clientes WHERE id = $${n}::uuid)
+         OR entidade = 'obrigacao' AND entidade_id IN (
+              SELECT o.id FROM obrigacoes o JOIN clientes cl ON cl.id = o.cliente_id WHERE cl.id = $${n}::uuid)
+         OR entidade = 'ciclo' AND entidade_id IN (
+              SELECT c.id FROM ciclos c JOIN obrigacoes o ON o.id = c.obrigacao_id
+                JOIN clientes cl ON cl.id = o.cliente_id WHERE cl.id = $${n}::uuid)
+         OR entidade = 'item_ciclo' AND entidade_id IN (
+              SELECT i.id FROM itens_ciclo i JOIN ciclos c ON c.id = i.ciclo_id
+                JOIN obrigacoes o ON o.id = c.obrigacao_id
+                JOIN clientes cl ON cl.id = o.cliente_id WHERE cl.id = $${n}::uuid))`
+    );
   }
 
   const temAntesDe = filtros.antesDe !== undefined;

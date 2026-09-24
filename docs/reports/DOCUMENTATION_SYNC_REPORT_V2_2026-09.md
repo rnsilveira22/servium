@@ -4,7 +4,7 @@
 > **Base auditada:** `c06f4f7` (~feat/hg-007-google-cloud-preparation) + worktree com alterações não commitadas de docs V1/V2
 > **Tipo:** Auditoria documental + governança — **nenhuma implementação de código** (SEM N8N, SEM agentes futuros, SEM Pós-MVP silencioso)
 >
-> **Atualização FR-020/FR-021 (2026-09-23, mesmo dia):** após esta auditoria, os requisitos FR-020 e FR-021 foram **implementados** (migration `0014_atividades_agentes.sql`, controllers `atividades`/`agentes`, página `AtividadesPage`, teste `apps/api/test/atividades.test.ts` 7✓). Reflexo documental: inventário de auditoria agora é **20 ações · 28 linhas de emissão** (+`atividade` `criar`/`atualizar`/`ativar`/`desativar`); matriz FR-020/FR-021 → ✅; adendo no ADR-005; glossário atualizado. Detalhes na matrícula de handoff da implementação.
+> **Atualização FR-020/FR-021 (2026-09-23, mesmo dia):** após esta auditoria, os requisitos FR-020 e FR-021 foram **implementados** (migration `0014_atividades_agentes.sql`, controllers `atividades`/`agentes`, página `AtividadesPage`, teste `apps/api/test/atividades.test.ts` 7✓). Reflexo documental: inventário de auditoria agora é **20 ações · 28 linhas de emissão** (+`atividade` `criar`/`atualizar`/`ativar`/`desativar`); matriz FR-020/FR-021 → ✅; adendo no ADR-005; glossário atualizado. Detalhes na matrícula de handoff da implementação. *(Revisão FR-028 — 2026-09-23: inventário canônico `EVENTOS_AUDITORIA.md` foi corrigido para **21 ações · 29 linhas** — foi omitida a ação `vincular_email_template` (`cadastro.controller.ts:225`), já existente na base `c06f4f7`.)*
 
 ---
 

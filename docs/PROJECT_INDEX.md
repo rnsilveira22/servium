@@ -50,7 +50,8 @@ README.md
 │   ├── Status vivo ............. docs/factory/FACTORY_STATUS.md
 │   ├── Templates de processo ... docs/factory/templates/
 │   ├── Dry runs ................ docs/factory/dry-run/
-│   └── Relatórios (Fases 0/1) .. docs/reports/FACTORY_V2_FASE{0,1}_*.md
+│   ├── Relatórios (Fases 0/1) .. docs/reports/FACTORY_V2_FASE{0,1}_*.md
+│   └── Rel. implementação ...... docs/reports/FR{020_021,028}_IMPLEMENTATION_REPORT_2026-09.md
 │
 ├── Produto ................... docs/product/README.md
 │   ├── Discovery do MVP ...... docs/product/MVP_DISCOVERY.md
@@ -124,6 +125,8 @@ README.md
 | [`reports/FACTORY_V2_FASE0_AUDITORIA_DESIGN.md`](reports/FACTORY_V2_FASE0_AUDITORIA_DESIGN.md) | Auditoria da Factory V1 + design da Factory V2 (achados P0–P3). |
 | [`reports/FACTORY_V2_FASE1_IMPLEMENTATION_PLAN.md`](reports/FACTORY_V2_FASE1_IMPLEMENTATION_PLAN.md) | Plano executável da Factory V2: arquitetura, states, gates, reconciliação, PoC, roadmap UX. |
 | [`reports/POST_MVP_BACKLOG_RECONCILIATION.md`](reports/POST_MVP_BACKLOG_RECONCILIATION.md) | Reconciliação pós-MVP: remediações P0.1/P0.2/P0.3 e decisões Q1–Q4 (2026-08-30). |
+| [`reports/FR020_021_IMPLEMENTATION_REPORT_2026-09.md`](reports/FR020_021_IMPLEMENTATION_REPORT_2026-09.md) | Implementação FR-020/FR-021 — Atividade Operacional e Agente Executor configurável (2026-09-23). |
+| [`reports/FR028_IMPLEMENTATION_REPORT_2026-09.md`](reports/FR028_IMPLEMENTATION_REPORT_2026-09.md) | Implementação FR-028 — Auditoria Operacional (presenter + filtros + UI, 2026-09-23). |
 | [`product/README.md`](product/README.md) | Hub da documentação de produto. |
 | [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) | Documento central do discovery: problema do MVP, cliente, dores, hipótese de solução e critérios para avançar. |
 | [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md) | Definição rígida de escopo: In Scope, Out of Scope, critérios de entrada/conclusão. |

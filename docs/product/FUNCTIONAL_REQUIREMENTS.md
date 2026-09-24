@@ -297,6 +297,8 @@
 
 **Critério de aceite (preliminar):** página de auditoria apresenta eventos em linguagem operacional com correlação agente→cliente→ação→resultado→intervenção humana; log técnico permanece disponível separadamente (admin).
 
+**Status (2026-09-23):** ✅ **IMPLEMENTADO** — `GET /auditoria` responde eventos com bloco `operacional` (presenter `apps/api/src/auditoria/presenter.ts`, 21 ações/29 linhas mapeadas) e filtros `desde`/`ate`/`actor_type`/`cliente_id`; `AuditoriaPage.tsx` apresenta cards operacionais (agente·cliente·atividade·resultado·alterações·severidade) com `<details>` técnico por evento e métricas/saúde preservadas; RBAC admin + append-only + RLS intactos; dado ausente nunca é inventado. Evidências: `apps/api/test/auditoria-operacional.test.ts` (18), `apps/web/src/pages/AuditoriaPage.test.tsx` (7). Pendências: filtros de resultado/exceção/intervenção humana como filtro SQL → FR-027 (hoje expostos como label/severidade na UI).
+
 **Prioridade:** **MVP incremental** (dados já existem; falta apresentação/correlação).
 
 ### FR-029 — UX/UI consistente e orientada à operação
