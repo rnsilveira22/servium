@@ -59,6 +59,17 @@
 | NFR-012 Observabilidade | `NON_FUNCTIONAL_REQUIREMENTS.md` | `/health`, `/metrics`, eventos | ✅ |
 | NFR-017 Tempo resposta comunicações | `NON_FUNCTIONAL_REQUIREMENTS.md` | scheduler/worker runtime | ✅ |
 
+## Itens do completion master prompt (MVP-01 → PILOT_READY · FASE 0 recon 2026-10-07)
+
+| Item (fase) | Documento (definição) | Código real | Teste real | Status |
+|---|---|---|---|---|
+| B-1 — Decisão de recebido (FASE 1) | `MVP_01_VERTICAL_SLICE.md` (validação humana) | `apps/api/src/cadastro/decidir-item.ts` (recebido→resolvido/excecao, atômico) | `apps/api/test/decidir-item.test.ts`; `atomicidade` | ✅ verificado 2026-10-07 (merged PR #99) |
+| B-4 — Rollback/Stop (FASE 4) | `MVP_01_VERTICAL_SLICE.md` critério 8 | — (documento operacional) | — | ✅ `docs/operations/MVP_01_ROLLBACK_STOP_PROCEDURE.md` |
+| B-5 — Métricas mínimas (FASE 4) | `MVP_01_VERTICAL_SLICE.md` §Métricas mínimas | `apps/api/src/common/metrics-negocio.service.ts`; `GET /metrics/negocio` (admin) em `health.controller.ts` | `apps/api/test/metrics-negocio.test.ts` (RBAC+RLS+agregações) | ✅ implementado 2026-10-07 |
+| P1-3 — Segurança HTTP (FASE 3) | `ASVS_PILOTO.md` (G-01..G-03, V2.8.1, V3.4.2, V3.7.1, V4.1.5) | `apps/api/src/common/security-headers.middleware.ts`; `app.factory.ts`; `auth.controller.ts` (`cookieFor`) | `apps/api/test/security-headers.test.ts` (8 casos) | ✅ resolvido 2026-10-07 |
+| CA-D-3 — Review de segurança (FASE 3) | `ASVS_PILOTO.md` (condição PILOT_READY) | — (evidências) | suíte API 214 testes | `docs/security/CA-D-3_MVP01_SECURITY_REVIEW_2026-10-07.md` — **AWAITING_DECISION** |
+| FR-026 — Dashboard (FASE 4) | `FUNCTIONAL_REQUIREMENTS.md` FR-026 | `GET /metrics/negocio` alimenta dashboard (futuro) | `metrics-negocio.test.ts` | 🟡 backend pronto; UI continua FR-026 |
+
 ## Presenças e lacunas documentais (auditoria)
 
 | Documento esperado | Existe? | Situação |
