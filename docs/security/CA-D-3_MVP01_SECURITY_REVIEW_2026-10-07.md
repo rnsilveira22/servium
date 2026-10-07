@@ -51,6 +51,7 @@ npm run test -w @servium-ia/api -- security-headers metrics-negocio → 9/9
 npm run build -w @servium-ia/api          → tsc OK
 eslint (arquivos da fase)                  → OK
 ```
+
 Ambientes de execução: Postgres local `127.0.0.1:5432` (docker-compose); gmail real **nunca** usado em CI.
 
 ---
@@ -75,6 +76,7 @@ Favor registrar em `docs/factory/HUMAN_DECISIONS_LOG.md` / `HUMAN_GATES.md`:
 | CA-D-3 | Manter G-04..G-08 abertas (P2/P3) para a primeira iteração do piloto? | `APROVADO` / `NÃO` (listar bloqueantes) |
 
 ## Documentation Impact
+
 ```text
 Documents reviewed:   ASVS_PILOTO.md, HUMAN_GATES.md, QUALITY_GATES.md, docs/security
 Documents updated:    ASVS_PILOTO.md (linhas V2.8.1/V3.4.2/V3.7.1/V4.1.5, gaps G-01..03, cobertura →35/2/2/1)
