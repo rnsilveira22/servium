@@ -14,6 +14,7 @@ export function ObrigacoesPage() {
   const [clienteId, setClienteId] = useState('');
   const [descricao, setDescricao] = useState('');
   const [prazo, setPrazo] = useState('');
+  const [templateId, setTemplateId] = useState('');
   const [erro, setErro] = useState('');
   const [aviso, setAviso] = useState('');
   const [saving, setSaving] = useState(false);
@@ -39,8 +40,8 @@ export function ObrigacoesPage() {
     setAviso('');
     setSaving(true);
     try {
-      await api('/obrigacoes', { method: 'POST', body: { cliente_id: clienteId, descricao, prazo: prazo || undefined } });
-      setClienteId(''); setDescricao(''); setPrazo('');
+      await api('/obrigacoes', { method: 'POST', body: { cliente_id: clienteId, descricao, prazo: prazo || undefined, template_id: templateId || undefined } });
+      setClienteId(''); setDescricao(''); setPrazo(''); setTemplateId('');
       setShowForm(false);
       load();
     } catch (err) {
@@ -91,6 +92,20 @@ export function ObrigacoesPage() {
           </Field>
           <Field label="Prazo">
             <input type="date" value={prazo} onChange={(e) => setPrazo(e.target.value)} />
+          </Field>
+          <Field
+            label="Checklist (modelo de itens)"
+            hint="Obrigatório para gerar itens e enviar e-mail ao cliente ao ativar o ciclo."
+            htmlFor="obrigacao-template"
+          >
+            <select id="obrigacao-template" value={templateId} onChange={(e) => setTemplateId(e.target.value)}>
+              <option value="">Nenhum checklist</option>
+              {templates.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.nome} ({t.itens.length} {t.itens.length === 1 ? 'item' : 'itens'})
+                </option>
+              ))}
+            </select>
           </Field>
           <Button type="submit" loading={saving}>
             {saving ? 'Salvando...' : 'Salvar'}

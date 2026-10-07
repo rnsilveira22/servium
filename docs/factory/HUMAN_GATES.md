@@ -89,6 +89,16 @@ Nunca confundir "sem objeção" com "aprovação".
 - **Condição vinculante**: **DECISÃO ARQUITETURAL APROVADA ≠ IMPLEMENTAÇÃO AUTORIZADA** — este gate não cria migration/banco/API/frontend/RBAC em código/eventos; a implementação de `eventos_operacionais` segue o fluxo normal da Factory V2 (próximo gate).
 - **Impacto após a decisão**: ADR-012 → `Accepted (HG-009)`. FR-029/UX do feed global segue bloqueado até o gate de implementação + **HG-M1-FRENTE-A**.
 
+### HG-FECHAMENTO-CORRECAO-UI — Seletor de checklist em Nova Obrigação — ✅ RESOLVIDO
+
+> **Status:** `RESOLVED` (decisão registrada em 2026-10-07) · **Decisor:** Rodrigo (owner)
+> **Registro imutável:** [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md) §HG-FECHAMENTO-CORRECAO-UI
+
+- **Tipo**: operacional/UX · **Nível**: 2/3
+- **Contexto**: correção de UI pendente de decisão desde a sessão de documentation sync (`../reports/DOCUMENTATION_SYNC_REPORT_2026-09.md` §16): `ObrigacoesPage.tsx` ganha select "Checklist (modelo de itens)" enviando `template_id` no `POST /obrigacoes` — fechamento parcial do **GAP-01 UI**.
+- **Decisão registrada**: **COMMITAR** no branch `feat/hg-007-google-cloud-preparation` (descarte não escolhido); validações verdes (typecheck, ESLint, web 56/56, build).
+- **Condição vinculante**: escopo **parcial** do GAP-01 — criação/gerência de templates continua em M1-UI-01 (branch `feat/m1-frente-a-pleno`) sob **HG-M1-FRENTE-A**; nenhum arquivo daquela branch foi tocado.
+
 ## Fluxo de resolução
 
 ```text
@@ -103,4 +113,4 @@ Humano decide (Issue/comentário)
 
 ## Contador vivo
 
-Decisões abertas hoje: **nenhuma em aberto no padrão HG-009 (ADR-012 resolvido em 2026-09-24)**; HG-001/HG-002/HG-003 resolvidas em 2026-08-22; HG-004/HG-005 são event-driven; **HG-007 (credenciais Google) permanece `AWAITING_DECISION`**; **gate de UX HG-M1-FRENTE-A pendente**. Fonte viva: `FACTORY_STATUS.md`. Registro histórico completo: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).
+Decisões abertas hoje: **nenhuma em aberto no padrão HG-009/HG-FECHAMENTO-CORRECAO-UI (resolvidos em 2026-09-24 e 2026-10-07)**; HG-001/HG-002/HG-003 resolvidas em 2026-08-22; HG-004/HG-005 são event-driven; **HG-007 (credenciais Google) permanece `AWAITING_DECISION`**; **gate de UX HG-M1-FRENTE-A pendente**. Fonte viva: `FACTORY_STATUS.md`. Registro histórico completo: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).

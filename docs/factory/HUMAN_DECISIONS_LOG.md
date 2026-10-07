@@ -445,3 +445,21 @@ B2_CUSTOMER_EMAIL_PROVIDER_TECHNICAL_READINESS_2026-09.md e registrar o estado.
 - **Execução**: ADR-012 atualizado p/ `Accepted (HG-009 · 2026-09-24)` com seção Human Decision; Decision Pack §12 preenchido; `HUMAN_GATES.md` registra o encerramento; requisitos/matriz reconciliados; registro neste log. Todo o trabalho foi **doc-only** (validação `lint:docs` limpa; zero mudanças de código/migration).
 - **Evidências**: [`docs/factory/HUMAN_GATE_ADR012_2026-09-24.md`](../factory/HUMAN_GATE_ADR012_2026-09-24.md) · [`docs/decisions/ADR-012-atividade-evento-model.md`](../decisions/ADR-012-atividade-evento-model.md) · relatório [`docs/reports/HG009_DECISION_REGISTRATION_REPORT_2026-09-24.md`](../reports/HG009_DECISION_REGISTRATION_REPORT_2026-09-24.md).
 - **Resultado**: **HUMAN DECISION RECORDED** — ADR-012 `Accepted` (arquitetura); **IMPLEMENTATION NOT AUTHORIZED BY THIS GATE**.
+
+---
+
+## HG-FECHAMENTO-CORRECAO-UI — Seletor de checklist em Nova Obrigação (`ObrigacoesPage.tsx`)
+
+```text
+[AUTONOMY] L2/L3 | decisão humana: commitar ou descartar a correção de UI pendente (seletor de checklist → template_id) | solicitada em: DOCUMENTATION_SYNC_REPORT_2026-09.md §16 / FR020_021_IMPLEMENTATION_REPORT_2026-09.md
+```
+
+- **Decisão**: **COMMITAR NESTA BRANCH** (descarte **NÃO** escolhido) — o change em `apps/web/src/pages/ObrigacoesPage.tsx` (select "Checklist (modelo de itens)" enviando `template_id` no `POST /obrigacoes`) é aceito pelo owner e viaja no branch `feat/hg-007-google-cloud-preparation`.
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-10-07 · forma: decisão direta de sessão respondendo à pergunta de fechamento.
+- **Condições vinculantes**:
+  1. **Escopo parcial do GAP-01 UI** — o change fecha o vínculo obrigação↔template na UI de criação; a **criação/gerência de templates** permanece na frente M1-UI-01 (branch `feat/m1-frente-a-pleno`, gate **HG-M1-FRENTE-A** pendente);
+  2. **HG-M1-FRENTE-A NÃO é afetado** por este gate — nenhum arquivo da branch `feat/m1-frente-a-pleno` foi tocado (verificado: diff `ObrigacoesPage.tsx` vazio naquela branch);
+  3. validações obrigatórias antes do commit: `typecheck` limpo, ESLint limpo nos arquivos tocados, suíte web **56/56**, `vite build` OK;
+  4. sincronização de documentação no mesmo ciclo (FR-001 nota de rastreabilidade, `HUMAN_GATES.md`, `TRACEABILITY_MATRIX.md`).
+- **Evidências**: commits `827aa39` (fix de typecheck do FR-028, pré-requisito) + commit do change nesta entrega; `git diff` de `ObrigacoesPage.tsx` (select + `template_id` no body).
+- **Resultado**: **DECISION RECORDED — UI COMMITTED**; GAP-01 parcialmente fechado; restante do GAP-01 segue em M1-UI-01.

@@ -68,7 +68,7 @@
 | `docs/product/FUNCTIONAL_REQUIREMENTS.md` | ✅ | FR-001..FR-019 vigentes; novos FR-020+ **não** formalizados até ontem → gap resolvido nesta entrega |
 | `docs/product/MVP_SCOPE.md` | ✅ | Sem classificação MVP obrigatório/incremental/pós → adicionada nesta entrega |
 | `docs/product/MVP_EXPERIENCE_SPEC_v1.md` | ✅ | Spec UX v1.0 **(status no arquivo: "aguardando aprovação humana")** |
-| `docs/factory/HUMAN_GATES.md` | ✅ | Catálogo ativo; **HG-009 (ADR-012) RESOLVIDO 2026-09-24** (decisão registrada, implementação NÃO autorizada); em aberto: HG-007, HG-RETENÇÃO, formalização M0 UX |
+| `docs/factory/HUMAN_GATES.md` | ✅ | Catálogo ativo; **HG-009 (ADR-012) RESOLVIDO 2026-09-24** (decisão registrada, implementação NÃO autorizada); **HG-FECHAMENTO-CORRECAO-UI RESOLVIDO 2026-10-07** (seletor de checklist commitado, GAP-01 parcial); em aberto: HG-007, HG-RETENÇÃO, formalização M0 UX, HG-M1-FRENTE-A |
 | `ADR docs` | ✅ | ADR-001..011 Accepted; **ADR-012 Accepted (HG-009 · 2026-09-24)** — decisões arquiteturais registradas (`eventos_operacionais`); implementação segue Factory V2 |
 | Matriz de rastreabilidade | **novo** | Este documento |
 | Relatório Documentation Sync | **novo** | `docs/reports/DOCUMENTATION_SYNC_REPORT_2026-09.md` |

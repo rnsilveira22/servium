@@ -17,6 +17,8 @@
 
 **Critério de aceite:** responsável cria um checklist com múltiplos itens, associa-o a clientes/obrigações e o sistema reflete a associação nos ciclos seguintes.
 
+**Nota de rastreabilidade (HG-FECHAMENTO-CORRECAO-UI · 2026-10-07):** o vínculo obrigação↔template ganhou UI em Nova Obrigação (`ObrigacoesPage.tsx` — select de checklist enviando `template_id`, fechamento **parcial** do GAP-01); criação/gerência de templates segue em M1-UI-01 (gate HG-M1-FRENTE-A).
+
 **Prioridade:** Must
 
 ### FR-002 — Cadastrar clientes e responsáveis designados
