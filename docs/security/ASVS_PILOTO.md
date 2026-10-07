@@ -60,7 +60,7 @@
 | V2.5.4 | **Mensagem idêntica** para conta inexistente × senha errada (anti-enumeração) | `implementado` | `apps/api/test/auth.test.ts:74-79` (`login com email inexistente e senha errada são indistinguíveis`) / `auth.controller.ts:38-50` | Resposta `401` genérica nos dois casos. |
 | V2.5.6 | Controle de **mudança/recuperação de senha** que exige confirmação da senha atual | `implementado` | `apps/api/test/trocar-senha.test.ts:127-137` (`senha atual incorreta ⇒ 400`) / `auth.controller.ts:101-106` | Exige `senha_atual` válida; audita `trocar_senha_falha`. |
 | V2.5.7 | Revogar/expirar sessões após troca de senha | `implementado` | `apps/api/test/trocar-senha.test.ts:167-187` (`revoga as demais sessões...`) / `auth.controller.ts:120-125` | Revoga demais sessões, preservando a corrente. |
-| V2.8.1 | Todas as páginas de autenticação estão **livres de clickjacking** (framing/X-Frame) | `lacuna` | — | SPA/API sem `X-Frame-Options`/CSP/`frame-ancestors` configurados. **Rastreado (CA-D-1).** |
+| V2.8.1 | Todas as páginas de autenticação estão **livres de clickjacking** (framing/X-Frame) | `implementado` | `apps/api/test/security-headers.test.ts:52-53` (`X-Frame-Options: DENY`, CSP `frame-ancestors 'none'`) | Middleware global em `security-headers.middleware.ts` (P1-3). **Resolvido 2026-10-07.** |
 
 > **Confirmação de IDs (V2.1.x)** — revisada contra a especificação oficial **OWASP ASVS 4.0.3** (`github.com/OWASP/ASVS`, tag `v4.0.3`, cap. V2.1):
 > `V2.1.2` = permitir senhas ≥ 64 e negar > 128 (comprimento máx.); `V2.1.7` = **checagem de senhas comprometidas/dicionário (blocklist)**;
@@ -79,9 +79,9 @@
 | V3.2.1 | Token de sessão com **≥ 120 bits de entropia** | `implementado` | `auth.controller.ts:52` (`randomBytes(32)` = 256 bits CSPRNG) | 256 bits ≥ 120. |
 | V3.2.3 | Token gerado com **CSPRNG** | `implementado` | `auth.controller.ts:52` (`node:crypto.randomBytes` — CSPRNG) | — |
 | V3.4.1 | Cookie de sessão **httpOnly** | `implementado` | `apps/api/test/auth.test.ts:64-72` (`HttpOnly`) / `auth.controller.ts:12-15` | Verificado nos testes de login. |
-| V3.4.2 | Cookie **Secure** em produção | `parcial` | `auth.controller.ts:13` (`COOKIE_SECURE === 'true' ? '; Secure' : ''`) | Flag `Secure` **condicional** a env; em dev/CI sem TLS fica ausente. Sem teste automatizado dedicado. **Aberto.** |
+| V3.4.2 | Cookie **Secure** em produção | `implementado` | `apps/api/test/security-headers.test.ts:91-116` (`cookieFor`) / `auth.controller.ts:12-21` | `Secure` ativo por padrão quando `NODE_ENV=production`; `COOKIE_SECURE` permite override (P1-3/G-01). **Resolvido 2026-10-07.** |
 | V3.4.3 | Atributo **SameSite** em cookies | `implementado` | `apps/api/test/auth.test.ts:70` (`SameSite=Lax`) / `auth.controller.ts:14` | `SameSite=Lax` fixo em todos os cookies. |
-| V3.7.1 | **CSRF** mitigado nos endpoints sensíveis (state-changing) | `parcial` | `SameSite=Lax` fornece mitigação parcial (`auth.controller.ts:14`) | Nenhum token anti-CSRF explícito; `SameSite=Lax` cobre métodos não-safe cross-site mas há limites. **Aberto (CA-D-1).** |
+| V3.7.1 | **CSRF** mitigado nos endpoints sensíveis (state-changing) | `implementado` | `apps/api/test/security-headers.test.ts:66-69` (Origin cross-site ⇒ 403) + `auth.controller.ts:14` (`SameSite=Lax`) | Defense-in-depth: `SameSite=Lax` + **ORIGIN check 403** em POST/PUT/PATCH/DELETE com Origin não permitida (P1-3/G-02). **Resolvido 2026-10-07.** |
 
 ---
 
@@ -92,7 +92,7 @@
 | V4.1.1 | Regras de controle de acesso aplicadas no **lado do servidor (trusted layer)** | `implementado` | `apps/api/src/auth/auth.guard.ts:26-85` (`RequireAuth` + RBAC) / teste `apps/api/test/auth.test.ts:92-107` | Guard NestJS aplica RBAC no servidor; nunca no cliente. |
 | V4.1.2 | Controle de acesso **bloqueado por padrão** (deny-by-default) | `implementado` | `apps/api/test/auth.test.ts:81-83` (`/auth/me sem sessão = 401`) e `auth.guard.ts:35` | Sem cookie → `401`. |
 | V4.1.3 | Falhas de controle de acesso **falham de forma segura** (403/404, sem revelar existência) | `implementado` | `apps/api/test/ciclo-detalhe.test.ts:134-138` (`ciclo de outro tenant ⇒ 404`) / `auditoria.test.ts:169-177` | RLS inverte não-autorizado em não-existente (404), sem vazar dados entre tenants. |
-| V4.1.5 | **Anti-CSRF** para mudanças de estado (forte) | `parcial` | `SameSite=Lax` (`auth.controller.ts:14`) como mitigação parcial | Sem token anti-CSRF explícito; ver V3.7.1. **Aberto (CA-D-1).** |
+| V4.1.5 | **Anti-CSRF** para mudanças de estado (forte) | `implementado` | `apps/api/test/security-headers.test.ts:66-69` + `auth.controller.ts:14` | Rejeição 403 de mutações com Origin cross-site cobre o vetor de mudança de estado sem token explícito (P1-3/G-02). **Resolvido 2026-10-07.** |
 | V4.2.1 | Permissões **mínimas** (least privilege) por papel | `implementado` | `apps/api/test/auth.test.ts:92-107` (`operador ⇒ 403` em rota admin) / `auth.controller.ts:141-146` | RBAC mínimo `admin`/`operador`. |
 | V4.3.1 | **Isolamento multi-tenant** por RLS impedindo acesso cruzado | `implementado` | `apps/api/test/cadastro.test.ts:96-102` (`cliente de A invisível para B`), `auditoria.test.ts:169-177` (RLS via HTTP), `0003_rls_security.sql:18-38` | RLS deny-by-default por `app.tenant_id` (ADR-005). |
 | V4.3.2 | **FK não vaza por RLS** — entidades de outro tenant rejeitadas | `implementado` | `apps/api/test/cadastro.test.ts:104-118` (`obrigação exige cliente do MESMO tenant`) | Acesso cross-tenant a entidade inexistente no contexto → `400/404`. |
@@ -132,6 +132,11 @@
 | G-07 | V5.3.1 | Pipeline de **upload** não implementado (fora do escopo do piloto) | P2 |
 | G-08 | V3.1.3 | Timeout de sessão por **inatividade** presente via TTL, mas sem teste dedicado de pausa | P3 |
 
+> **Resolvidos em 2026-10-07 (P1-3, FASE 3 do completion master prompt):** G-01, G-02 e G-03 — implementados e
+> com evidência automatizada em `apps/api/test/security-headers.test.ts` (headers, HSTS prod-only, ORIGIN check,
+> `cookieFor` Secure); middleware global registrado em `apps/api/src/app.factory.ts`; `Secure` default em produção
+> (`auth.controller.ts:12-21`). **G-04..G-08 seguem abertas** (P2/P3, fora do bloqueio de piloto).
+
 CORS estrito: aplicação usa **allow list explícita** configurável (`CORS_ORIGINS`, default `http://localhost:5173` — `app.factory.ts:12-22`), o que atende o princípio de CORS estrito. Manter observação: allow list deve ser revisitada no deploy real e coberta por teste de integração (atualmente sem teste automatizado do `enableCors` → contabilizado em G-03 quanto a headers).
 
 ---
@@ -144,7 +149,8 @@ CORS estrito: aplicação usa **allow list explícita** configurável (`CORS_ORI
 > a **revisão por pessoa responsável por segurança** deste mapeamento e das lacunas listadas é
 > **condição obrigatória** para `PILOT_READY`. Enquanto essa revisão não for registrada
 > (estado `VALIDATED`/`APPROVED` no `HUMAN_DECISIONS_LOG`), o piloto **não** pode ser declarado pronto.
-> Nenhuma aprovação foi inventada por este agente.
+> Aprovações/validação humana deste mapeamento: ver pacote de evidências
+> `docs/security/CA-D-3_MVP01_SECURITY_REVIEW_2026-10-07.md` (FASE 3).
 
 ---
 
@@ -152,11 +158,12 @@ CORS estrito: aplicação usa **allow list explícita** configurável (`CORS_ORI
 
 | Capítulo | Total mapeado | Implementado | Parcial | Lacuna | n/d |
 |---|---|---|---|---|---|
-| V2 — Autenticação | 14 | 12 | 0 | 2 | 0 |
-| V3 — Sessão | 10 | 8 | 2 | 0 | 0 |
-| V4 — Controle de acesso | 7 | 6 | 1 | 0 | 0 |
+| V2 — Autenticação | 14 | 13 | 0 | 1 | 0 |
+| V3 — Sessão | 10 | 10 | 0 | 0 | 0 |
+| V4 — Controle de acesso | 7 | 7 | 0 | 0 | 0 |
 | V5 — Validação / sanitização | 9 | 5 | 2 | 1 | 1 |
-| **Total** | **40** | **31** | **5** | **3** | **1** |
+| **Total** | **40** | **35** | **2** | **2** | **1** |
 
-> Totais somam linhas da tabela; `n/d` (não se aplica no piloto atual) é informativo e não entra no cálculo
-> de lacunas. Recalcule a partir das linhas sempre que o doc evoluir.
+> Recálculo 2026-10-07 (P1-3): V2.8.1, V3.4.2, V3.7.1 e V4.1.5 movidos de `lacuna`/`parcial` para `implementado`
+> (headers + ORIGIN check + cookie Secure). Totais somam linhas da tabela; `n/d` (não se aplica no piloto atual)
+> é informativo e não entra no cálculo de lacunas. Recalcule a partir das linhas sempre que o doc evoluir.

@@ -9,9 +9,15 @@ import { RequireAuth, Roles, hashToken, type AuthedRequest, type RequestSession 
 
 const SESSION_TTL_HOURS = 12;
 
-function cookieFor(token: string, maxAgeSec: number): string {
-  const secure = process.env.COOKIE_SECURE === 'true' ? '; Secure' : '';
-  return `sid=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAgeSec}${secure}`;
+export function cookieFor(token: string, maxAgeSec: number): string {
+  // P1-3/G-01: Secure ativo por padrão em produção (exige TLS no proxy);
+  // COOKIE_SECURE='false' força desligar em ambientes de desenvolvimento.
+  const secureOverride = process.env.COOKIE_SECURE;
+  const secure =
+    secureOverride === 'false'
+      ? false
+      : secureOverride === 'true' || process.env.NODE_ENV === 'production';
+  return `sid=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAgeSec}${secure ? '; Secure' : ''}`;
 }
 
 @Controller('auth')
