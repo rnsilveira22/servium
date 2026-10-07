@@ -98,7 +98,7 @@ const FILTROS_VAZIOS: FiltrosEstado = { desde: '', ate: '', entidade: '', ativid
 
 /** Data local 'YYYY-MM-DD' → ISO local (inclusive). */
 function dataLocalISO(data: string, fimDoDia: boolean): string {
-  const [y, m, d] = data.split('-').map(Number);
+  const [y, m, d] = data.split('-').map(Number) as [number, number, number];
   const dt = new Date(y, m - 1, d, fimDoDia ? 23 : 0, fimDoDia ? 59 : 0, fimDoDia ? 59 : 0, fimDoDia ? 999 : 0);
   return dt.toISOString();
 }
