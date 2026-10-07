@@ -287,6 +287,8 @@
 
 **Critério de aceite (preliminar):** cada evento relevante é apresentado com quem/quando/o que/resultado; fonte de dados: `eventos_auditoria` + estados de item.
 
+**Nota de rastreabilidade (HG-009 · 2026-09-24):** por D5 a timeline do ciclo (FR-027) pode continuar independente de `eventos_operacionais` (sobre `eventos_auditoria` + `mensagens_comunicacao` + `documentos` + `excecoes`); o **feed global** (Home "Atividade recente") ficará vinculado à futura entidade `eventos_operacionais` — ver [`ADR-012`](../decisions/ADR-012-atividade-evento-model.md) (`Accepted`) e Decision Pack [`HG-009`](../factory/HUMAN_GATE_ADR012_2026-09-24.md).
+
 **Prioridade:** **MVP incremental**.
 
 ### FR-028 — Auditoria operacional (além do log técnico)

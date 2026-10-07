@@ -17,12 +17,15 @@
 | [`AI_USAGE_BOUNDARIES.md`](AI_USAGE_BOUNDARIES.md) | Onde há IA no MVP — e onde não deve haver |
 | [`SECURITY_ARCHITECTURE.md`](SECURITY_ARCHITECTURE.md) | Ativos, fronteiras de confiança, ameaças e controles |
 | [`ARCHITECTURE_REVIEW.md`](ARCHITECTURE_REVIEW.md) | Red Team da própria proposta: trade-offs, dívidas, gatilhos |
+| [`MODEL_ATIVIDADES_EVENTOS_REVIEW.md`](MODEL_ATIVIDADES_EVENTOS_REVIEW.md) | Revisão do modelo Atividade/Evento ↔ Obrigação/Ciclo/Item (camada operacional de registro e auditoria) — **decisões D1–D5 resolvidas (HG-009)** |
 
 ## Decisões aceitas (ADRs)
 
 Todos com status `Accepted` (HG-002 · 2026-08-22) — ver [`../decisions/`](../decisions/README.md):
 
 ADR-001 estilo arquitetural · ADR-002 backend · ADR-003 frontend · ADR-004 persistência · ADR-005 tenant · ADR-006 assíncrono · ADR-007 documentos · ADR-008 comunicação · ADR-009 autenticação · ADR-010 IA · ADR-011 deployment.
+
+> **ADR-012 (`Accepted (HG-009 · 2026-09-24)`)** — modelo de Atividade/Evento Operacional (ver [`MODEL_ATIVIDADES_EVENTOS_REVIEW.md`](MODEL_ATIVIDADES_EVENTOS_REVIEW.md)); decisões arquiteturais registradas — **implementação NÃO autorizada por este gate** (segue Factory V2).
 
 ## Preocupações arquiteturais preliminares
 

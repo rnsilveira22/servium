@@ -20,7 +20,8 @@ README.md
 │   ├── Limites de IA .......... docs/architecture/AI_USAGE_BOUNDARIES.md
 │   ├── Segurança .............. docs/architecture/SECURITY_ARCHITECTURE.md
 │   ├── Revisão arquitetural ... docs/architecture/ARCHITECTURE_REVIEW.md
-│   └── Revisão dos ADRs ....... docs/architecture/ADR_REVIEW_REPORT.md
+│   ├── Revisão dos ADRs ....... docs/architecture/ADR_REVIEW_REPORT.md
+│   └── Modelo atividade/evento  docs/architecture/MODEL_ATIVIDADES_EVENTOS_REVIEW.md
 ├── Decisões (ADRs) ........... docs/decisions/README.md
 │   ├── ADR-001 Estilo arquitetural ... docs/decisions/ADR-001-architecture-style.md
 │   ├── ADR-002 Backend ............... docs/decisions/ADR-002-backend-stack.md
@@ -32,7 +33,8 @@ README.md
 │   ├── ADR-008 Comunicação ........... docs/decisions/ADR-008-communication-abstraction.md
 │   ├── ADR-009 Autenticação .......... docs/decisions/ADR-009-authentication-strategy.md
 │   ├── ADR-010 IA .................... docs/decisions/ADR-010-ai-usage-strategy.md
-│   └── ADR-011 Deployment ............ docs/decisions/ADR-011-deployment-strategy.md
+│   ├── ADR-011 Deployment ............ docs/decisions/ADR-011-deployment-strategy.md
+│   └── ADR-012 Atividade/Evento ....... docs/decisions/ADR-012-atividade-evento-model.md
 │
 ├── Software Factory ............ docs/factory/SOFTWARE_FACTORY_REPORT.md
 │   ├── Orchestrator ............ docs/factory/ORCHESTRATOR.md
@@ -105,6 +107,8 @@ README.md
 | [`decisions/ADR-009-authentication-strategy.md`](decisions/ADR-009-authentication-strategy.md) | Autenticação: first-party + RBAC mínimo, OIDC-ready (`Accepted`). |
 | [`decisions/ADR-010-ai-usage-strategy.md`](decisions/ADR-010-ai-usage-strategy.md) | IA: determinístico-first, LLM assistivo isolado (`Accepted`). |
 | [`decisions/ADR-011-deployment-strategy.md`](decisions/ADR-011-deployment-strategy.md) | Deployment: PaaS de entrada, sem Kubernetes (`Accepted`). |
+| [`decisions/ADR-012-atividade-evento-model.md`](decisions/ADR-012-atividade-evento-model.md) | Modelo de Atividade/Evento Operacional ligado à cadeia Obrigação→Ciclo→Item (`Accepted (HG-009)` — decisões registradas; implementação NÃO autorizada por este gate). |
+| [`architecture/MODEL_ATIVIDADES_EVENTOS_REVIEW.md`](architecture/MODEL_ATIVIDADES_EVENTOS_REVIEW.md) | Revisão do modelo Atividade/Evento ↔ Obrigação/Ciclo/Item: estado atual, mapa de emissores, modelo-alvo, impacto e resolução das decisões D1–D5 (HG-009 resolvido). |
 | [`factory/SOFTWARE_FACTORY_REPORT.md`](factory/SOFTWARE_FACTORY_REPORT.md) | Relatório de configuração da Software Factory (agentes, workflow, gates, GitHub). |
 | [`factory/ORCHESTRATOR.md`](factory/ORCHESTRATOR.md) | Orchestrator da Factory V2: papel, autoridade, estados, handoffs, STOP conditions e log. |
 | [`factory/AGENT_TEAM.md`](factory/AGENT_TEAM.md) | Equipe de agentes (Orchestrator, PO, Senior, Pleno, Reviewer/QA), permissões e independência do QA. |
@@ -117,7 +121,8 @@ README.md
 | [`factory/AGENT_ORCHESTRATION.md`](factory/AGENT_ORCHESTRATION.md) | Orquestração da equipe: ordem, filas, WIP, retry, escalonamento, paradas, merge. |
 | [`factory/AUTONOMY_POLICY.md`](factory/AUTONOMY_POLICY.md) | Níveis de autonomia (1/2/3) e regras NEVER para operação autônoma. |
 | [`factory/HUMAN_GATES.md`](factory/HUMAN_GATES.md) | Catálogo de decisões humanas, formato canônico e política de default. |
-| [`factory/HUMAN_DECISIONS_LOG.md`](factory/HUMAN_DECISIONS_LOG.md) | Registro formal e imutável das decisões humanas (autorização, execução, condições). |
+| [`factory/HUMAN_GATE_ADR012_2026-09-24.md`](factory/HUMAN_GATE_ADR012_2026-09-24.md) | HG-009 · Decision Pack ADR-012 (`eventos_operacionais`) — D1–D5 + RBAC + CLIENTE-ID, `RESOLVED` (decisão registrada). |
+| [`factory/HUMAN_DECISIONS_LOG.md`](factory/HUMAN_DECISIONS_LOG.md) | Registro formal e imutável das decisões humanas (autorização, execução, condições) — §HG-009 (ADR-012). |
 | [`factory/FACTORY_RUNBOOK.md`](factory/FACTORY_RUNBOOK.md) | Manual de sessão autônoma: verificação, execução por papel, falhas, encerramento. |
 | [`factory/FACTORY_STATUS.md`](factory/FACTORY_STATUS.md) | Snapshot vivo do estado da factory, decisões pendentes e fila efetiva. |
 | [`factory/templates/`](factory/templates/) | Templates de processo: análise técnica, implementação, QA review, aceite PO, blocker, ADR, orquestração. |
@@ -127,6 +132,8 @@ README.md
 | [`reports/POST_MVP_BACKLOG_RECONCILIATION.md`](reports/POST_MVP_BACKLOG_RECONCILIATION.md) | Reconciliação pós-MVP: remediações P0.1/P0.2/P0.3 e decisões Q1–Q4 (2026-08-30). |
 | [`reports/FR020_021_IMPLEMENTATION_REPORT_2026-09.md`](reports/FR020_021_IMPLEMENTATION_REPORT_2026-09.md) | Implementação FR-020/FR-021 — Atividade Operacional e Agente Executor configurável (2026-09-23). |
 | [`reports/FR028_IMPLEMENTATION_REPORT_2026-09.md`](reports/FR028_IMPLEMENTATION_REPORT_2026-09.md) | Implementação FR-028 — Auditoria Operacional (presenter + filtros + UI, 2026-09-23). |
+| [`reports/ADR012_TECHNICAL_REVIEW_2026-09-24.md`](reports/ADR012_TECHNICAL_REVIEW_2026-09-24.md) | Revisão técnica do ADR-012 (`eventos_operacionais`, `Proposed`→decidido) — vereditos por evidência, D1–D5, 2 propostas de alteração; as decisões foram registradas via HG-009. |
+| [`reports/HG009_DECISION_REGISTRATION_REPORT_2026-09-24.md`](reports/HG009_DECISION_REGISTRATION_REPORT_2026-09-24.md) | Registro formal das decisões do HG-009 (ADR-012) — doc-only, zero mudanças de código/migration. |
 | [`product/README.md`](product/README.md) | Hub da documentação de produto. |
 | [`product/MVP_DISCOVERY.md`](product/MVP_DISCOVERY.md) | Documento central do discovery: problema do MVP, cliente, dores, hipótese de solução e critérios para avançar. |
 | [`product/MVP_SCOPE.md`](product/MVP_SCOPE.md) | Definição rígida de escopo: In Scope, Out of Scope, critérios de entrada/conclusão. |
