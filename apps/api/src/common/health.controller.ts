@@ -1,7 +1,9 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { Client } from 'pg';
 import { APP_URL } from '@servium-ia/db';
 import { getCounts } from './metrics.service';
+import { coletarMetricasNegocio, type MetricasNegocio } from './metrics-negocio.service';
+import { RequireAuth, Roles, type AuthedRequest } from '../auth/auth.guard';
 
 @Controller('health')
 export class HealthController {
@@ -27,5 +29,14 @@ export class MetricsController {
   @Get('metrics')
   getMetrics(): Record<string, number> {
     return getCounts();
+  }
+
+  /** B-5 (criterio 9): métricas mínimas de negócio, RLS-contextual (admin-only). */
+  @UseGuards(RequireAuth)
+  @Roles('admin')
+  @Get('metrics/negocio')
+  async getMetricsNegocio(@Req() req: AuthedRequest): Promise<MetricasNegocio> {
+    // req.pg é encerrado pelo RequireAuth junto com a resposta.
+    return coletarMetricasNegocio(req.pg as Client);
   }
 }

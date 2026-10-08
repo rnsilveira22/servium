@@ -2,12 +2,14 @@
 
 > **Fase 002 — Discovery do MVP**
 > Hipótese de especificação do primeiro Funcionário Digital. Selecionado pelos critérios de [`CANDIDATE_ROUTINES.md`](CANDIDATE_ROUTINES.md) (rotina RC-01). Tudo aqui é proposta sujeita a validação ([`VALIDATION_PLAN.md`](VALIDATION_PLAN.md)).
+>
+> **RENOMEADO (2026-09-23):** o nome funcional do primeiro agente passou a ser **Estagiária Digital** (ver [`MVP_EXPERIENCE_SPEC_v1.md`](MVP_EXPERIENCE_SPEC_v1.md) §3) — *Assistente Digital de Pendências Documentais* permanece como descrição da capacidade. **Aprovação humana confirmada em 2026-09-23 (HG-APROVAÇÃO-NOMENCLATURA ✅).** Este documento também incorpora o **modelo de Atividade / Agente Executor** (FR-020..FR-029) formalizado em [`FUNCTIONAL_REQUIREMENTS.md`](FUNCTIONAL_REQUIREMENTS.md), com rastreabilidade em [`TRACEABILITY_MATRIX.md`](TRACEABILITY_MATRIX.md).
 
 ## Nome funcional provisório
 
-**Assistente Digital de Pendências Documentais**
+**Estagiária Digital** *(nome adotado)* — Assistente Digital de Pendências Documentais *(capacidade desempenhada)*
 
-> Nome provisório e descritivo, escolhido pela função — não pelo apelo comercial. Nome definitivo será decidido depois da validação.
+> A Estagiária Digital não deve ser tratada apenas como uma fila automática de tarefas. O conceito é de um **agente operacional configurável, executável, observável, corrigível e progressivamente orientável pelo usuário** (ver §Modelo de atividade e §Feedback e orientação).
 
 ## Missão
 
@@ -166,3 +168,65 @@ Ver [`RISKS_AND_HYPOTHESES.md`](RISKS_AND_HYPOTHESES.md).
 3. Quantas tentativas de cobrança são socialmente aceitáveis antes de contato humano?
 4. O escritório quer revisar a primeira rodada de mensagens antes de automatizar envios subsequentes?
 5. Existem clientes "especiais" que jamais devem receber cobrança automática?
+
+---
+
+## Modelo de atividade, agente executor e feedback (2026-09-23)
+
+> Esta seção formaliza conceitualmente a evolução do papel. Os requisitos correspondentes (FR-020..FR-029) e a rastreabilidade estão em [`FUNCTIONAL_REQUIREMENTS.md`](FUNCTIONAL_REQUIREMENTS.md) e [`TRACEABILITY_MATRIX.md`](TRACEABILITY_MATRIX.md). O que está descrito aqui é **modelagem de produto**; o estado real de implementação é o da matriz.
+
+### Atividade (em vez de somente tarefa)
+
+Uma atividade operacional recorrente é o nível correto de cadastro para rotinas do escritório. Exemplo:
+
+| Campo | Valor |
+|---|---|
+| **Nome** | Solicitação mensal de documentos para fechamento |
+| **Periodicidade** | Mensal (competência) |
+| **Escopo** | Todos os clientes ativos |
+| **Agente executor** | Estagiária Digital |
+| **Canal** | E-mail |
+| **Prazo** | Definido pela regra |
+| **Documentos** | Checklist da competência |
+| **Comportamento** | Solicitar · acompanhar · cobrar · registrar recebimentos · identificar pendências · escalar exceções |
+
+Modelo conceitual:
+
+```text
+ATIVIDADE
+   ↓ REGRA DE EXECUÇÃO
+   ↓ AGENTE EXECUTOR
+   ↓ EXECUÇÃO
+   ↓ RESULTADO
+   ↓ AUDITORIA
+```
+
+### Agente executor configurável
+
+A atividade referencia **qual agente executa** (FR-021). O MVP tem apenas a **Estagiária Digital**, mas o modelo de dados/negócio não pode assumir `atividade → estagiária` de forma fixa. Agentes futuros (Assistente Pleno, Analista Fiscal, Analista Contábil, Analista Financeiro) são **planejados, não implementados** — a arquitetura apenas não os impede.
+
+### Capacidades da Estagiária Digital (detalhamento)
+
+1. **Pendências documentais** — solicitar documentos, acompanhar respostas, identificar recebidos/ausentes, cobrar, controlar prazo, registrar exceções, concluir atividades;
+2. **Organização documental** *(Pós-MVP)* — receber, identificar tipo, classificar, organizar/renomear, separar por cliente, por competência/mês e por categoria (`Cliente → Ano → 09-Setembro → Boletos/Notas Fiscais/Contas a Pagar/Contas a Receber/Outros`).
+
+### Classificação com confiança
+
+A organização documental não presume acerto automático (FR-024): **ALTA** → execução automática · **MÉDIA** → execução + sinalização/revisão · **BAIXA** → não executar automaticamente e gerar exceção. A implementação concreta será avaliada conforme o estágio do MVP, sem introduzir IA desnecessária (ADR-010). Pós-MVP.
+
+### Feedback e orientação (distinguir classes)
+
+O usuário deve poder corrigir/orientar a Estagiária Digital. **Não tratar toda mensagem como aprendizado automático.** Classes a distinguir:
+
+| Classe | O que é | Tratamento |
+|---|---|---|
+| **Feedback operacional** | Correção de uma execução específica (ex.: "esse documento foi classificado errado") | Registro; ajuste da execução |
+| **Regra operacional** | Orientação a reaplicar (ex.: "quando aparecer esse tipo, considere boleto") | Regra/configuração com rastreabilidade |
+| **Configuração da atividade** | Alteração da própria rotina (ex.: "sempre no primeiro dia útil") | Configuração da atividade |
+| **Exceção** | Situação não resolvível automaticamente | Escalonamento humano |
+
+Regra de ouro: **nenhum comportamento crítico é alterado silenciosamente**. Toda alteração relevante registra autor, data/hora, regra anterior, regra nova, origem e possibilidade de revisão.
+
+### Auditoria operacional e timeline
+
+A auditoria em [§Auditoria necessária](#auditoria-necessária) já prevê trilha por item. A camada **operacional** (FR-028/FR-027) apresenta, para o usuário, o trabalho do agente: o que aconteceu, quem/qual agente executou, para qual cliente, resultado, regra aplicada, intervenção humana — e a sequência temporal (timeline) da atividade, em vez de somente "Status: Concluído".

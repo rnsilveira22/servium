@@ -416,3 +416,50 @@ B2_CUSTOMER_EMAIL_PROVIDER_TECHNICAL_READINESS_2026-09.md e registrar o estado.
 - **Execução (local)**: governança registrada nesta entrada + [`docs/factory/B2_FOLLOW_UPS.md`](../factory/B2_FOLLOW_UPS.md) + [`docs/factory/FACTORY_STATUS.md`](FACTORY_STATUS.md) + relatório [`docs/reports/B2_HUMAN_REVIEW_MERGE_REPORT_2026-09.md`](../reports/B2_HUMAN_REVIEW_MERGE_REPORT_2026-09.md), em commit docs-only no branch `feat/mvp01-b2-email-provider`.
 - **Execução (merge, 2026-09-14)**: PR #103 **MERGED** — squash, `gh pr merge --squash`, [commit `0266322`](https://github.com/rnsilveira22/servium-ia/commit/026632224e91ec7befa6a5526a392fef9481bfd1), mergedAt `2026-09-14T22:47:39Z`. **CI obrigatório 4/4 VERDE** (Lint; Lint+Typecheck+Build+Test; Selenium E2E; dívida de lint). `main` fast-forwardada via `git pull --ff-only` → `0266322`; integridade validada (`merge-base --is-ancestor` OK). **Fix de infra pré-existente incluído no PR**: `apps/api/vitest.config.ts` `exclude: ['**/dist/**']` (commit `68224d5`) — vitest 5.0.0 (`458b8ef`, bump #97) coletava artefato compilado `dist/app.controller.spec.js` e quebrava o passo `Testes`; falha já existia em `main`/`08628be`, fora do diff funcional B-2 (173/173 testes passam; revalidado com vitest 5.0.0 local).
 - **Status do merge**: **MERGED** — ver relatório [`docs/reports/B2_MERGE_RECONCILIATION_REPORT_2026-09.md`](../reports/B2_MERGE_RECONCILIATION_REPORT_2026-09.md). **HG-007 permanece `AWAITING_DECISION`; piloto NÃO GO.**
+
+---
+
+## HG-009 — ADR-012 · Modelo de Atividades e Eventos Operacionais (decisão arquitetural)
+
+```text
+[AUTONOMY] L3 | decisão requerida: D1–D5 + RBAC + cliente_id do modelo eventos_operacionais | solicitada em: HUMAN_GATE_ADR012_2026-09-24.md / HUMAN_GATES.md §HG-009
+```
+
+- **Decisão**: **APROVADO** — todas as decisões do Decision Pack registradas (D1, D2, D2-B, D3, D4, D5, RBAC, cliente_id).
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-09-24
+- **Autorização registrada** (resumo):
+  1. **D1** — `eventos_operacionais`; `atividades` não renomeada;
+  2. **D2** — Opção A: nova entidade vinculada à cadeia Cliente → Obrigação → Ciclo → Item;
+  3. **D2-B** — B1: dual-write atômico com `eventos_auditoria` na mesma transação;
+  4. **D3** — primeiro corte = 8 eventos (`ativar`, `escalar`, `cobrar`, `encerrar`, `decidir`, `reenviar`, `receber`, `cancelar`); `decisao`/`ativacao_sem_template` só na auditoria;
+  5. **D4** — `atividades` permanece configuração de rotina recorrente (FR-020);
+  6. **D5** — feed global depende de `eventos_operacionais`; timeline por ciclo pode existir independentemente;
+  7. **RBAC** — RBAC-2 (admin + operator);
+  8. **cliente_id** — manter desnormalizado (FK + consistência com ciclo/item + RLS);
+  9. **Backfill** — NOT APPROVED / NOT PLANNED.
+- **Condições vinculantes**:
+  1. **Aprovação arquitetural ≠ autorização de implementação**: nenhuma migration, tabela, endpoint, service, componente, RBAC em código ou evento pode ser criado por este gate;
+  2. sem backfill; nada de eventos existentes em produção;
+  3. dual-write e todas as regras acima são orientação documental para a futura implementação (Factory V2);
+  4. gate de UX **HG-M1-FRENTE-A** permanece pendente.
+- **Execução**: ADR-012 atualizado p/ `Accepted (HG-009 · 2026-09-24)` com seção Human Decision; Decision Pack §12 preenchido; `HUMAN_GATES.md` registra o encerramento; requisitos/matriz reconciliados; registro neste log. Todo o trabalho foi **doc-only** (validação `lint:docs` limpa; zero mudanças de código/migration).
+- **Evidências**: [`docs/factory/HUMAN_GATE_ADR012_2026-09-24.md`](../factory/HUMAN_GATE_ADR012_2026-09-24.md) · [`docs/decisions/ADR-012-atividade-evento-model.md`](../decisions/ADR-012-atividade-evento-model.md) · relatório [`docs/reports/HG009_DECISION_REGISTRATION_REPORT_2026-09-24.md`](../reports/HG009_DECISION_REGISTRATION_REPORT_2026-09-24.md).
+- **Resultado**: **HUMAN DECISION RECORDED** — ADR-012 `Accepted` (arquitetura); **IMPLEMENTATION NOT AUTHORIZED BY THIS GATE**.
+
+---
+
+## HG-FECHAMENTO-CORRECAO-UI — Seletor de checklist em Nova Obrigação (`ObrigacoesPage.tsx`)
+
+```text
+[AUTONOMY] L2/L3 | decisão humana: commitar ou descartar a correção de UI pendente (seletor de checklist → template_id) | solicitada em: DOCUMENTATION_SYNC_REPORT_2026-09.md §16 / FR020_021_IMPLEMENTATION_REPORT_2026-09.md
+```
+
+- **Decisão**: **COMMITAR NESTA BRANCH** (descarte **NÃO** escolhido) — o change em `apps/web/src/pages/ObrigacoesPage.tsx` (select "Checklist (modelo de itens)" enviando `template_id` no `POST /obrigacoes`) é aceito pelo owner e viaja no branch `feat/hg-007-google-cloud-preparation`.
+- **Decisor**: Rodrigo (owner) · **Data**: 2026-10-07 · forma: decisão direta de sessão respondendo à pergunta de fechamento.
+- **Condições vinculantes**:
+  1. **Escopo parcial do GAP-01 UI** — o change fecha o vínculo obrigação↔template na UI de criação; a **criação/gerência de templates** permanece na frente M1-UI-01 (branch `feat/m1-frente-a-pleno`, gate **HG-M1-FRENTE-A** pendente);
+  2. **HG-M1-FRENTE-A NÃO é afetado** por este gate — nenhum arquivo da branch `feat/m1-frente-a-pleno` foi tocado (verificado: diff `ObrigacoesPage.tsx` vazio naquela branch);
+  3. validações obrigatórias antes do commit: `typecheck` limpo, ESLint limpo nos arquivos tocados, suíte web **56/56**, `vite build` OK;
+  4. sincronização de documentação no mesmo ciclo (FR-001 nota de rastreabilidade, `HUMAN_GATES.md`, `TRACEABILITY_MATRIX.md`).
+- **Evidências**: commits `827aa39` (fix de typecheck do FR-028, pré-requisito) + commit do change nesta entrega; `git diff` de `ObrigacoesPage.tsx` (select + `template_id` no body).
+- **Resultado**: **DECISION RECORDED — UI COMMITTED**; GAP-01 parcialmente fechado; restante do GAP-01 segue em M1-UI-01.

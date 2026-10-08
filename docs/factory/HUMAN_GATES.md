@@ -77,6 +77,28 @@ Nunca confundir "sem objeção" com "aprovação".
 - **Tipo**: acesso · **Nível**: 3
 - **Formato**: registrar `AWAITING_CREDENTIAL`/`AWAITING_PERMISSION` no item + comentário; agente segue com trabalho local não bloqueado.
 
+### HG-009 — ADR-012 · Modelo de Atividades e Eventos Operacionais — ✅ RESOLVIDO
+
+> **Status:** `RESOLVED` (decisão registrada em 2026-09-24) · **Decisor:** Rodrigo (owner)
+> **Decision Pack:** [`HUMAN_GATE_ADR012_2026-09-24.md`](HUMAN_GATE_ADR012_2026-09-24.md) (§12 preenchido)
+> **Registro imutável:** [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md) §HG-009
+
+- **Tipo**: arquitetural · **Nível**: 3
+- **Contexto**: revisão técnica concluída (`../reports/ADR012_TECHNICAL_REVIEW_2026-09-24.md`) — a cadeia `Cliente→Obrigação→Ciclo→Item` tem FKs/RLS fortes, mas o registro de execução vive em `eventos_auditoria` polimórfico (sem FK de negócio). Proposta: entidade `eventos_operacionais` de primeira classe.
+- **Decisões registradas**: D1 `eventos_operacionais` (sem renomear `atividades`) · D2 Opção A (nova entidade) · D2-B1 (dual-write atômico, mesma transação) · D3 1º corte = 8 eventos (`decisao`/`ativacao_sem_template` só em auditoria) · D4 `atividades` permanece configuração (vínculo FR-022) · D5 (feed global depende da entidade; timeline por ciclo não) · RBAC-2 (admin + operator) · `cliente_id` denormalizado (FK + consistência + RLS) · **Backfill: NOT APPROVED**.
+- **Condição vinculante**: **DECISÃO ARQUITETURAL APROVADA ≠ IMPLEMENTAÇÃO AUTORIZADA** — este gate não cria migration/banco/API/frontend/RBAC em código/eventos; a implementação de `eventos_operacionais` segue o fluxo normal da Factory V2 (próximo gate).
+- **Impacto após a decisão**: ADR-012 → `Accepted (HG-009)`. FR-029/UX do feed global segue bloqueado até o gate de implementação + **HG-M1-FRENTE-A**.
+
+### HG-FECHAMENTO-CORRECAO-UI — Seletor de checklist em Nova Obrigação — ✅ RESOLVIDO
+
+> **Status:** `RESOLVED` (decisão registrada em 2026-10-07) · **Decisor:** Rodrigo (owner)
+> **Registro imutável:** [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md) §HG-FECHAMENTO-CORRECAO-UI
+
+- **Tipo**: operacional/UX · **Nível**: 2/3
+- **Contexto**: correção de UI pendente de decisão desde a sessão de documentation sync (`../reports/DOCUMENTATION_SYNC_REPORT_2026-09.md` §16): `ObrigacoesPage.tsx` ganha select "Checklist (modelo de itens)" enviando `template_id` no `POST /obrigacoes` — fechamento parcial do **GAP-01 UI**.
+- **Decisão registrada**: **COMMITAR** no branch `feat/hg-007-google-cloud-preparation` (descarte não escolhido); validações verdes (typecheck, ESLint, web 56/56, build).
+- **Condição vinculante**: escopo **parcial** do GAP-01 — criação/gerência de templates continua em M1-UI-01 (branch `feat/m1-frente-a-pleno`) sob **HG-M1-FRENTE-A**; nenhum arquivo daquela branch foi tocado.
+
 ## Fluxo de resolução
 
 ```text
@@ -91,4 +113,4 @@ Humano decide (Issue/comentário)
 
 ## Contador vivo
 
-Decisões abertas hoje: **nenhuma** (HG-001/HG-002/HG-003 resolvidas em 2026-08-22; HG-004/HG-005 são event-driven). Fonte viva: `FACTORY_STATUS.md`. Registro histórico completo: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).
+Decisões abertas hoje: **nenhuma em aberto no padrão HG-009/HG-FECHAMENTO-CORRECAO-UI (resolvidos em 2026-09-24 e 2026-10-07)**; HG-001/HG-002/HG-003 resolvidas em 2026-08-22; HG-004/HG-005 são event-driven; **HG-007 (credenciais Google) permanece `AWAITING_DECISION`**; **gate de UX HG-M1-FRENTE-A pendente**. Fonte viva: `FACTORY_STATUS.md`. Registro histórico completo: [`HUMAN_DECISIONS_LOG.md`](HUMAN_DECISIONS_LOG.md).

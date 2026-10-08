@@ -32,6 +32,12 @@ export class ObrigacoesPage {
     await option.click();
   }
 
+  async selectTemplate(templateNome: string): Promise<void> {
+    const select = this.driver.findElement(By.css('#obrigacao-template'));
+    const option = select.findElement(By.xpath(`.//option[contains(text(),"${templateNome}")]`));
+    await option.click();
+  }
+
   async fillDescricao(descricao: string): Promise<void> {
     const input = this.driver.findElement(By.xpath('//label[.//span[text()="Descricao"]]/input'));
     await input.sendKeys(descricao);

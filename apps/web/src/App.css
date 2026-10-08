@@ -323,6 +323,26 @@ body {
   margin-bottom: 1rem;
 }
 
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1rem;
+}
+
+.checkbox-line {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--font-size-sm) !important;
+  font-weight: 500;
+  margin-bottom: 0 !important;
+  color: var(--color-text);
+}
+
+.text-sm {
+  font-size: var(--font-size-xs);
+}
+
 .form-group label {
   display: block;
   font-size: var(--font-size-sm);
@@ -835,4 +855,120 @@ code {
   .btn {
     display: none;
   }
+}
+
+/* ===== Auditoria Operacional (FR-028) ===== */
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+}
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+.filter-field input,
+.filter-field select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+.filter-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.audit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.audit-event {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  background: var(--color-surface);
+}
+.audit-event-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.audit-time {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+.audit-titulo {
+  flex: 1 1 auto;
+}
+.audit-descricao {
+  margin: 0.4rem 0 0;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+}
+.audit-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  margin-top: 0.5rem;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+}
+.audit-meta b {
+  font-weight: 600;
+}
+.audit-alteracoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.chip {
+  background: var(--color-brand-light);
+  border-radius: 999px;
+  padding: 0.15rem 0.6rem;
+  font-size: var(--font-size-xs);
+  color: var(--color-text);
+}
+.audit-tech {
+  margin-top: 0.6rem;
+  font-size: var(--font-size-sm);
+}
+.audit-tech summary {
+  cursor: pointer;
+  color: var(--color-brand);
+}
+.audit-tech-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  margin: 0.5rem 0 0;
+}
+.audit-tech-grid dt {
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+.audit-tech-grid dd {
+  margin: 0;
+  word-break: break-all;
+}
+.audit-more {
+  margin-top: 1rem;
+  text-align: center;
+}
+.audit-tech-info {
+  margin-top: 0.25rem;
+}
+.audit-tech-info summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-brand);
 }

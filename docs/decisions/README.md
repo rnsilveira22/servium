@@ -62,7 +62,10 @@ Proposed
 | [ADR-009](ADR-009-authentication-strategy.md) | Autenticação e autorização: first-party + RBAC mínimo | `Accepted` |
 | [ADR-010](ADR-010-ai-usage-strategy.md) | Estratégia de IA: determinístico-first, LLM assistivo | `Accepted` |
 | [ADR-011](ADR-011-deployment-strategy.md) | Deployment: PaaS de entrada, sem Kubernetes | `Accepted` |
+| [ADR-012](ADR-012-atividade-evento-model.md) | Modelo de Atividade/Evento Operacional ligado à cadeia Obrigação → Ciclo → Item | `Accepted (HG-009 · 2026-09-24)` |
 
 > **Decisão humana (HG-002 · 2026-08-22):** pacote ADR-001..011 **aceito** por Rodrigo com base na revisão [`../architecture/ADR_REVIEW_REPORT.md`](../architecture/ADR_REVIEW_REPORT.md). Condições obrigatórias preservadas: ADR-005 (suíte de testes de isolamento multi-tenant), ADR-009 (checklist OWASP ASVS + testes de segurança), ADR-011 (provedor concreto e custo recorrente permanecem sujeitos a human gate — HG-004). Registro formal: [`../factory/HUMAN_DECISIONS_LOG.md`](../factory/HUMAN_DECISIONS_LOG.md).
 >
 > Mudar um ADR `Accepted` exige novo ciclo de decisão (novo ADR que o substitua ou revisão formal registrada).
+>
+> **ADR-012 (`Accepted (HG-009)`, 2026-09-24):** decisões arquiteturais registradas (naming `eventos_operacionais`, entidade nova, dual-write atômico, 8 eventos, RBAC-2, `cliente_id` denormalizado, sem backfill). **Implementação NÃO autorizada por este gate** — segue o fluxo da Factory V2. Registro: [`../factory/HUMAN_DECISIONS_LOG.md`](../factory/HUMAN_DECISIONS_LOG.md) §HG-009.

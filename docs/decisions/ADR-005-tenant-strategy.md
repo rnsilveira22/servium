@@ -32,3 +32,14 @@ NFR-001 exige consciência e isolamento de tenant desde o primeiro dia, mesmo co
 ## Condições de revisão
 
 Cliente enterprise com exigência contratual de isolamento físico; volume que justifique sharding.
+
+## Adendo FR-021 (2026-09-23) — Catálogo de Agentes Executores por tenant
+
+O **catálogo de agentes executores** (`agentes`, FR-021) é **entidade de negócio por tenant**, portando `tenant_id NOT NULL` + RLS `tenant_isolation` (mesma regra desta ADR — a alternativa de catálogo global do produto foi **rejeitada** por violar a invariante de RLS de todo schema e por acoplar config do tenant a dado global).
+
+Decisões decorrentes (migration `0014_atividades_agentes.sql`):
+
+1. **Seed automático por trigger** (`trg_agentes_seed` em `tenants` AFTER INSERT): cada tenant nasce com o único agente do MVP — `estagiaria-digital` (Estagiária Digital). Backfill da migration cobre tenants pré-existentes. Escrita do catálogo é provida por seed/trigger/migration (decisão de produto), não por CRUD público (`GRANT SELECT` apenas).
+2. **`ON DELETE CASCADE`** em `agentes.tenant_id` e `atividades.tenant_id`: são dados do ciclo de vida do tenant; a deleção do tenant não exige limpeza manual de dependências.
+3. **Extensibilidade sem custo**: novos agentes (MVP figuras futuras) entram via seed por tenant — `slug` único por tenant (`uq_agentes_tenant_slug`).
+4. `atividades.agente_id` referencia `agentes` por FK; como FK ignora RLS, o controller valida pertencimento ao tenant explicitamente (padrão já usado em `obrigacoes.template_id`).

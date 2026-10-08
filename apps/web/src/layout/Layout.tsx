@@ -7,8 +7,10 @@ const NAV = [
   { to: '/', label: 'Painel' },
   { to: '/clientes', label: 'Clientes' },
   { to: '/obrigacoes', label: 'Obrigacoes' },
+  { to: '/atividades', label: 'Atividades' },
   { to: '/ciclos', label: 'Ciclos' },
   { to: '/excecoes', label: 'Excecoes' },
+  { to: '/modelos-email', label: 'Modelos de Email' },
   { to: '/auditoria', label: 'Auditoria' },
 ];
 
