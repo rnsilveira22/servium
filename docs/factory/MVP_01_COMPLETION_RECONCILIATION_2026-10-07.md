@@ -90,3 +90,21 @@ branches relevantes:
 - **Trabalho autônomo possível agora:** merge do bundle local (FR-020/21/28 + HG-009 + fix + UI), **B-5 métricas**, **P1-3 headers/CSP/cookie/anti-CSRF**, **B-4 rollback doc**, **CA-D-3 evidence pack**, **Selenium jornada completa**, **Frente A (criar PR)**, **cross-testing plan**.
 - **Bloqueado por humano:** Gmail real (HG-007), CA-D-3 aprovação, gate Frente A, HG-RETENÇÃO, B-6.
 - **Veredito:** `NOT_PILOT_READY` hoje — primeira rodada de entregas autônomas deve zerar os itens não-humanos.
+
+## 8. Evolução pós-FASE 0 (Δ 2026-10-07 · FASE 8 do completion master prompt)
+
+> **Delta de status** dos itens citados na FASE 0 após as entregas autônomas (FASES 1–7). A seção 2..6 acima permanecem como snapshot da data de criação; este delta é a fonte de verdade vigente.
+
+| Item (FASE 0) | Status na FASE 0 | Status vigente (2026-10-07) | Evidência |
+|---|---|---|---|
+| **B-1** decisão recebido | ✅ DONE + merged | ✅ mantido | `decidir-item.ts`; decisão B-1 E2E na UI (jornada completa, FASE 7) |
+| **B-4** rollback/stop procedure | ❌ AUSENTE | ✅ **ENTREGUE** | `docs/operations/MVP_01_ROLLBACK_STOP_PROCEDURE.md` (FASE 4) |
+| **B-5** métricas mínimas | ❌ NÃO impl. | ✅ **IMPLEMENTADO** | `GET /metrics/negocio` (admin+RLS) + `metrics-negocio.test.ts`; verificado E2E no decreto do piloto |
+| **P1-3** headers/CSP/cookie/anti-CSRF | ❌ NÃO impl. | ✅ **RESOLVIDO** | `security-headers.middleware.ts` + `security-headers.test.ts`; ASVS 35/40; headers verificados E2E |
+| **CA-D-3** revisão de segurança | pendente | 🔶 **PACOTE ENTREGUE / AWAITING_DECISION** | `docs/security/CA-D-3_MVP01_SECURITY_REVIEW_2026-10-07.md` |
+| **M1 UX Frente A** | IMPLEMENTED / SEM PR / SEM GATE | 🔶 **PR #106 ABERTO / HG-M1-FRENTE-A AWAITING_DECISION** | verificado 35/35 E2E; merge NÃO realizado |
+| **M1 Backend Wave B1** gate/merge não formalizado | observação | ✅ **formalizado** (bundle local já merged em etapas anteriores; sem delta nesta rodada) | PRs #98/#99 |
+| **B-2** Gmail real | DONE código / MISSING_EVIDENCE real | 🔶 inalterado — **HG-007 AWAITING_DECISION** | provider gmail; credencial real pendente |
+| **Selenium jornada completa** (previsão) | — | ✅ **ENTREGUE** | `jornada-completa.test.ts` + `decreto-piloto.test.ts` → run-e2e 10 files · 38 passed |
+
+**Veredito vigente:** núcleo autônomo **zerado** (B-4, B-5, P1-3, CA-D-3 pack, Frente A PR, E2E). Restam **somente** itens com decisão humana: HG-007 (Gmail real), CA-D-3 (aprovação), HG-M1-FRENTE-A (merge UX), HG-RETENÇÃO, B-6 — `PILOT_READY` permanece condicionado a esses gates.

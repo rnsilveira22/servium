@@ -279,6 +279,8 @@
 
 **Critério de aceite (preliminar):** cada indicador tem significado operacional ligado a uma ação; sem cards sem contexto; dados derivados da trilha auditável.
 
+**Status (2026-10-07):** 🟡 **backend pronto / UI continua mínima** — `GET /metrics/negocio` (B-5, admin-only, RLS) entrega agregações operacionais: ciclos, ciclosAbertos, itensResolvidos, excecoesAbertas, documentosEnviados/Recebidos, tempoMedioResolucaoHoras, percentualResolvidosSemEscalada, tentativasMediaAteResposta, pendenciasTotal/PorCliente (+ camada `tecnica`: jobsEmRetry, jobsPresos, mensagensSemCorrelacao, errosEnvio). Evidência: `apps/api/src/common/metrics-negocio.service.ts` + `apps/api/test/metrics-negocio.test.ts` (RBAC/RLS/agregações). A UI do dashboard permanece a mínima da FR-011.
+
 **Prioridade:** **MVP incremental**; evolução da FR-011/dashboard mínima já existente.
 
 ### FR-027 — Timeline operacional da atividade

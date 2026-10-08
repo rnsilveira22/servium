@@ -107,6 +107,8 @@
 
 **Métrica/verificação:** incidente simulado diagnosticável sem acesso a dados de produção ad hoc.
 
+**Nota (2026-10-07):** superfície de observabilidade ampliada com o `GET /metrics/negocio` (B-5) — agregações operacionais e técnicas por tenant (admin-only, RLS-scoped), somando-se a `/health` e `/metrics`. Evidência: `apps/api/src/common/metrics-negocio.service.ts` + testes em `apps/api/test/metrics-negocio.test.ts`.
+
 **Prioridade:** Must
 
 ### NFR-013 — Tempo de resposta interativo
