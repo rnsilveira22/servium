@@ -131,6 +131,7 @@
 | G-06 | V5.1.4 | **Sem schema runtime** (zod/JSON-Schema/class-validator) — validação por checks manuais | P2 |
 | G-07 | V5.3.1 | Pipeline de **upload** não implementado (fora do escopo do piloto) | P2 |
 | G-08 | V3.1.3 | Timeout de sessão por **inatividade** presente via TTL, mas sem teste dedicado de pausa | P3 |
+| G-10 | V1.10.1 | **Gestão de vulnerabilidades de dependências**: alerts do Dependabot vigiados; revisão `docs/security/DEPENDENCY_SECURITY_REVIEW_2026-10-08.md` — residual dev-only sem fix publicado | P3 (vigilância) |
 
 > **Resolvidos em 2026-10-07 (P1-3, FASE 3 do completion master prompt):** G-01, G-02 e G-03 — implementados e
 > com evidência automatizada em `apps/api/test/security-headers.test.ts` (headers, HSTS prod-only, ORIGIN check,
